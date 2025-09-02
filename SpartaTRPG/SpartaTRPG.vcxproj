@@ -123,7 +123,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CardData.cpp" />
+    <ClCompile Include="CardDB.cpp" />
     <ClCompile Include="SpartaTRPG.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CardData.h" />
+    <ClInclude Include="CardDB.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
