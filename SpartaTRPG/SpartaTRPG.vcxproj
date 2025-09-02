@@ -165,6 +165,10 @@
     <ClInclude Include="Black\Singletons\Timer.h" />
     <ClInclude Include="Black\TestScene.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CardData.h" />
+    <ClInclude Include="CardDB.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
