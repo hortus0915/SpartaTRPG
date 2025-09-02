@@ -13,24 +13,141 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Black">
+      <UniqueIdentifier>{fd521d38-0a04-4fff-a3f5-9ec5c13cfb80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Black\MainGame">
+      <UniqueIdentifier>{b2d02dea-fdd5-456d-817a-ac87c44b73f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Black\Singleton">
+      <UniqueIdentifier>{ddc6f2db-ad1c-4492-8ef4-e63a788ae943}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Black\Singleton\SceneManager">
+      <UniqueIdentifier>{93216dc7-66b2-468a-8f17-b01544d32c75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Black\Singleton\SoundManager">
+      <UniqueIdentifier>{109eb10c-1a51-459a-9ef6-4098fc9ab325}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Black\Singleton\TimeManager">
+      <UniqueIdentifier>{bedbabc5-cfdf-4e90-b7a8-3d010ad79b0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Black\Singleton\KeyManager">
+      <UniqueIdentifier>{22d20cd2-be9e-486c-8c8e-943011b40ac0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Black\Character">
+      <UniqueIdentifier>{89438ea3-5ebb-4ef2-b13f-888c9fa09473}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Black\ObjectsManager">
+      <UniqueIdentifier>{1ae82ccd-52e6-4f71-9bf9-27fd360bf8ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SpartaTRPG.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="CardData.cpp">
+    <ClCompile Include="Black\MainGame.cpp">
+      <Filter>Black\MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Black\DoubleBuffering.cpp">
+      <Filter>Black\MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Black\Singletons\KeyManager.cpp">
+      <Filter>Black\Singleton\KeyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Black\Singletons\Timer.cpp">
+      <Filter>Black\Singleton\TimeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Black\Singletons\TimeManager.cpp">
+      <Filter>Black\Singleton\TimeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Black\Singletons\SceneInterface.cpp">
+      <Filter>Black\Singleton\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Black\Singletons\SceneManager.cpp">
+      <Filter>Black\Singleton\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Black\Singletons\SoundManager.cpp">
+      <Filter>Black\Singleton\SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Black_TestMain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="CardDB.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="Black\iCharacter.cpp">
+      <Filter>Black\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Black\iMapMovable.cpp">
+      <Filter>Black\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Black\MapMovePlayer.cpp">
+      <Filter>Black\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Black\ObjectsManager.cpp">
+      <Filter>Black\ObjectsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Black\BasicInterfaces.cpp">
+      <Filter>Black\ObjectsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Black\TestScene.cpp">
+      <Filter>Black\Singleton\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Black\CommonFuncs.cpp">
+      <Filter>Black</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CardData.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="Black\MainGame.h">
+      <Filter>Black\MainGame</Filter>
     </ClInclude>
-    <ClInclude Include="CardDB.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="Black\DoubleBuffering.h">
+      <Filter>Black\MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Black\Singletons\KeyManager.h">
+      <Filter>Black\Singleton\KeyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Black\Singletons\Timer.h">
+      <Filter>Black\Singleton\TimeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Black\Singletons\TimeManager.h">
+      <Filter>Black\Singleton\TimeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Black\Singletons\SceneInterface.h">
+      <Filter>Black\Singleton\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Black\Singletons\SceneManager.h">
+      <Filter>Black\Singleton\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Black\Singletons\SoundManager.h">
+      <Filter>Black\Singleton\SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Black\CommonMacros.h">
+      <Filter>Black</Filter>
+    </ClInclude>
+    <ClInclude Include="Black\Singletons\CommonManagers.h">
+      <Filter>Black\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="Black\Singletons\SingletonMacro.h">
+      <Filter>Black\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="Black\iCharacter.h">
+      <Filter>Black\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Black\iMapMovable.h">
+      <Filter>Black\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Black\MapMovePlayer.h">
+      <Filter>Black\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Black\ObjectsManager.h">
+      <Filter>Black\ObjectsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Black\BasicInterfaces.h">
+      <Filter>Black\ObjectsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Black\TestScene.h">
+      <Filter>Black\Singleton\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Black\CommonFuncs.h">
+      <Filter>Black</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
