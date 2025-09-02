@@ -123,7 +123,47 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="SpartaTRPG.cpp" />
+    <ClCompile Include="Black\BasicInterfaces.cpp" />
+    <ClCompile Include="Black\CommonFuncs.cpp" />
+    <ClCompile Include="Black\DoubleBuffering.cpp" />
+    <ClCompile Include="Black\iCharacter.cpp" />
+    <ClCompile Include="Black\iMapMovable.cpp" />
+    <ClCompile Include="Black\MainGame.cpp" />
+    <ClCompile Include="Black\MapMovePlayer.cpp" />
+    <ClCompile Include="Black\ObjectsManager.cpp" />
+    <ClCompile Include="Black\Singletons\KeyManager.cpp" />
+    <ClCompile Include="Black\Singletons\SceneInterface.cpp" />
+    <ClCompile Include="Black\Singletons\SceneManager.cpp" />
+    <ClCompile Include="Black\Singletons\SoundManager.cpp" />
+    <ClCompile Include="Black\Singletons\TimeManager.cpp" />
+    <ClCompile Include="Black\Singletons\Timer.cpp" />
+    <ClCompile Include="Black\TestScene.cpp" />
+    <ClCompile Include="Black_TestMain.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="SpartaTRPG.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Black\BasicInterfaces.h" />
+    <ClInclude Include="Black\CommonFuncs.h" />
+    <ClInclude Include="Black\CommonMacros.h" />
+    <ClInclude Include="Black\DoubleBuffering.h" />
+    <ClInclude Include="Black\iCharacter.h" />
+    <ClInclude Include="Black\iMapMovable.h" />
+    <ClInclude Include="Black\MainGame.h" />
+    <ClInclude Include="Black\MapMovePlayer.h" />
+    <ClInclude Include="Black\ObjectsManager.h" />
+    <ClInclude Include="Black\Singletons\CommonManagers.h" />
+    <ClInclude Include="Black\Singletons\KeyManager.h" />
+    <ClInclude Include="Black\Singletons\SceneInterface.h" />
+    <ClInclude Include="Black\Singletons\SceneManager.h" />
+    <ClInclude Include="Black\Singletons\SingletonMacro.h" />
+    <ClInclude Include="Black\Singletons\SoundManager.h" />
+    <ClInclude Include="Black\Singletons\TimeManager.h" />
+    <ClInclude Include="Black\Singletons\Timer.h" />
+    <ClInclude Include="Black\TestScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
