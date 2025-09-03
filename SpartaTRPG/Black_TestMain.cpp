@@ -17,6 +17,8 @@ int main()
 	MainGame* mg = new MainGame(appPosX, appPosY, appWidth, appHeight, screenWidth, screenHeight);
 	mg->Init();
 
+
+
 	while (mg->IsGameRun())
 	{
 		TIMEMANAGER->Update(60.0f);
