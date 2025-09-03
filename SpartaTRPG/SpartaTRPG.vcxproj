@@ -143,6 +143,8 @@
     </ClCompile>
     <ClCompile Include="Blue\Card\CardData.cpp" />
     <ClCompile Include="Blue\Card\CardDB.cpp" />
+    <ClCompile Include="Red\MapData.cpp" />
+    <ClCompile Include="Red\MapTileInfo.cpp" />
     <ClCompile Include="SpartaTRPG.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -168,6 +170,8 @@
     <ClInclude Include="Black\TestScene.h" />
     <ClInclude Include="Blue\Card\CardData.h" />
     <ClInclude Include="Blue\Card\CardDB.h" />
+    <ClInclude Include="Red\MapData.h" />
+    <ClInclude Include="Red\MapTileInfo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -46,6 +46,9 @@
     <Filter Include="Blue\Card">
       <UniqueIdentifier>{3e747b30-2050-417c-8f28-4d35d32736b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="red">
+      <UniqueIdentifier>{0a8e71e4-c692-4a16-b19f-e4cdaef3e627}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Black\MainGame.cpp">
@@ -104,6 +107,12 @@
     </ClCompile>
     <ClCompile Include="SpartaTRPG.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Red\MapData.cpp">
+      <Filter>red</Filter>
+    </ClCompile>
+    <ClCompile Include="Red\MapTileInfo.cpp">
+      <Filter>red</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +175,12 @@
     </ClInclude>
     <ClInclude Include="Blue\Card\CardDB.h">
       <Filter>Blue\Card</Filter>
+    </ClInclude>
+    <ClInclude Include="Red\MapData.h">
+      <Filter>red</Filter>
+    </ClInclude>
+    <ClInclude Include="Red\MapTileInfo.h">
+      <Filter>red</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
