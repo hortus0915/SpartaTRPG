@@ -40,11 +40,14 @@
     <Filter Include="Black\ObjectsManager">
       <UniqueIdentifier>{1ae82ccd-52e6-4f71-9bf9-27fd360bf8ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Blue">
+      <UniqueIdentifier>{c3f54dbd-c265-4c7e-8eb9-b0e4534d8ca5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blue\Card">
+      <UniqueIdentifier>{3e747b30-2050-417c-8f28-4d35d32736b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SpartaTRPG.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Black\MainGame.cpp">
       <Filter>Black\MainGame</Filter>
     </ClCompile>
@@ -92,6 +95,15 @@
     </ClCompile>
     <ClCompile Include="Black\CommonFuncs.cpp">
       <Filter>Black</Filter>
+    </ClCompile>
+    <ClCompile Include="Blue\Card\CardData.cpp">
+      <Filter>Blue\Card</Filter>
+    </ClCompile>
+    <ClCompile Include="Blue\Card\CardDB.cpp">
+      <Filter>Blue\Card</Filter>
+    </ClCompile>
+    <ClCompile Include="SpartaTRPG.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="Black\CommonFuncs.h">
       <Filter>Black</Filter>
+    </ClInclude>
+    <ClInclude Include="Blue\Card\CardData.h">
+      <Filter>Blue\Card</Filter>
+    </ClInclude>
+    <ClInclude Include="Blue\Card\CardDB.h">
+      <Filter>Blue\Card</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

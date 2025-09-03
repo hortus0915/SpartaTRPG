@@ -139,10 +139,12 @@
     <ClCompile Include="Black\Singletons\Timer.cpp" />
     <ClCompile Include="Black\TestScene.cpp" />
     <ClCompile Include="Black_TestMain.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="SpartaTRPG.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Blue\Card\CardData.cpp" />
+    <ClCompile Include="Blue\Card\CardDB.cpp" />
+    <ClCompile Include="SpartaTRPG.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -164,10 +166,8 @@
     <ClInclude Include="Black\Singletons\TimeManager.h" />
     <ClInclude Include="Black\Singletons\Timer.h" />
     <ClInclude Include="Black\TestScene.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="CardData.h" />
-    <ClInclude Include="CardDB.h" />
+    <ClInclude Include="Blue\Card\CardData.h" />
+    <ClInclude Include="Blue\Card\CardDB.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
