@@ -1,4 +1,4 @@
-﻿#include "CardData.h"
+﻿#include "Blue/Card/CardData.h"
 #include <vector>
 
 int main()
