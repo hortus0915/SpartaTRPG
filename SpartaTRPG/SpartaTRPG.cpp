@@ -12,6 +12,8 @@ int main()
 	deck.emplace_back(5, "마나 회복", HEAL, 0, 0, -20); //스테미나 회복
 	
 
+
+
 	deck.emplace_back(5, "체력마나 회복", HEAL, 0, 10, -20); //스테미나 회복
 	for (auto& card : deck)
 	{
