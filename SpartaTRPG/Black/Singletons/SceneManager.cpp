@@ -357,11 +357,11 @@ int SceneManager::ChangeParent()
 	return currentSceneNode->ChangeParent();
 }
 
-void SceneManager::RenderToBackbuffer(int _posX, int _posY, int _width, int _height, char** _content)
+void SceneManager::RenderToBackbuffer(int _posX, int _posY, int _width, int _height, char** _content, Color _charColor, Color _bgColor)
 {
 	if (!mainGame || !_content) return;
 
-	mainGame->CopyToBackbuffer(_posX, _posY, _width, _height, _content);
+	mainGame->CopyToBackbuffer(_posX, _posY, _width, _height, _content, _charColor, _bgColor);
 
 }
 

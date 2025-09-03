@@ -3,10 +3,12 @@
 #include "MapMovePlayer.h"
 #include "CommonMacros.h"
 
+#include "TextColors.h"
+
 int TestScene::Init()
 {
 	player = new MapMovePlayer(sceneName);
-	player->Init(1, 1, 3, 3);
+	player->Init(1, 1, 3, 3, GREEN, CYAN);
 
 	return 0;
 }

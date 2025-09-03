@@ -21,7 +21,7 @@ iMapMovable::~iMapMovable()
 	}
 }
 
-void iMapMovable::Init(int _startX, int _startY, int _width, int _height)
+void iMapMovable::Init(int _startX, int _startY, int _width, int _height, Color _characterColor, Color _bgColor)
 {
 	SetPos(_startX, _startY);
 
@@ -42,6 +42,9 @@ void iMapMovable::Init(int _startX, int _startY, int _width, int _height)
 
 		image[i][info.width] = '\0';
 	}
+
+	charColor = _characterColor;
+	bgColor = _bgColor;
 }
 
 void iMapMovable::Release()
@@ -79,5 +82,5 @@ bool iMapMovable::IsCanMove(int _targetX, int _targetY)
 
 void iMapMovable::Render()
 {
-	SCENEMANAGER->RenderToBackbuffer(info.posX, info.posY, info.width, info.height, image);
+	SCENEMANAGER->RenderToBackbuffer(info.posX, info.posY, info.width, info.height, image, charColor, bgColor);
 }
