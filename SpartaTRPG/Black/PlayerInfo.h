@@ -1,0 +1,28 @@
+#pragma once
+#include "iCharacter.h"
+
+class PlayerInfo : public iCharacter
+{
+private:
+	int maxExp;
+
+	float startHP;
+	float startSP;
+
+	float startCriPer;
+	float startCriDmg;
+	float startCriDod;
+
+	int level;
+
+public:
+	PlayerInfo() : iCharacter(), level(1) {}
+
+	virtual void Init(float _hp, float _sp, float _criPer, float _criDmg, float _dod, float _exp) override;
+
+	virtual void GainExp(int _exp);
+
+protected:
+	virtual void LevelUp();
+	virtual void CalcStatus();
+};
