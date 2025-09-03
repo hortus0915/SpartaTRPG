@@ -104,6 +104,7 @@
     </ClCompile>
     <ClCompile Include="Black\PlayerInfo.cpp">
       <Filter>Black\Character</Filter>
+    </ClCompile>
     <ClCompile Include="Blue\Card\CardData.cpp">
       <Filter>Blue\Card</Filter>
     </ClCompile>
@@ -189,6 +190,7 @@
     </ClInclude>
     <ClInclude Include="Black\TextColors.h">
       <Filter>Black</Filter>
+    </ClInclude>
     <ClInclude Include="Blue\Card\CardData.h">
       <Filter>Blue\Card</Filter>
     </ClInclude>
