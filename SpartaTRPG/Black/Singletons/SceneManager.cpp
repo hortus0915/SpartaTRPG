@@ -344,6 +344,8 @@ int SceneManager::ChangeScene(string _sceneName)
 	this->SceneRelease();
 	currentSceneNode = next;
 
+	prevSceneStack.push(_sceneName);
+
 	return SCENE_SUCCESS;
 }
 
@@ -357,12 +359,32 @@ int SceneManager::ChangeParent()
 	return currentSceneNode->ChangeParent();
 }
 
+int SceneManager::ChaneToPrevScene()
+{
+	prevSceneStack.pop();
+	SceneNode* next = this->FindScene(prevSceneStack.top());
+
+	if (!next)
+		return SCENE_FAIL_NOSCENE;
+
+	this->SceneRelease();
+	currentSceneNode = next;
+
+	return SCENE_SUCCESS;
+}
+
 void SceneManager::RenderToBackbuffer(int _posX, int _posY, int _width, int _height, char** _content, Color _charColor, Color _bgColor)
 {
 	if (!mainGame || !_content) return;
 
 	mainGame->CopyToBackbuffer(_posX, _posY, _width, _height, _content, _charColor, _bgColor);
+}
 
+void SceneManager::RenderToBackbuffer(int _posX, int _posY, int _width, int _height, string* _content, Color _charColor, Color _bgColor)
+{
+	if (!mainGame || !_content) return;
+
+	mainGame->CopyToBackbuffer(_posX, _posY, _width, _height, _content, _charColor, _bgColor);
 }
 
 #pragma endregion

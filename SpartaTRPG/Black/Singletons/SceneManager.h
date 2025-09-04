@@ -2,6 +2,7 @@
 
 #include <map>
 #include <string>
+#include <stack>
 
 using namespace std;
 
@@ -78,6 +79,8 @@ private:
 
 	MainGame* mainGame;
 
+	stack<string> prevSceneStack;
+
 public:
 	// 씬 매니져 Init(활성화된 씬 노드 없애기 (_currentSceneNode = NULL)) 
 	void Init(MainGame* _mg);
@@ -118,6 +121,8 @@ public:
 	int 		ChangeChild(string _childName);
 	// 현재 활성화된 씬 노드에서 부모 씬 활성화
 	int 		ChangeParent();
+	// 가장 최근 씬으로 돌아가기
+	int			ChaneToPrevScene();
 
 	// 현재 활성화된 씬 노드 반환
 	inline SceneNode* GetCurrentSceneNode() { return currentSceneNode; }
@@ -136,7 +141,8 @@ public:
 		return currentSceneNode->FindParent()->GetSceneName();
 	}
 
-	void RenderToBackbuffer(int _posX, int _posY, int _width, int _height, char** _content, Color _charColor = ORIGINCOLOR, Color _bgColor = BLACK);
+	void RenderToBackbuffer(int _posX, int _posY, int _width, int _height, char**  _content, Color _charColor = ORIGINCOLOR, Color _bgColor = BLACK);
+	void RenderToBackbuffer(int _posX, int _posY, int _width, int _height, string* _content, Color _charColor = ORIGINCOLOR, Color _bgColor = BLACK);
 };
 
 #pragma endregion
