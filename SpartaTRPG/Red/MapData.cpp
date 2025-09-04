@@ -1,6 +1,6 @@
 #include "MapData.h"
 #include "MapCreateTileInfo.h"
-#include "../TileInfo.h"
+#include "TileInfo.h"
 #include "../Black/CommonMacros.h"
 #include "../Black/CommonFuncs.h"
 

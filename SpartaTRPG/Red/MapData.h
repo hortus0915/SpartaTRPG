@@ -1,7 +1,7 @@
 #pragma once
-#include "../TileType.h"
 #include <map>
 #include <vector>
+#include "TileType.h"
 
 #define MAP_WIDTH			5
 #define MAP_HEIGHT			5

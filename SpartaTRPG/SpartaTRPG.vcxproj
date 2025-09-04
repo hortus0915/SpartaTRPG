@@ -154,8 +154,9 @@
     </ClCompile>
     <ClCompile Include="Blue\Card\CardData.cpp" />
     <ClCompile Include="Blue\Card\CardDB.cpp" />
+    <ClCompile Include="Red\MapCreateTileInfo.cpp" />
     <ClCompile Include="Red\MapData.cpp" />
-    <ClCompile Include="Red\MapTileInfo.cpp" />
+    <ClCompile Include="Red\TileInfo.cpp" />
     <ClCompile Include="SpartaTRPG.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -194,8 +195,10 @@
     <ClInclude Include="Black\TestScene.h" />
     <ClInclude Include="Blue\Card\CardData.h" />
     <ClInclude Include="Blue\Card\CardDB.h" />
+    <ClInclude Include="Red\MapCreateTileInfo.h" />
     <ClInclude Include="Red\MapData.h" />
-    <ClInclude Include="Red\MapTileInfo.h" />
+    <ClInclude Include="Red\TileInfo.h" />
+    <ClInclude Include="Red\TileType.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Black\TextColors.h" />
