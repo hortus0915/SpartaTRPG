@@ -141,13 +141,16 @@
     <ClCompile Include="Black\Singletons\Timer.cpp" />
     <ClCompile Include="Black\TestScene.cpp" />
     <ClCompile Include="Black_TestMain.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Blue\Card\CardData.cpp" />
     <ClCompile Include="Blue\Card\CardDB.cpp" />
     <ClCompile Include="Red\MapData.cpp" />
-    <ClCompile Include="Red\MapTileInfo.cpp" />
-    <ClCompile Include="SpartaTRPG.cpp" />
+    <ClCompile Include="Red\MapCreateTileInfo.cpp" />
+    <ClCompile Include="SpartaTRPG.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="TileInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Black\BasicInterfaces.h" />
@@ -173,7 +176,9 @@
     <ClInclude Include="Blue\Card\CardData.h" />
     <ClInclude Include="Blue\Card\CardDB.h" />
     <ClInclude Include="Red\MapData.h" />
-    <ClInclude Include="Red\MapTileInfo.h" />
+    <ClInclude Include="Red\MapCreateTileInfo.h" />
+    <ClInclude Include="TileInfo.h" />
+    <ClInclude Include="TileType.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Black\TextColors.h" />

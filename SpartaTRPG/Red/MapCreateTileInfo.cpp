@@ -1,16 +1,16 @@
-#include "MapTileInfo.h"
+#include "MapCreateTileInfo.h"
 
-MapTileInfo::MapTileInfo(int tileIndex)
+MapCreateTileInfo::MapCreateTileInfo(int tileIndex)
 {
 	this->tileIndex = tileIndex;
 }
 
-int MapTileInfo::GetTileGroup()
+int MapCreateTileInfo::GetTileGroup()
 {
 	return tileGroup;
 }
 
-void MapTileInfo::SetTileGroup(int index)
+void MapCreateTileInfo::SetTileGroup(int index)
 {
     if (tileGroup != index)
     {

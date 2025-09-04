@@ -2,15 +2,15 @@
 
 #include "Singletons/CommonManagers.h"
 
-void MapMovePlayer::Init(int _startX, int _startY, int _width, int _height, Color _characterColor, Color _bgColor)
+void MapMovePlayer::Init(int _startX, int _startY, Color _characterColor, Color _bgColor)
 {
-	__super::Init(_startX, _startY, _width, _height, _characterColor, _bgColor);
+	__super::Init(_startX, _startY, _characterColor, _bgColor);
 
-						image[0][1] = '*';
+	//					image[0][1] = '*';
 
-	image[1][0] = '*';	image[1][1] = 'O';	image[1][2] = '*';
+	//image[1][0] = '*';	image[1][1] = 'O';	image[1][2] = '*';
 
-						image[2][1] = '*';
+	//					image[2][1] = '*';
 }
 
 void MapMovePlayer::Update(float deltaTime)

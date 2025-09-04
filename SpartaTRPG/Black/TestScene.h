@@ -3,11 +3,13 @@
 #include "Singletons/SceneInterface.h"
 
 class MapMovePlayer;
+class MapData;
 
 class TestScene : public iScene
 {
 private:
 	MapMovePlayer* player;
+	MapData* map;
 
 public:
 	TestScene(string _sn) : iScene(_sn) {}
