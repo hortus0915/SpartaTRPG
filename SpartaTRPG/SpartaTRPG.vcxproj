@@ -124,6 +124,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Black\BasicInterfaces.cpp" />
+    <ClCompile Include="Black\BlinkCursor.cpp" />
     <ClCompile Include="Black\CommonFuncs.cpp" />
     <ClCompile Include="Black\DoubleBuffering.cpp" />
     <ClCompile Include="Black\EnemyInfoBase.cpp" />
@@ -136,6 +137,7 @@
     <ClCompile Include="Black\Singletons\Effect.cpp" />
     <ClCompile Include="Black\Singletons\EffectManager.cpp" />
     <ClCompile Include="Black\Singletons\Effects\EffectExplosion.cpp" />
+    <ClCompile Include="Black\Singletons\Effects\EffectSlash.cpp" />
     <ClCompile Include="Black\Singletons\KeyManager.cpp" />
     <ClCompile Include="Black\Singletons\SceneInterface.cpp" />
     <ClCompile Include="Black\Singletons\SceneManager.cpp" />
@@ -164,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Black\BasicInterfaces.h" />
+    <ClInclude Include="Black\BlinkCursor.h" />
     <ClInclude Include="Black\CommonFuncs.h" />
     <ClInclude Include="Black\CommonMacros.h" />
     <ClInclude Include="Black\DoubleBuffering.h" />
@@ -178,6 +181,7 @@
     <ClInclude Include="Black\Singletons\Effect.h" />
     <ClInclude Include="Black\Singletons\EffectManager.h" />
     <ClInclude Include="Black\Singletons\Effects\EffectExplosion.h" />
+    <ClInclude Include="Black\Singletons\Effects\EffectSlash.h" />
     <ClInclude Include="Black\Singletons\EffectType.h" />
     <ClInclude Include="Black\Singletons\KeyManager.h" />
     <ClInclude Include="Black\Singletons\SceneInterface.h" />
