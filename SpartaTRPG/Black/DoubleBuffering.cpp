@@ -32,13 +32,12 @@ DoubleBuffering::DoubleBuffering(int mapX, int mapY) {
 }
 
 DoubleBuffering::~DoubleBuffering() {
-    Release();
 }
 
 void DoubleBuffering::Release()
 {
-    CloseHandle(hBuffer[1]);
     CloseHandle(hBuffer[0]);
+    CloseHandle(hBuffer[1]);
 }
 
 void DoubleBuffering::BufferWrite(int x, int y, char* string, Color _color, Color _bgColor) {

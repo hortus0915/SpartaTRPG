@@ -133,9 +133,18 @@
     <ClCompile Include="Black\MapMovePlayer.cpp" />
     <ClCompile Include="Black\ObjectsManager.cpp" />
     <ClCompile Include="Black\PlayerInfo.cpp" />
+    <ClCompile Include="Black\Singletons\Effect.cpp" />
+    <ClCompile Include="Black\Singletons\EffectManager.cpp" />
+    <ClCompile Include="Black\Singletons\Effects\EffectExplosion.cpp" />
     <ClCompile Include="Black\Singletons\KeyManager.cpp" />
     <ClCompile Include="Black\Singletons\SceneInterface.cpp" />
     <ClCompile Include="Black\Singletons\SceneManager.cpp" />
+    <ClCompile Include="Black\Singletons\Scenes\BattleScene.cpp" />
+    <ClCompile Include="Black\Singletons\Scenes\DungeonScene.cpp" />
+    <ClCompile Include="Black\Singletons\Scenes\EndingScene.cpp" />
+    <ClCompile Include="Black\Singletons\Scenes\GameScene.cpp" />
+    <ClCompile Include="Black\Singletons\Scenes\MinigameScene.cpp" />
+    <ClCompile Include="Black\Singletons\Scenes\TitleScene.cpp" />
     <ClCompile Include="Black\Singletons\SoundManager.cpp" />
     <ClCompile Include="Black\Singletons\TimeManager.cpp" />
     <ClCompile Include="Black\Singletons\Timer.cpp" />
@@ -146,11 +155,10 @@
     <ClCompile Include="Blue\Card\CardData.cpp" />
     <ClCompile Include="Blue\Card\CardDB.cpp" />
     <ClCompile Include="Red\MapData.cpp" />
-    <ClCompile Include="Red\MapCreateTileInfo.cpp" />
+    <ClCompile Include="Red\MapTileInfo.cpp" />
     <ClCompile Include="SpartaTRPG.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="TileInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Black\BasicInterfaces.h" />
@@ -165,9 +173,20 @@
     <ClInclude Include="Black\ObjectsManager.h" />
     <ClInclude Include="Black\PlayerInfo.h" />
     <ClInclude Include="Black\Singletons\CommonManagers.h" />
+    <ClInclude Include="Black\Singletons\Effect.h" />
+    <ClInclude Include="Black\Singletons\EffectManager.h" />
+    <ClInclude Include="Black\Singletons\Effects\EffectExplosion.h" />
+    <ClInclude Include="Black\Singletons\EffectType.h" />
     <ClInclude Include="Black\Singletons\KeyManager.h" />
     <ClInclude Include="Black\Singletons\SceneInterface.h" />
     <ClInclude Include="Black\Singletons\SceneManager.h" />
+    <ClInclude Include="Black\Singletons\Scenes.h" />
+    <ClInclude Include="Black\Singletons\Scenes\BattleScene.h" />
+    <ClInclude Include="Black\Singletons\Scenes\DungeonScene.h" />
+    <ClInclude Include="Black\Singletons\Scenes\EndingScene.h" />
+    <ClInclude Include="Black\Singletons\Scenes\GameScene.h" />
+    <ClInclude Include="Black\Singletons\Scenes\MinigameScene.h" />
+    <ClInclude Include="Black\Singletons\Scenes\TitleScene.h" />
     <ClInclude Include="Black\Singletons\SingletonMacro.h" />
     <ClInclude Include="Black\Singletons\SoundManager.h" />
     <ClInclude Include="Black\Singletons\TimeManager.h" />
@@ -176,9 +195,7 @@
     <ClInclude Include="Blue\Card\CardData.h" />
     <ClInclude Include="Blue\Card\CardDB.h" />
     <ClInclude Include="Red\MapData.h" />
-    <ClInclude Include="Red\MapCreateTileInfo.h" />
-    <ClInclude Include="TileInfo.h" />
-    <ClInclude Include="TileType.h" />
+    <ClInclude Include="Red\MapTileInfo.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Black\TextColors.h" />

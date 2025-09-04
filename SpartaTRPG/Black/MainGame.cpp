@@ -5,7 +5,9 @@
 
 #include "DoubleBuffering.h"
 
-#include "TestScene.h"
+#include "Singletons/EffectType.h"
+
+#include "Singletons/Scenes.h"
 
 MainGame::MainGame(int _appX, int _appY, int _appWidth, int _appHeight, int _screenWidth, int _screenHeight)
 	: doubleBuffer(nullptr)
@@ -48,16 +50,29 @@ void MainGame::Init()
 #pragma region Scene Test Code
 
 	SCENEMANAGER->AddScene("TestScene", new TestScene("TestScene"));
-	SCENEMANAGER->ChangeScene("TestScene");
-	SCENEMANAGER->CurrentSceneInit();
 
 #pragma endregion
 
+	SCENEMANAGER->AddScene("TitleScene", new TitleScene("TitleScene"));
+
+	SCENEMANAGER->AddScene("GameScene",  new GameScene ("GameScene"));
+	//SCENEMANAGER->AddChild("GameScene", "TownScene",    new TownScene   ("TownScene"));
+	SCENEMANAGER->AddChild("GameScene", "DungeonScene", new DungeonScene("DungeonScene"));
+	SCENEMANAGER->AddChild("GameScene", "BattleScene",  new BattleScene ("BattleScene"));
+	SCENEMANAGER->AddChild("GameScene", "MinigameScene",new MinigameScene("MinigameScene"));
+
+	SCENEMANAGER->ChangeScene("TitleScene");
 }
 
 void MainGame::Update(float _deltaTime)
 {
 	SCENEMANAGER->Update(_deltaTime);
+	EFFECTMANAGER->Update(_deltaTime);
+
+	if (KEYMANAGER->IsOnceKeyDown('A'))
+	{
+		EFFECTMANAGER->StartEffect(Explosion, MAX_SCREEN_WIDTH / 2, MAX_SCREEN_HEIGTH / 2);
+	}
 
 	if (KEYMANAGER->IsOnceKeyDown(VK_ESCAPE))
 	{
@@ -87,6 +102,7 @@ void MainGame::Render()
 	}
 
 	SCENEMANAGER->Render();
+	EFFECTMANAGER->Render();
 
 	doubleBuffer->BufferFlipping();
 }
@@ -97,7 +113,13 @@ void MainGame::CopyToBackbuffer(const int& _posX, const int& _posY, const int& _
 	{
 		for (int x = 0; x < _width; ++x)
 		{
-			doubleBuffer->BufferWrite(x + _posX, y + _posY, (char*)&_contents[y][x], _fontColor, _bgColor);
+			if (_contents[y][x] == EFFECT_NULL_CHAR)
+			{
+				_contents[y][x] = ' ';
+				doubleBuffer->BufferWrite(x + _posX, y + _posY, (char*)&_contents[y][x], ORIGINCOLOR, BLACK);
+			}
+			else
+				doubleBuffer->BufferWrite(x + _posX, y + _posY, (char*)&_contents[y][x], _fontColor, _bgColor);
 		}
 	}
 }
@@ -108,7 +130,13 @@ void MainGame::CopyToBackbuffer(const int& _posX, const int& _posY, const int& _
 	{
 		for (int x = 0; x < _width; ++x)
 		{
-			doubleBuffer->BufferWrite(x + _posX, y + _posY, (char*)&_contents[y][x], _fontColor, _bgColor);
+			if (_contents[y][x] == EFFECT_NULL_CHAR)
+			{
+				_contents[y][x] = ' ';
+				doubleBuffer->BufferWrite(x + _posX, y + _posY, (char*)&_contents[y][x], ORIGINCOLOR, BLACK);
+			}
+			else
+				doubleBuffer->BufferWrite(x + _posX, y + _posY, (char*)&_contents[y][x], _fontColor, _bgColor);
 		}
 	}
 }
