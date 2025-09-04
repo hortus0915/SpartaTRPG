@@ -12,3 +12,21 @@ float GetFloatRange(float _from, float _to)
 
 	return rnd * (_to - _from) + _from;
 }
+
+int Clamp(const int& min, const int& max, const int& value)
+{
+	int temp = value;
+	if (temp < min) temp = min;
+	if (temp > max) temp = max;
+
+	return temp;
+}
+
+float Clamp(const float& min, const float& max, const float& value)
+{
+	float temp = value;
+	if (temp < min) temp = min;
+	if (temp > max) temp = max;
+
+	return temp;
+}
