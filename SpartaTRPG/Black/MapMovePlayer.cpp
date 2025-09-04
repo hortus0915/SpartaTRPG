@@ -2,9 +2,9 @@
 
 #include "Singletons/CommonManagers.h"
 
-void MapMovePlayer::Init(int _startX, int _startY, int _width, int _height)
+void MapMovePlayer::Init(int _startX, int _startY, int _width, int _height, Color _characterColor, Color _bgColor)
 {
-	__super::Init(_startX, _startY, _width, _height);
+	__super::Init(_startX, _startY, _width, _height, _characterColor, _bgColor);
 
 						image[0][1] = '*';
 

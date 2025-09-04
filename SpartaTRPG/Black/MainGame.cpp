@@ -20,8 +20,6 @@ MainGame::MainGame(int _appX, int _appY, int _appWidth, int _appHeight, int _scr
 
 	screen.screenWidth = _screenWidth;
 	screen.screenHeight = _screenHeight;
-
-	backbuffer = nullptr;
 }
 
 MainGame::~MainGame()
@@ -47,19 +45,6 @@ void MainGame::Init()
 	SAFE_RELEASE_DELETE(doubleBuffer);
 	doubleBuffer = new DoubleBuffering(screen.appWidth, screen.appHeight);
 
-	if (backbuffer)
-	{
-		Release();
-	}
-
-	backbuffer = new char*[screen.screenHeight];
-	for (int i = 0; i < screen.screenHeight; ++i)
-	{
-		backbuffer[i] = new char[screen.screenWidth + 2];
-		backbuffer[i][screen.screenWidth + 1] = '\0';
-	}
-	BackbufferClear();
-
 #pragma region Scene Test Code
 
 	SCENEMANAGER->AddScene("TestScene", new TestScene("TestScene"));
@@ -72,18 +57,6 @@ void MainGame::Init()
 
 void MainGame::Update(float _deltaTime)
 {
-	// test
-	for (int i = 0; i < screen.screenHeight; ++i)
-	{
-		backbuffer[i][0] = '#';
-		backbuffer[i][screen.screenWidth] = '#';
-	}
-	for (int i = 0; i < screen.screenWidth + 1; ++i)
-	{
-		backbuffer[0][i] = '#';
-		backbuffer[screen.screenHeight - 1][i] = '#';
-	}
-
 	SCENEMANAGER->Update(_deltaTime);
 
 	if (KEYMANAGER->IsOnceKeyDown(VK_ESCAPE))
@@ -94,44 +67,48 @@ void MainGame::Update(float _deltaTime)
 
 void MainGame::Release()
 {
-	for (int i = 0; i < screen.screenHeight; i++)
-		SAFE_DELETE_ARR(backbuffer[i]);
-
-	SAFE_DELETE_ARR(backbuffer)
 }
 
 void MainGame::Render()
 {
 	doubleBuffer->ClearBuffer();
 
-	SCENEMANAGER->Render();
-
-	DWORD dw;
+	string sharp = "#";
+	// test
 	for (int i = 0; i < screen.screenHeight; ++i)
 	{
-		doubleBuffer->BufferWrite(0, i, backbuffer[i]);
+		CopyToBackbuffer(0, i, sharp.size(), 1, &sharp);
+		CopyToBackbuffer(screen.screenWidth, i, sharp.size(), 1, &sharp);
+	}
+	for (int i = 0; i < screen.screenWidth + 1; ++i)
+	{
+		CopyToBackbuffer(i, 0, sharp.size(), 1, &sharp);
+		CopyToBackbuffer(i, screen.screenHeight - 1, sharp.size(), 1, &sharp);
 	}
 
-	BackbufferClear();
+	SCENEMANAGER->Render();
+
 	doubleBuffer->BufferFlipping();
 }
 
-void MainGame::CopyToBackbuffer(const int& _posX, const int& _posY, const int& _width, const int& _height, char** contents)
+void MainGame::CopyToBackbuffer(const int& _posX, const int& _posY, const int& _width, const int& _height, char** _contents, Color _fontColor, Color _bgColor)
 {
 	for (int y = 0; y < _height; ++y)
 	{
 		for (int x = 0; x < _width; ++x)
 		{
-			backbuffer[y + _posY][x + _posX] = contents[y][x];
+			doubleBuffer->BufferWrite(x + _posX, y + _posY, (char*)&_contents[y][x], _fontColor, _bgColor);
 		}
 	}
 }
 
-void MainGame::BackbufferClear()
+void MainGame::CopyToBackbuffer(const int& _posX, const int& _posY, const int& _width, const int& _height, string* _contents, Color _fontColor, Color _bgColor)
 {
-	for (int y = 0; y < screen.screenHeight; ++y)
+	for (int y = 0; y < _height; ++y)
 	{
-		for (int x = 0; x < screen.screenWidth + 1; ++x)
-			backbuffer[y][x] = ' ';
+		for (int x = 0; x < _width; ++x)
+		{
+			doubleBuffer->BufferWrite(x + _posX, y + _posY, (char*)&_contents[y][x], _fontColor, _bgColor);
+		}
 	}
 }

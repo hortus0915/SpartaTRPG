@@ -7,6 +7,8 @@
 
 using namespace std;
 
+#include "TextColors.h"
+
 class DoubleBuffering;
 
 struct ScreenPoint
@@ -28,8 +30,6 @@ private:
 
 	DoubleBuffering* doubleBuffer;
 
-	char** backbuffer;
-
 	bool isGameRun;
 
 public:
@@ -41,14 +41,11 @@ public:
 	void Release();
 	void Render();
 
-	void CopyToBackbuffer(const int& _posX, const int& _posY, const int& _width, const int& _height, char** contents);
-
-	void BackbufferClear();
+	void CopyToBackbuffer(const int& _posX, const int& _posY, const int& _width, const int& _height, char**  _contents, Color _fontColor = ORIGINCOLOR, Color _bgColor = BLACK);
+	void CopyToBackbuffer(const int& _posX, const int& _posY, const int& _width, const int& _height, string* _contents, Color _fontColor = ORIGINCOLOR, Color _bgColor = BLACK);
 
 	inline bool IsGameRun() { return isGameRun; }
 	inline void Quit() { isGameRun = false; }
-
-	inline char** GetBackbuffer() { return backbuffer; }
 
 };
 

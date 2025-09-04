@@ -19,6 +19,8 @@ int main()
 
 	while (mg->IsGameRun())
 	{
+
+
 		TIMEMANAGER->Update(60.0f);
 		mg->Update(TIMEMANAGER->GetElapsedTime());
 		mg->Render();

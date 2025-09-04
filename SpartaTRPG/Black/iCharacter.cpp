@@ -10,11 +10,12 @@ iCharacter::iCharacter()
 	maxSP(0.0f),
 	criPer(0.0f),
 	criDmg(0.0f),
-	dodge(0.0f)
+	dodge(0.0f),
+	exp(0)
 {
 }
 
-void iCharacter::Init(float _hp, float _sp, float _criPer, float _criDmg, float _dod)
+void iCharacter::Init(float _hp, float _sp, float _criPer, float _criDmg, float _dod, float _exp)
 {
 	maxHP = currentHP = _hp;
 	maxSP = currentSP = _sp;
@@ -23,6 +24,8 @@ void iCharacter::Init(float _hp, float _sp, float _criPer, float _criDmg, float 
 	criDmg = _criDmg;
 
 	dodge = _dod;
+
+	exp = _exp;
 }
 
 float iCharacter::HitDamager(float damage)

@@ -126,11 +126,13 @@
     <ClCompile Include="Black\BasicInterfaces.cpp" />
     <ClCompile Include="Black\CommonFuncs.cpp" />
     <ClCompile Include="Black\DoubleBuffering.cpp" />
+    <ClCompile Include="Black\EnemyInfoBase.cpp" />
     <ClCompile Include="Black\iCharacter.cpp" />
     <ClCompile Include="Black\iMapMovable.cpp" />
     <ClCompile Include="Black\MainGame.cpp" />
     <ClCompile Include="Black\MapMovePlayer.cpp" />
     <ClCompile Include="Black\ObjectsManager.cpp" />
+    <ClCompile Include="Black\PlayerInfo.cpp" />
     <ClCompile Include="Black\Singletons\KeyManager.cpp" />
     <ClCompile Include="Black\Singletons\SceneInterface.cpp" />
     <ClCompile Include="Black\Singletons\SceneManager.cpp" />
@@ -139,26 +141,26 @@
     <ClCompile Include="Black\Singletons\Timer.cpp" />
     <ClCompile Include="Black\TestScene.cpp" />
     <ClCompile Include="Black_TestMain.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Blue\Card\CardData.cpp" />
     <ClCompile Include="Blue\Card\CardDB.cpp" />
     <ClCompile Include="Red\MapData.cpp" />
     <ClCompile Include="Red\MapTileInfo.cpp" />
-    <ClCompile Include="SpartaTRPG.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="SpartaTRPG.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Black\BasicInterfaces.h" />
     <ClInclude Include="Black\CommonFuncs.h" />
     <ClInclude Include="Black\CommonMacros.h" />
     <ClInclude Include="Black\DoubleBuffering.h" />
+    <ClInclude Include="Black\EnemyInfoBase.h" />
     <ClInclude Include="Black\iCharacter.h" />
     <ClInclude Include="Black\iMapMovable.h" />
     <ClInclude Include="Black\MainGame.h" />
     <ClInclude Include="Black\MapMovePlayer.h" />
     <ClInclude Include="Black\ObjectsManager.h" />
+    <ClInclude Include="Black\PlayerInfo.h" />
     <ClInclude Include="Black\Singletons\CommonManagers.h" />
     <ClInclude Include="Black\Singletons\KeyManager.h" />
     <ClInclude Include="Black\Singletons\SceneInterface.h" />
@@ -172,6 +174,9 @@
     <ClInclude Include="Blue\Card\CardDB.h" />
     <ClInclude Include="Red\MapData.h" />
     <ClInclude Include="Red\MapTileInfo.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Black\TextColors.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

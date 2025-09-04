@@ -65,6 +65,8 @@ typedef map<string, SceneNode*>::iterator	SceneNodeMapIter;
 
 class MainGame;
 
+#include "../TextColors.h"
+
 class SceneManager
 {
 	SINGLETON(SceneManager, );
@@ -134,7 +136,7 @@ public:
 		return currentSceneNode->FindParent()->GetSceneName();
 	}
 
-	void RenderToBackbuffer(int _posX, int _posY, int _width, int _height, char** _content);
+	void RenderToBackbuffer(int _posX, int _posY, int _width, int _height, char** _content, Color _charColor = ORIGINCOLOR, Color _bgColor = BLACK);
 };
 
 #pragma endregion

@@ -99,6 +99,12 @@
     <ClCompile Include="Black\CommonFuncs.cpp">
       <Filter>Black</Filter>
     </ClCompile>
+    <ClCompile Include="Black\EnemyInfoBase.cpp">
+      <Filter>Black\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Black\PlayerInfo.cpp">
+      <Filter>Black\Character</Filter>
+    </ClCompile>
     <ClCompile Include="Blue\Card\CardData.cpp">
       <Filter>Blue\Card</Filter>
     </ClCompile>
@@ -168,6 +174,21 @@
       <Filter>Black\Singleton\SceneManager</Filter>
     </ClInclude>
     <ClInclude Include="Black\CommonFuncs.h">
+      <Filter>Black</Filter>
+    </ClInclude>
+    <ClInclude Include="CardData.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CardDB.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Black\EnemyInfoBase.h">
+      <Filter>Black\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Black\PlayerInfo.h">
+      <Filter>Black\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Black\TextColors.h">
       <Filter>Black</Filter>
     </ClInclude>
     <ClInclude Include="Blue\Card\CardData.h">
