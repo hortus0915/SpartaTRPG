@@ -10,7 +10,7 @@ int TestScene::Init()
 {
 	map = new MapData();
 	player = new MapMovePlayer(sceneName, map);
-	player->Init(1, 1, WHITE, BLACK);
+	player->Init(WHITE, BLACK);
 
 	return 0;
 }
