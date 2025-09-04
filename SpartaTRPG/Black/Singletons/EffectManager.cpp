@@ -76,6 +76,12 @@ Effect* EffectManager::FindEffect(string _effectName)
 				break;
 			}
 		}
+
+		if (!findEffect)
+		{
+			findEffect = CreateEffectInstance(_effectName);
+			mEffectMap[_effectName].push_back(findEffect);
+		}
 	}
 	else
 	{
@@ -88,11 +94,15 @@ Effect* EffectManager::FindEffect(string _effectName)
 
 Effect* EffectManager::CreateEffectInstance(string _effectName)
 {
-	Effect* newEffcet = nullptr;
+	Effect* newEffect = nullptr;
 	if (_effectName == Explosion)
 	{
-		newEffcet = new EffectExplosion(5, 5, 0.3f);
+		newEffect = new EffectExplosion(5, 5, 0.3f);
+	}
+	else if (_effectName == Slash)
+	{
+		newEffect = new EffectSlash(1, 5, 0.15f);
 	}
 
-	return newEffcet;
+	return newEffect;
 }

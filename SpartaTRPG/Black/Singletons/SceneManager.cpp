@@ -387,4 +387,11 @@ void SceneManager::RenderToBackbuffer(int _posX, int _posY, int _width, int _hei
 	mainGame->CopyToBackbuffer(_posX, _posY, _width, _height, _content, _charColor, _bgColor);
 }
 
+void SceneManager::RenderToBackbuffer(int _posX, int _posY, int _width, int _height, string _content, Color _charColor, Color _bgColor)
+{
+	if (!mainGame || _content.size() == 0) return;
+
+	mainGame->CopyToBackbuffer(_posX, _posY, _width, _height, _content, _charColor, _bgColor);
+}
+
 #pragma endregion
