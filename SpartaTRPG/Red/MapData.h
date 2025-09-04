@@ -2,8 +2,8 @@
 
 #define MAP_WIDTH			5
 #define MAP_HEIGHT			5
-#define MAP_CHUNKWIDTH		10
-#define MAP_CHUNKHEIGHT		10
+#define MAP_CHUNKWIDTH		30
+#define MAP_CHUNKHEIGHT		15
 
 
 enum TileType
@@ -16,7 +16,6 @@ class MapData
 {
 private:
 	TileType** mapInfo;
-
 	int GetIndex(int x, int y);
 
 public:
@@ -31,5 +30,7 @@ public:
 
 	TileType GetMapInfo(int posX, int posY);
 
+	int GetMapWidth();
+	int GetMapHeight();
 };
 

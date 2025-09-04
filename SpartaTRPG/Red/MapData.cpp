@@ -10,11 +10,11 @@ int MapData::GetIndex(int x, int y)
 
 MapData::MapData()
 {
-    mapInfo = new TileType * [MAP_HEIGHT * (MAP_CHUNKHEIGHT + 1) + 1];
-    for (int i = 0; i < MAP_HEIGHT * (MAP_CHUNKHEIGHT + 1) + 1; ++i)
+    mapInfo = new TileType * [MAP_WIDTH * (MAP_CHUNKWIDTH + 1) + 1];
+    for (int i = 0; i < MAP_WIDTH * (MAP_CHUNKWIDTH + 1) + 1; ++i)
     {
-        mapInfo[i] = new TileType[MAP_WIDTH * (MAP_CHUNKWIDTH + 1) + 1];
-        for (int j = 0; j < MAP_WIDTH * (MAP_CHUNKWIDTH + 1) + 1; ++j)
+        mapInfo[i] = new TileType[MAP_HEIGHT * (MAP_CHUNKHEIGHT + 1) + 1];
+        for (int j = 0; j < MAP_HEIGHT * (MAP_CHUNKHEIGHT + 1) + 1; ++j)
             mapInfo[i][j] = TileType::Empty;
     }
 }
@@ -27,7 +27,7 @@ MapData::~MapData()
 
 void MapData::Release()
 {
-    for (int i = 0; i < MAP_HEIGHT * (MAP_CHUNKHEIGHT + 1) + 1; ++i)
+    for (int i = 0; i < MAP_WIDTH * (MAP_CHUNKWIDTH + 1) + 1; ++i)
     {
         SAFE_DELETE_ARR(mapInfo[i])
     }
@@ -230,7 +230,7 @@ void MapData::CreateMap()
             if (bx < 0) bx = 0; if (bx >= MAP_WIDTH * 2 + 1) bx = MAP_WIDTH * 2;
 
             bool open = boardTempArray[bx][by];
-            mapInfo[oy][ox] = open ? TileType::Empty : TileType::Wall;
+            mapInfo[ox][oy] = open ? TileType::Empty : TileType::Wall;
         }
     }
 }
@@ -238,7 +238,7 @@ void MapData::CreateMap()
 
 char MapData::GetMapData(int posX, int posY)
 {
-    if (posX < 0 || posX > MAP_WIDTH * (MAP_CHUNKWIDTH + 1) || posY < 0 || posY > MAP_HEIGHT * (MAP_CHUNKHEIGHT + 1))
+    if (posX < 0 || posX >= MAP_WIDTH * (MAP_CHUNKWIDTH + 1) || posY < 0 || posY >= MAP_HEIGHT * (MAP_CHUNKHEIGHT + 1))
         return '#';
 
     switch (mapInfo[posX][posY])
@@ -250,11 +250,21 @@ char MapData::GetMapData(int posX, int posY)
     default:
         break;
     }
-    return 0;
+    return '#';
 }
 
 TileType MapData::GetMapInfo(int posX, int posY)
 {
     return mapInfo[posX][posY];
+}
+
+int MapData::GetMapWidth()
+{
+    return MAP_WIDTH * (MAP_CHUNKWIDTH + 1) + 1;
+}
+
+int MapData::GetMapHeight()
+{
+    return MAP_HEIGHT * (MAP_CHUNKHEIGHT + 1) + 1;
 }
 
