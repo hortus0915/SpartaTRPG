@@ -30,3 +30,13 @@ float Clamp(const float& min, const float& max, const float& value)
 
 	return temp;
 }
+
+int Lerp(const int& start, const int& end, const float& ratio)
+{
+	return (1 - ratio) * start + ratio * end;
+}
+
+float Lerp(const float& start, const float& end, const float& ratio)
+{
+	return (1 - ratio) * start + ratio * end;
+}

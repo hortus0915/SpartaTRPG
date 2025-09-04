@@ -15,9 +15,10 @@ using namespace std;
 #ifdef _UNICODE
 typedef wstring STRING;
 #define Text(txt) L##txt
+#define DEFAULT_SOUND_PATH L".\\Black\\Singletons\\Sounds\\"
 #else
 typedef string STRING;
-#define Text(txt) ##txt
+#define Text(txt) txt
 #endif
 
 class SoundManager
@@ -36,6 +37,8 @@ private:
 public:
 	void PlayBGM(STRING fileName, int volume = 50);
 	void PlayAmbient(STRING fileName, int volume = 50);
+
+	void ChangeBGM(STRING fileName, int volume = 50);
 
 	void StopBGM();
 	void StopAmbient(STRING fileName);

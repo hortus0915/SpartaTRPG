@@ -43,6 +43,7 @@ void SoundManager::OpenFile(STRING fileName)
 
 void SoundManager::PlayBGM(STRING fileName, int volume)
 {
+	fileName = DEFAULT_SOUND_PATH + fileName;
 	if (bgmID == -1)
 	{
 		OpenFile(fileName);
@@ -67,6 +68,7 @@ void SoundManager::PlayBGM(STRING fileName, int volume)
 
 void SoundManager::PlayAmbient(STRING fileName, int volume)
 {
+	fileName = DEFAULT_SOUND_PATH + fileName;
 	if (ambientMap.find(fileName) != ambientMap.end())
 	{
 		MCI_PLAY_PARMS mciPlay;
@@ -115,16 +117,24 @@ void SoundManager::PlayAmbient(STRING fileName, int volume)
 	}
 }
 
+void SoundManager::ChangeBGM(STRING fileName, int volume)
+{
+	StopBGM();
+	PlayBGM(fileName, volume);
+}
+
 void SoundManager::StopBGM()
 {
 	if (bgmID != -1)
 	{
 		mciSendCommand(bgmID, MCI_CLOSE, 0, (DWORD)(LPVOID)NULL);
+		bgmID = -1;
 	}
 }
 
 void SoundManager::StopAmbient(STRING fileName)
 {
+	fileName = DEFAULT_SOUND_PATH + fileName;
 	if (ambientMap.find(fileName) == ambientMap.end())
 		return;
 	DWORD deviceID = ambientMap[fileName];
@@ -162,6 +172,8 @@ void SoundManager::SetVolume(int volume, DWORD targetID)
 
 void SoundManager::PlaySfx(STRING fileName, DWORD millisecond)
 {
+	fileName = DEFAULT_SOUND_PATH + fileName;
+
 	sndPlaySound(fileName.c_str(), SND_ASYNC | SND_NODEFAULT);
 
 	Sleep(millisecond);
