@@ -161,6 +161,7 @@
     <ClInclude Include="Black\MapMovePlayer.h" />
     <ClInclude Include="Black\ObjectsManager.h" />
     <ClInclude Include="Black\PlayerInfo.h" />
+    <ClInclude Include="Black\Scenes.h" />
     <ClInclude Include="Black\Singletons\CommonManagers.h" />
     <ClInclude Include="Black\Singletons\KeyManager.h" />
     <ClInclude Include="Black\Singletons\SceneInterface.h" />
