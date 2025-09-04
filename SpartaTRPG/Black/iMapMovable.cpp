@@ -13,6 +13,8 @@ iMapMovable::iMapMovable(string _targetSceneName, MapData* _mapData)
 	IRenderable(_targetSceneName)
 {
 	mapData = _mapData;
+	posX = 1;
+	posY = 1;
 }
 
 iMapMovable::~iMapMovable()
@@ -23,25 +25,22 @@ iMapMovable::~iMapMovable()
 	}
 }
 
-void iMapMovable::Init(int _startX, int _startY, Color _characterColor, Color _bgColor)
+void iMapMovable::Init(Color _characterColor, Color _bgColor)
 {
-	SetPos(_startX, _startY);
-
-	if (image)
+	if (image == nullptr)
 	{
-		Release();
+		image = new char* [MAX_SCREEN_HEIGTH];
+		for (int i = 0; i < MAX_SCREEN_HEIGTH; ++i)
+		{
+			image[i] = new char[MAX_SCREEN_WIDTH + 1];
+			for (int j = 0; j < MAX_SCREEN_WIDTH; ++j)
+				image[i][j] = ' ';
+			image[i][MAX_SCREEN_WIDTH] = '\0';
+		}
+
+		mapData->CreateMap(MapType::Village);
 	}
 
-	image = new char* [MAX_SCREEN_HEIGTH];
-	for (int i = 0; i < MAX_SCREEN_HEIGTH; ++i)
-	{
-		image[i] = new char[MAX_SCREEN_WIDTH + 1];
-		for (int j = 0; j < MAX_SCREEN_WIDTH; ++j)
-			image[i][j] = ' ';
-		image[i][MAX_SCREEN_WIDTH] = '\0';
-	}
-
-	mapData->CreateMap(MapType::Dungeon); 
 	MapImageSet();
 	charColor = _characterColor;
 	bgColor = _bgColor;
@@ -63,7 +62,6 @@ void iMapMovable::MoveTo(int deltaX, int deltaY)
 	posX += deltaX;
 	posY += deltaY;
 
-
 	MapImageSet();
 }
 
@@ -73,6 +71,8 @@ void iMapMovable::SetPos(int _posX, int _posY)
 
 	posX = _posX;
 	posY = _posY;
+
+	MapImageSet();
 }
 
 void iMapMovable::MapImageSet()
@@ -98,6 +98,7 @@ void iMapMovable::MapImageSet()
 		}
 		image[i][MAX_SCREEN_WIDTH] = '\0';
 	}
+	isNewRender = true;
 }
 
 bool iMapMovable::IsCanMove(int _targetX, int _targetY)
@@ -107,7 +108,7 @@ bool iMapMovable::IsCanMove(int _targetX, int _targetY)
 
 	auto mapInfo = mapData->GetMapInfo(_targetX, _targetY);
 
-	if (mapInfo == TileType::Wall || mapInfo == TileType::Box)
+	if (mapInfo == TileType::Wall || mapInfo == TileType::Box || mapInfo == TileType::Shop)
 		return false;
 
 	return true;
@@ -115,5 +116,9 @@ bool iMapMovable::IsCanMove(int _targetX, int _targetY)
 
 void iMapMovable::Render()
 {
-	SCENEMANAGER->RenderToBackbuffer(0, 0, MAX_SCREEN_WIDTH, MAX_SCREEN_HEIGTH, image, charColor, bgColor);
+	if (isNewRender)
+	{
+		SCENEMANAGER->RenderToBackbuffer(0, 0, MAX_SCREEN_WIDTH, MAX_SCREEN_HEIGTH, image, charColor, bgColor);
+		isNewRender = false;
+	}
 }

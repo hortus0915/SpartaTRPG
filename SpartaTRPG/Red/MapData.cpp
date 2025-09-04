@@ -43,9 +43,10 @@ void MapData::CreateMap(MapType _mapType)
     {
     case Village:
         VillageMapSet();
+        VillageObjectSet();
         break;
     case Dungeon:
-        DungeonMapSet(); 
+        DungeonMapSet();
         DungeonObjectCreate();
         DungeonObjectLoad();
         break;
@@ -291,7 +292,8 @@ void MapData::DungeonObjectLoad()
 
 void MapData::VillageObjectSet()
 {
-
+    ObjectSet(TileType::Shop, VILLAGE_WIDTH / 2, 3);
+    ObjectSet(TileType::DungeonIn, VILLAGE_WIDTH - 3, VILLAGE_HEIGHT / 2);
 } 
 
 void MapData::ObjectSet(TileType _tileType, int _fromIndexX, int _fromIndexY)
@@ -327,9 +329,8 @@ void MapData::ObjectSet(TileType _tileType, int _fromIndexX, int _fromIndexY)
                     break;
             }
         }
-
-        TileSet(_tileType, _fromIndexX, _fromIndexY, _fromIndexX, _fromIndexY);
     }
+    TileSet(_tileType, _fromIndexX, _fromIndexY, _fromIndexX, _fromIndexY);
 }
 
 void MapData::ObjectRandomSet(TileType _tileType, int _count)
@@ -372,6 +373,7 @@ int MapData::GetRange(TileType _tileType)
     switch (_tileType)
     {
     case Box:
+    case Shop:
         return 1;
     case Monster:
         return 5;
@@ -414,6 +416,14 @@ TileType MapData::GetMapInfo(int posX, int posY)
 {
     if (posX < 0 || posX > GetMapWidth() - 1 || posY < 0 || posY > GetMapHeight() - 1)
         return TileType::Wall;
+
+    auto nowTile = mapInfo[posX][posY];
+
+    if (nowTile.GetTileType() != TileType::Empty && (int)nowTile.GetTileType() % 100 == 0)
+    {
+        if (mapInfo[nowTile.GetFromIndexX()][nowTile.GetFromIndexY()].GetTileType() == TileType::Empty)
+            return TileType::Empty;
+    }
 
     return mapInfo[posX][posY].GetTileType();
 }

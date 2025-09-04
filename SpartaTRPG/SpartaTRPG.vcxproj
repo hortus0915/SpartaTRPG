@@ -156,6 +156,7 @@
     <ClCompile Include="Blue\Card\CardDB.cpp" />
     <ClCompile Include="Red\MapCreateTileInfo.cpp" />
     <ClCompile Include="Red\MapData.cpp" />
+    <ClCompile Include="Red\MapPopup.cpp" />
     <ClCompile Include="Red\TileInfo.cpp" />
     <ClCompile Include="SpartaTRPG.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -197,6 +198,7 @@
     <ClInclude Include="Blue\Card\CardDB.h" />
     <ClInclude Include="Red\MapCreateTileInfo.h" />
     <ClInclude Include="Red\MapData.h" />
+    <ClInclude Include="Red\MapPopup.h" />
     <ClInclude Include="Red\TileInfo.h" />
     <ClInclude Include="Red\TileType.h" />
   </ItemGroup>

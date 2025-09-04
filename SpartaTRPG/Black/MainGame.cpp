@@ -61,7 +61,12 @@ void MainGame::Init()
 	SCENEMANAGER->AddChild("GameScene", "BattleScene",  new BattleScene ("BattleScene"));
 	SCENEMANAGER->AddChild("GameScene", "MinigameScene",new MinigameScene("MinigameScene"));
 
-	SCENEMANAGER->ChangeScene("TitleScene");
+	//SCENEMANAGER->ChangeScene("TitleScene");
+
+	SCENEMANAGER->ChangeScene("GameScene");
+	SCENEMANAGER->ChangeChild("DungeonScene");
+	SCENEMANAGER->CurrentSceneInit();
+
 }
 
 void MainGame::Update(float _deltaTime)

@@ -19,11 +19,13 @@ protected:
 	Color charColor;
 	Color bgColor;
 
+	bool isNewRender = false;
+
 public:
 	iMapMovable(string _targetSceneName, MapData* _mapData);
 	virtual ~iMapMovable();
 
-	virtual void Init(int _startX, int _startY, Color _characterColor = ORIGINCOLOR, Color _bgColor = BLACK);
+	virtual void Init(Color _characterColor = ORIGINCOLOR, Color _bgColor = BLACK);
 	virtual void Release();
 
 	virtual void Render() override;
