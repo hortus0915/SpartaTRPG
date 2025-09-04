@@ -27,3 +27,5 @@ if (p)						\
 #define MAX_SCREEN_WIDTH  100
 #define MAX_SCREEN_HEIGTH 25
 #define TITLE "Spartaaaaaaaaaaaaaaa!!!!!!!!!!!"
+
+#define EFFECT_NULL_CHAR '@'
