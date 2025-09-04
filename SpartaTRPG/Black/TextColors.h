@@ -16,6 +16,7 @@
 #define PURPLE		13
 #define YELLOW		14
 #define WHITE		15
+#define COLOREND	16
 #define ORIGINCOLOR	GRAY
 
 typedef int Color;
