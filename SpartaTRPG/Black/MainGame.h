@@ -30,7 +30,7 @@ private:
 
 	DoubleBuffering* doubleBuffer;
 
-	bool isGameRun;
+	static bool isGameRun;
 
 public:
 	MainGame(int _appX, int _appY, int _appWidth, int _appHeight, int _screenWidth, int _screenHeight);
@@ -43,9 +43,10 @@ public:
 
 	void CopyToBackbuffer(const int& _posX, const int& _posY, const int& _width, const int& _height, char**  _contents, Color _fontColor = ORIGINCOLOR, Color _bgColor = BLACK);
 	void CopyToBackbuffer(const int& _posX, const int& _posY, const int& _width, const int& _height, string* _contents, Color _fontColor = ORIGINCOLOR, Color _bgColor = BLACK);
+	void CopyToBackbuffer(const int& _posX, const int& _posY, const int& _width, const int& _height, string  _contents, Color _fontColor = ORIGINCOLOR, Color _bgColor = BLACK);
 
 	inline bool IsGameRun() { return isGameRun; }
-	inline void Quit() { isGameRun = false; }
+	inline static void Quit() { isGameRun = false; }
 
 };
 
