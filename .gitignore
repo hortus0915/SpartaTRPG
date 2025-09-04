@@ -65,3 +65,4 @@ ipch/
 *.psess
 *.vsp
 *.vspx
+*.vcxproj.filters
