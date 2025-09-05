@@ -25,8 +25,8 @@ public:
 	void Update(float _deltaTime);
 	void Render();
 
-	void StartEffect(string _effectName, int _posX, int _posY);
-	void StartEffect(string _effectName, int _startPosX, int _startPosY, int _endPosX, int _endPosY);
+	Effect* StartEffect(string _effectName, int _posX, int _posY);
+	Effect* StartEffect(string _effectName, int _startPosX, int _startPosY, int _endPosX, int _endPosY);
 
 	Effect* FindEffect(string _effectName);
 	Effect* CreateEffectInstance(string _effectName);
