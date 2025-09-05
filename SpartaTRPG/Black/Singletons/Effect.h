@@ -7,6 +7,21 @@ using namespace std;
 
 #include "../TextColors.h"
 
+struct AfterEffectInfo
+{
+	AfterEffectInfo() { }
+	AfterEffectInfo(int _sDeltaX, int _sDeltaY, int _eDeltaX, int _eDeltaY, string name)
+		: startDeltaX(_sDeltaX), startDeltaY(_sDeltaY), endDeltaX(_eDeltaX), endDeltaY(_eDeltaY), effectName(name) { }
+
+	int startDeltaX;
+	int startDeltaY;
+
+	int endDeltaX;
+	int endDeltaY;
+
+	string effectName;
+};
+
 class Effect
 {
 protected:
@@ -25,7 +40,9 @@ protected:
 	float duration;
 	float elapsedTime;
 
-	vector<string> afterEffectList;
+	vector<AfterEffectInfo> afterEffectList;
+
+	bool prevIsRunning;
 
 public:
 	Effect(int _width, int _height, float _duration);
@@ -38,7 +55,8 @@ public:
 
 	void StartEffect(int _posX, int _posY);
 	void StartEffect(int _startPosX, int _startPosY, int _endPosX, int _endPosY);
-	void AddAfterEffect(string _effectName);
+	void AddAfterEffect(AfterEffectInfo _effectName);
+	void EmitAfterEffects();
 
 	inline bool IsRunning() { return (elapsedTime < duration); }
 

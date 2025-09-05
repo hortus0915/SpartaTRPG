@@ -2,10 +2,15 @@
 
 #include "../SceneInterface.h"
 
+
+class PlayerInfo;
+class EnemyInfoBase;
+
 class BattleScene : public iScene
 {
 private:
-
+	PlayerInfo*		player;
+	EnemyInfoBase*	enemy;
 
 
 
@@ -19,5 +24,7 @@ public:
 	void Release() override;
 	void Update(float _deltaTime) override;
 	void Render() override;
+
+	inline void SetBattlers(PlayerInfo* _player, EnemyInfoBase* _enemy) { player = _player; enemy = _enemy; }
 };
 
