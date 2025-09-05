@@ -38,7 +38,7 @@ float iCharacter::HitDamager(float damage, void* OnHit(void))
 {
 	if (IsDodge()) 
 	{
-		std::cout << " ȸ�Ǽ���! \n";
+		std::cout << " 회피성공! \n";
 		return 0.0f; 
 	}
 
@@ -49,7 +49,7 @@ float iCharacter::HitDamager(float damage, void* OnHit(void))
 		OnHit();
 	}
 
-	return realDamage;
+	return damage;
 }
 
 bool iCharacter::IsCritical()
