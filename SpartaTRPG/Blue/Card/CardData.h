@@ -90,9 +90,9 @@ private:
 	int idx;              // 카드 번호
 	std::string name;		  // 카드 이름
 	CardType type;        // 카드 타입
+	u16 range;   // 공격 범위 (비트마스크)
 	float damageRate;    // 데미지 배율   HEAL일 때: 체력 회복량으로 사용 (+N) SHIELD일 때: 피해 감소율로 사용 (0.0~1.0)
 	int staminaCost;      // 소모 마나 HEAL일 때: 체력 회복량으로 사용 (+N)
-	u16 range;   // 공격 범위 (비트마스크)
 
 public:
 	Card(int _idx, const std::string& _name, CardType _type, u16 _range = 0,
