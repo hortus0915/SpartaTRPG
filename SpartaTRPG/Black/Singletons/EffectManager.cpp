@@ -107,6 +107,80 @@ Effect* EffectManager::CreateEffectInstance(string _effectName)
 	{
 		newEffect = new EffectSlash(1, 5, 0.15f);
 	}
+	else if (_effectName == Tail)
+	{
+		newEffect = new EffectTail(1, 1, 0.5f);
+	}
+	else if (_effectName == Tail_Explosion)
+	{
+		newEffect = new EffectTail(1, 1, 0.5f);
+
+		AfterEffectInfo info(-2, -2, -2, -2, Explosion);
+
+		newEffect->AddAfterEffect(info);
+	}
+	else if (_effectName == Tail_Slash)
+	{
+		newEffect = new EffectTail(1, 1, 0.5f);
+
+		AfterEffectInfo info;
+
+		info.startDeltaX = -5;
+		info.startDeltaY = -5;
+		info.endDeltaX = 5;
+		info.endDeltaY = 5;
+		info.effectName = Slash;
+
+		newEffect->AddAfterEffect(info);
+
+		info.startDeltaX = -5;
+		info.startDeltaY = 5;
+		info.endDeltaX = 5;
+		info.endDeltaY = -5;
+		info.effectName = Slash;
+
+		newEffect->AddAfterEffect(info);
+
+		info.startDeltaX = 8;
+		info.startDeltaY = 0;
+		info.endDeltaX = -8;
+		info.endDeltaY = 0;
+		info.effectName = Slash;
+
+		newEffect->AddAfterEffect(info);
+	}
+	else if (_effectName == Tail_Explosion_Slash)
+	{
+		newEffect = new EffectTail(1, 1, 0.5f);
+
+		AfterEffectInfo info(-2, -2, -2, -2, Explosion);
+
+		newEffect->AddAfterEffect(info);
+
+		info.startDeltaX = -5;
+		info.startDeltaY = -5;
+		info.endDeltaX = 5;
+		info.endDeltaY = 5;
+		info.effectName = Slash;
+
+		newEffect->AddAfterEffect(info);
+
+		info.startDeltaX = -5;
+		info.startDeltaY = 5;
+		info.endDeltaX = 5;
+		info.endDeltaY = -5;
+		info.effectName = Slash;
+
+		newEffect->AddAfterEffect(info);
+
+		info.startDeltaX = 8;
+		info.startDeltaY = 0;
+		info.endDeltaX = -8;
+		info.endDeltaY = 0;
+		info.effectName = Slash;
+
+		newEffect->AddAfterEffect(info);
+	}
 
 	return newEffect;
 }
