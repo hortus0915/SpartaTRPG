@@ -44,22 +44,26 @@ void EffectManager::Render()
 	}
 }
 
-void EffectManager::StartEffect(string _effectName, int _posX, int _posY)
+Effect* EffectManager::StartEffect(string _effectName, int _posX, int _posY)
 {
 	Effect* find = FindEffect(_effectName);
 	if (find)
 	{
 		find->StartEffect(_posX, _posY);
 	}
+
+	return find;
 }
 
-void EffectManager::StartEffect(string _effectName, int _startPosX, int _startPosY, int _endPosX, int _endPosY)
+Effect* EffectManager::StartEffect(string _effectName, int _startPosX, int _startPosY, int _endPosX, int _endPosY)
 {
 	Effect* find = FindEffect(_effectName);
 	if (find)
 	{
 		find->StartEffect(_startPosX, _startPosY, _endPosX, _endPosY);
 	}
+
+	return find;
 }
 
 Effect* EffectManager::FindEffect(string _effectName)
