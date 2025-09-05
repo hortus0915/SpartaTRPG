@@ -44,22 +44,26 @@ void EffectManager::Render()
 	}
 }
 
-void EffectManager::StartEffect(string _effectName, int _posX, int _posY)
+Effect* EffectManager::StartEffect(string _effectName, int _posX, int _posY)
 {
 	Effect* find = FindEffect(_effectName);
 	if (find)
 	{
 		find->StartEffect(_posX, _posY);
 	}
+
+	return find;
 }
 
-void EffectManager::StartEffect(string _effectName, int _startPosX, int _startPosY, int _endPosX, int _endPosY)
+Effect* EffectManager::StartEffect(string _effectName, int _startPosX, int _startPosY, int _endPosX, int _endPosY)
 {
 	Effect* find = FindEffect(_effectName);
 	if (find)
 	{
 		find->StartEffect(_startPosX, _startPosY, _endPosX, _endPosY);
 	}
+
+	return find;
 }
 
 Effect* EffectManager::FindEffect(string _effectName)
@@ -102,6 +106,80 @@ Effect* EffectManager::CreateEffectInstance(string _effectName)
 	else if (_effectName == Slash)
 	{
 		newEffect = new EffectSlash(1, 5, 0.15f);
+	}
+	else if (_effectName == Tail)
+	{
+		newEffect = new EffectTail(1, 1, 0.5f);
+	}
+	else if (_effectName == Tail_Explosion)
+	{
+		newEffect = new EffectTail(1, 1, 0.5f);
+
+		AfterEffectInfo info(-2, -2, -2, -2, Explosion);
+
+		newEffect->AddAfterEffect(info);
+	}
+	else if (_effectName == Tail_Slash)
+	{
+		newEffect = new EffectTail(1, 1, 0.5f);
+
+		AfterEffectInfo info;
+
+		info.startDeltaX = -5;
+		info.startDeltaY = -5;
+		info.endDeltaX = 5;
+		info.endDeltaY = 5;
+		info.effectName = Slash;
+
+		newEffect->AddAfterEffect(info);
+
+		info.startDeltaX = -5;
+		info.startDeltaY = 5;
+		info.endDeltaX = 5;
+		info.endDeltaY = -5;
+		info.effectName = Slash;
+
+		newEffect->AddAfterEffect(info);
+
+		info.startDeltaX = 8;
+		info.startDeltaY = 0;
+		info.endDeltaX = -8;
+		info.endDeltaY = 0;
+		info.effectName = Slash;
+
+		newEffect->AddAfterEffect(info);
+	}
+	else if (_effectName == Tail_Explosion_Slash)
+	{
+		newEffect = new EffectTail(1, 1, 0.5f);
+
+		AfterEffectInfo info(-2, -2, -2, -2, Explosion);
+
+		newEffect->AddAfterEffect(info);
+
+		info.startDeltaX = -5;
+		info.startDeltaY = -5;
+		info.endDeltaX = 5;
+		info.endDeltaY = 5;
+		info.effectName = Slash;
+
+		newEffect->AddAfterEffect(info);
+
+		info.startDeltaX = -5;
+		info.startDeltaY = 5;
+		info.endDeltaX = 5;
+		info.endDeltaY = -5;
+		info.effectName = Slash;
+
+		newEffect->AddAfterEffect(info);
+
+		info.startDeltaX = 8;
+		info.startDeltaY = 0;
+		info.endDeltaX = -8;
+		info.endDeltaY = 0;
+		info.effectName = Slash;
+
+		newEffect->AddAfterEffect(info);
 	}
 
 	return newEffect;

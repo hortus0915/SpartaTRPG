@@ -14,7 +14,7 @@ private:
 public:
 	EffectSlash(int _width, int _height, float _duration) : Effect(_width, _height, _duration)
 	{
-		image[0] = "@"; 
+		image[0] = "@";
 		image[1] = "@";
 		image[2] = "@";
 		image[3] = "@";
