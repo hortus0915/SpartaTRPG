@@ -8,7 +8,7 @@ class MapMovePlayer : public iMapMovable
 {
 private:
 	MapPopup* popup;
-	bool showPopup = false;
+	bool activeCheck = false;
 public:
 	MapMovePlayer(string _sn, MapData* _mapData);
 
@@ -23,6 +23,6 @@ public:
 	void MapInput();
 
 	void ObjectActive(TileType _tileType);
-	void CheckPopup();
+	void CheckActive();
 };
 

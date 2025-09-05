@@ -24,10 +24,10 @@ void MapMovePlayer::Update(float deltaTime)
 	{
 		MapInput();
 
-		if (!showPopup)
+		if (!activeCheck)
 		{
-			CheckPopup();
-			showPopup = true;
+			CheckActive();
+			activeCheck = true;
 		}
 	}
 }
@@ -67,18 +67,18 @@ void MapMovePlayer::PopupInput()
 	{
 		if (popup->CheckSelect())
 		{
-			popup->SetActive(TileType::Empty);
+			popup->SetActive(false);
 			ObjectActive(mapData->GetMapInfo(posX, posY));
 			MapImageSet();
 		}
 		else
 		{
-			popup->SetActive(TileType::Empty);
+			popup->SetActive(false);
 		}
 	}
 	if (KEYMANAGER->IsStayKeyDown(VK_BACK))
 	{
-		popup->SetActive(TileType::Empty);
+		popup->SetActive(false);
 	}
 }
 
@@ -87,22 +87,22 @@ void MapMovePlayer::MapInput()
 	if (KEYMANAGER->IsStayKeyDown(VK_LEFT))
 	{
 		MoveTo(-1, 0);
-		showPopup = false;
+		activeCheck = false;
 	}
 	if (KEYMANAGER->IsStayKeyDown(VK_RIGHT))
 	{
 		MoveTo(1, 0);
-		showPopup = false;
+		activeCheck = false;
 	}
 	if (KEYMANAGER->IsStayKeyDown(VK_UP))
 	{
 		MoveTo(0, -1);
-		showPopup = false;
+		activeCheck = false;
 	}
 	if (KEYMANAGER->IsStayKeyDown(VK_DOWN))
 	{
 		MoveTo(0, 1);
-		showPopup = false;
+		activeCheck = false;
 	}
 
 }
@@ -123,9 +123,6 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 		mapData->GetDungeonKey();
 		mapData->ObjectReset(posX, posY);
 		break;
-	case Shop:
-	case ShopActiveRange:
-		break;
 	case DungeonIn:
 		mapData->CreateMap(MapType::Dungeon);
 		break;
@@ -139,12 +136,33 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 	}
 }
 
-void MapMovePlayer::CheckPopup()
+void MapMovePlayer::CheckActive()
 {
 	auto mapInfo = mapData->GetMapInfo(posX, posY);
 	
-	if (popup->SetActive(mapInfo) == -1)
+	switch (mapInfo)
 	{
-		//mapData->GetTileFromPosition(posX, posY);
+	case Empty:
+	case Wall:
+	case Monster:
+	case MonsterActiveRange:
+		popup->SetActive(false);
+		break;
+	case Box:
+	case BoxActive:
+	case Key:
+	case DungeonIn:
+	case Shop:
+	case ShopActiveRange:
+		popup->SetActive();
+		break;
+	case Exit:
+		if (mapData->CheckDungeonKey())
+		{
+			popup->SetActive();
+		}
+		break;
+	default:
+		break;
 	}
 }
