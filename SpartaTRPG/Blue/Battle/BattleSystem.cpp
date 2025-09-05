@@ -7,8 +7,8 @@ void BattleSystem::MovoToCharacter(Side& _target)
 	int steps = _target.card->GetDamageRate();
 
 	Board::Pos& pos = *_target.pos;
-		
-	  u16 mask = _target.card->GetRange();
+
+	u16 mask = _target.card->GetRange();
 
 	const u16 RIGHT = (DIR_R | DIR_UR | DIR_DR);
 	const u16 LEFT = (DIR_L | DIR_UL | DIR_DL);
@@ -37,34 +37,40 @@ int BattleSystem::AttackToCharacter(Side& _attacker, Side& _target)
 	const int dx = _target.pos->x - _attacker.pos->x;
 	const int dy = _target.pos->y - _attacker.pos->y;
 
-	if (dx < -1 || dx > 1 || dy < -1 || dy > 1) return 0; 
+	if (dx < -1 || dx > 1 || dy < -1 || dy > 1) return 0;
 
-	const int bit = (dy + 1) * 3 + (dx + 1); 
+	const int bit = (dy + 1) * 3 + (dx + 1);
 	const u16 mask = _attacker.card->GetRange();
 
 	if ((mask & ((1u) << bit)) == 0) return 0;
 
 	const float baseAtk = _attacker.chr->GetBaseDamage();
 	float dmgF = baseAtk * _attacker.card->GetDamageRate();
-	if (_attacker.chr->IsCritical()) dmgF = _attacker.chr->CalcCriDamage(dmgF);
+	if (_attacker.chr->IsCritical()) 
+	{
+		cout << " 크리티컬! \n";
+		dmgF = _attacker.chr->CalcCriDamage(dmgF);
+	}
 
 	return (int)dmgF;
 }
 
-void BattleSystem::ShieldToCharacter(Side& _self, Side& _attacker, float _attackDamage)
+void BattleSystem::ShieldToCharacter(Side& _self, Side& _attacker, float _attackDamage, float& _outAttackDamage, float& _outCounterDamage)
 {
 	float shieldRate = _self.card->GetDamageRate();
 	int shieldDamage = 0;
-	
+
 	if (_self.chr->IsCounter())
-	{	
+	{
 		cout << " 카운터 발동! \n";
-		_attacker.chr->HitDamager(_attackDamage * 2.0f);
+		_outCounterDamage = _attackDamage * 2.0f;
+		_outAttackDamage = 0;
 	}
 	else
-	{	int shieldDamage = _attackDamage * (1.0f - shieldRate);
+	{	
+		int shieldDamage = _attackDamage * (1.0f - shieldRate);
 		cout << " 방어 후 데미지 : " << shieldDamage << "\n";
-		_self.chr->HitDamager(shieldDamage);
+		_outAttackDamage = shieldDamage;
 	}
 
 }
@@ -74,10 +80,10 @@ int BattleSystem::HealToCharacter(Side& _self)
 	const int healAmount = (int)_self.card->GetDamageRate();
 	const int ManaAmount = _self.card->GetStaminaCost();
 
-	 if (healAmount > 0) _self.chr->AddHP(healAmount);
-	 if (ManaAmount > 0) _self.chr->AddSP(ManaAmount);
+	if (healAmount > 0) _self.chr->AddHP(healAmount);
+	if (ManaAmount > 0) _self.chr->AddSP(ManaAmount);
 
-	 //test print
+	//test print
 	if (healAmount > 0) std::cout << " 체력+" << healAmount;
 	if (ManaAmount > 0) std::cout << " 마나+" << ManaAmount;
 	std::cout << "\n";

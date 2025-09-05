@@ -1,6 +1,7 @@
 #include "iCharacter.h"
 
 #include "CommonFuncs.h"
+#include <iostream>
 
 iCharacter::iCharacter()
 	:
@@ -37,6 +38,7 @@ float iCharacter::HitDamager(float damage)
 {
 	if (IsDodge()) 
 	{
+		std::cout << " 회피성공! \n";
 		return 0.0f; 
 	}
 
