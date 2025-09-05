@@ -68,11 +68,16 @@ int main() {
 		}
 		std::cout << "  0) 종료\n선택: ";
 
+		
+
 		int sel = 0;
 		if (!(std::cin >> sel)) return 0;
 		if (sel <= 0 || sel > (moveCards.size())) break;
 
+		
+
 		const Card* chosen = moveCards[sel - 1];
+		P.card = chosen;
 
 		switch (chosen->GetType())
 		{
