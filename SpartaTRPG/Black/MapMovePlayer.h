@@ -19,8 +19,10 @@ public:
 	void Render() override;
 	virtual void Release();
 
-	void ObjectActive(TileType _tileType);
+	void PopupInput();
+	void MapInput();
 
+	void ObjectActive(TileType _tileType);
 	void CheckPopup();
 };
 

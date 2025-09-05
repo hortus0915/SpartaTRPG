@@ -17,14 +17,14 @@ public:
 
 	void Update(float deltaTime) override;
 	void Render() override;
+	void SelectRender();
 
 	void Init();
-
 	void Release();
 
 	inline bool CheckActive() { return isActive; }
 	inline bool CheckSelect() { return isSelect; }
 	inline void Select(bool _isSelect) { isSelect = _isSelect; }
-	void SetActive(TileType tileType);
+	int SetActive(TileType tileType);
 };
 

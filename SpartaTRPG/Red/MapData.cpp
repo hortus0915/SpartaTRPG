@@ -42,13 +42,16 @@ void MapData::CreateMap(MapType _mapType)
     switch (mapType)
     {
     case Village:
+        dungeonLevel = 0;
         VillageMapSet();
         VillageObjectSet();
         break;
     case Dungeon:
+        dungeonLevel++;
         DungeonMapSet();
         DungeonObjectCreate();
         DungeonObjectLoad();
+        dungeonKey = false;
         break;
     default:
         break;
@@ -273,19 +276,20 @@ void MapData::DungeonObjectCreate()
         objects.second.clear();
     }
 
-    ObjectRandomSet(TileType::Monster, 5);
-    ObjectRandomSet(TileType::Box, 5);
-    ObjectRandomSet(TileType::Key, 1);
-    ObjectRandomSet(TileType::Exit, 1);
+    ObjectRandomSet(TileType::Monster, GetObjectCount(TileType::Monster));
+    ObjectRandomSet(TileType::Box, GetObjectCount(TileType::Box));
+    ObjectRandomSet(TileType::Key, GetObjectCount(TileType::Key));
+    ObjectRandomSet(TileType::Exit, GetObjectCount(TileType::Exit));
 }
 
 void MapData::DungeonObjectLoad()
 {
     for (auto objects : objectInfo)
     {
-        for (int i = 0; i < objects.second.size(); i++)
+        for (auto setObject : objects.second)
         {
-            ObjectSet(objects.first, objects.second[i]->GetFromIndexX(), objects.second[i]->GetFromIndexY());
+            if(setObject != nullptr)
+                ObjectSet(objects.first, setObject->GetFromIndexX(), setObject->GetFromIndexY());
         }
     }
 }
@@ -296,9 +300,10 @@ void MapData::VillageObjectSet()
     ObjectSet(TileType::DungeonIn, VILLAGE_WIDTH - 3, VILLAGE_HEIGHT / 2);
 } 
 
-void MapData::ObjectSet(TileType _tileType, int _fromIndexX, int _fromIndexY)
+void MapData::ObjectSet(TileType _tileType, int _fromIndexX, int _fromIndexY, int range)
 {
-    int range = GetRange(_tileType);
+    if(range == -1)
+        range = GetRange(_tileType);
 
     if (range != 0)
     {
@@ -352,7 +357,7 @@ void MapData::ObjectRandomSet(TileType _tileType, int _count)
         }
 
         TileSet(_tileType, posX, posY, posX, posY);
-        objects.push_back(&(mapInfo[posX][posY]));
+        objects.insert(& (mapInfo[posX][posY]));
     }
 }
 
@@ -380,6 +385,24 @@ int MapData::GetRange(TileType _tileType)
     default:
         return 0;
     }
+}
+
+int MapData::GetObjectCount(TileType _tileType)
+{
+    switch (_tileType)
+    {
+    case Exit:
+        return 1;
+    case Box:
+        return dungeonLevel + 3;
+    case Key:
+        return 1;
+    case Monster:
+        return dungeonLevel + 8;
+    default:
+        return 0;
+    }
+    return 0;
 }
 
 char MapData::GetMapData(int posX, int posY)
@@ -426,6 +449,34 @@ TileType MapData::GetMapInfo(int posX, int posY)
     }
 
     return mapInfo[posX][posY].GetTileType();
+}
+
+void MapData::ObjectReset(int posX, int posY)
+{
+    if (posX < 0 || posX > GetMapWidth() - 1 || posY < 0 || posY > GetMapHeight() - 1)
+        return;
+
+    auto nowTile = mapInfo[posX][posY];
+    auto fromTile = mapInfo[nowTile.GetFromIndexX()][nowTile.GetFromIndexY()];
+    auto objects = objectInfo.find(fromTile.GetTileType());
+    objects->second.erase(&fromTile);
+
+    ObjectSet(TileType::Empty, nowTile.GetFromIndexX(), nowTile.GetFromIndexY(), GetRange(nowTile.GetTileType()));
+    DungeonObjectLoad();
+}
+
+std::pair<int, int> MapData::GetTileFromPosition(int posX, int posY)
+{
+    std::pair<int, int> ret = std::pair<int, int>();
+
+    if (posX < 0 || posX > GetMapWidth() - 1 || posY < 0 || posY > GetMapHeight() - 1)
+        return ret;
+
+    auto nowTile = mapInfo[posX][posY];
+    ret.first = nowTile.GetFromIndexX();
+    ret.second = nowTile.GetFromIndexY();
+
+    return ret;
 }
 
 const int MapData::GetMapWidth(MapType _mapType)

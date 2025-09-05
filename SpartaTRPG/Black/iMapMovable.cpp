@@ -62,6 +62,7 @@ void iMapMovable::MoveTo(int deltaX, int deltaY)
 	posX += deltaX;
 	posY += deltaY;
 
+	SOUNDMANAGER->PlaySfx(Text("RunSound.wav"), 0.1f);
 	MapImageSet();
 }
 
@@ -116,9 +117,5 @@ bool iMapMovable::IsCanMove(int _targetX, int _targetY)
 
 void iMapMovable::Render()
 {
-	if (isNewRender)
-	{
-		SCENEMANAGER->RenderToBackbuffer(0, 0, MAX_SCREEN_WIDTH, MAX_SCREEN_HEIGTH, image, charColor, bgColor);
-		isNewRender = false;
-	}
+	SCENEMANAGER->RenderToBackbuffer(0, 0, MAX_SCREEN_WIDTH, MAX_SCREEN_HEIGTH, image, charColor, bgColor);
 }

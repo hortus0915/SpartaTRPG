@@ -18,54 +18,11 @@ void MapMovePlayer::Update(float deltaTime)
 {
 	if (popup->CheckActive())
 	{
-		if (KEYMANAGER->IsStayKeyDown(VK_LEFT))
-		{
-			popup->Select(true);
-		}
-		if (KEYMANAGER->IsStayKeyDown(VK_RIGHT))
-		{
-			popup->Select(false);
-		}
-		if (KEYMANAGER->IsStayKeyDown(VK_RETURN))
-		{
-			if (popup->CheckSelect())
-			{
-				popup->SetActive(TileType::Empty);
-				ObjectActive(mapData->GetMapInfo(posX, posY));
-				MapImageSet();
-			}
-			else
-			{
-				popup->SetActive(TileType::Empty);
-			}
-		}
-		if (KEYMANAGER->IsStayKeyDown(VK_BACK))
-		{
-			popup->SetActive(TileType::Empty);
-		}
+		PopupInput();
 	}
 	else
 	{
-		if (KEYMANAGER->IsStayKeyDown(VK_LEFT))
-		{
-			MoveTo(-1, 0);
-			showPopup = false;
-		}
-		if (KEYMANAGER->IsStayKeyDown(VK_RIGHT))
-		{
-			MoveTo(1, 0);
-			showPopup = false;
-		}
-		if (KEYMANAGER->IsStayKeyDown(VK_UP))
-		{
-			MoveTo(0, -1);
-			showPopup = false;
-		}
-		if (KEYMANAGER->IsStayKeyDown(VK_DOWN))
-		{
-			MoveTo(0, 1);
-			showPopup = false;
-		}
+		MapInput();
 
 		if (!showPopup)
 		{
@@ -96,21 +53,75 @@ void MapMovePlayer::Release()
 	}
 }
 
+void MapMovePlayer::PopupInput()
+{
+	if (KEYMANAGER->IsStayKeyDown(VK_LEFT))
+	{
+		popup->Select(true);
+	}
+	if (KEYMANAGER->IsStayKeyDown(VK_RIGHT))
+	{
+		popup->Select(false);
+	}
+	if (KEYMANAGER->IsStayKeyDown(VK_RETURN))
+	{
+		if (popup->CheckSelect())
+		{
+			popup->SetActive(TileType::Empty);
+			ObjectActive(mapData->GetMapInfo(posX, posY));
+			MapImageSet();
+		}
+		else
+		{
+			popup->SetActive(TileType::Empty);
+		}
+	}
+	if (KEYMANAGER->IsStayKeyDown(VK_BACK))
+	{
+		popup->SetActive(TileType::Empty);
+	}
+}
+
+void MapMovePlayer::MapInput()
+{
+	if (KEYMANAGER->IsStayKeyDown(VK_LEFT))
+	{
+		MoveTo(-1, 0);
+		showPopup = false;
+	}
+	if (KEYMANAGER->IsStayKeyDown(VK_RIGHT))
+	{
+		MoveTo(1, 0);
+		showPopup = false;
+	}
+	if (KEYMANAGER->IsStayKeyDown(VK_UP))
+	{
+		MoveTo(0, -1);
+		showPopup = false;
+	}
+	if (KEYMANAGER->IsStayKeyDown(VK_DOWN))
+	{
+		MoveTo(0, 1);
+		showPopup = false;
+	}
+
+}
+
 void MapMovePlayer::ObjectActive(TileType _tileType)
 {
 	switch (_tileType)
 	{
-	case Empty:
-		break;
-	case Wall:
-		break;
 	case Exit:
+		mapData->CreateMap(MapType::Dungeon);
 		break;
 	case Box:
-		break;
 	case BoxActive:
+		//¾ÆÀÌÅÛ È¹µæ
+		mapData->ObjectReset(posX, posY);
 		break;
 	case Key:
+		mapData->GetDungeonKey();
+		mapData->ObjectReset(posX, posY);
 		break;
 	case Shop:
 	case ShopActiveRange:
@@ -120,6 +131,8 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 		break;
 	case Monster:
 	case MonsterActiveRange:
+		//ÀüÅõ ¾ÀÀ¸·Î ÀÌµ¿
+		mapData->ObjectReset(posX, posY);
 		break;
 	default:
 		break;
@@ -129,5 +142,9 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 void MapMovePlayer::CheckPopup()
 {
 	auto mapInfo = mapData->GetMapInfo(posX, posY);
-	popup->SetActive(mapInfo);
+	
+	if (popup->SetActive(mapInfo) == -1)
+	{
+		//mapData->GetTileFromPosition(posX, posY);
+	}
 }

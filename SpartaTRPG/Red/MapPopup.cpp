@@ -8,9 +8,21 @@ void MapPopup::Update(float deltaTime)
 void MapPopup::Render()
 {
 	SCENEMANAGER->RenderToBackbuffer((MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) / 2, (MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) / 2, MAPPOPUP_WIDTH, MAPPOPUP_HEIGHT, image);
-	string test = "   \n";
-	SCENEMANAGER->RenderToBackbuffer((MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) + 15, (MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) + MAPPOPUP_HEIGHT - 7, 3, 1, &test, GREEN, GREEN);
-	SCENEMANAGER->RenderToBackbuffer((MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) + 45, (MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) + MAPPOPUP_HEIGHT - 7, 3, 1, &test, RED, RED);
+	SelectRender();
+}
+
+void MapPopup::SelectRender()
+{
+	string yes = "¾È³çÇÏ¼¼¿ä";
+	string no = "[no ]";
+	SCENEMANAGER->RenderToBackbuffer((MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) + 12, (MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) + MAPPOPUP_HEIGHT - 7, yes.size(), 1, &yes);
+	SCENEMANAGER->RenderToBackbuffer((MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) + 44, (MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) + MAPPOPUP_HEIGHT - 7, no.size(), 1, &no);
+	string temp = "   \n";
+
+	if (isSelect)
+		SCENEMANAGER->RenderToBackbuffer((MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) + 13, (MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) + MAPPOPUP_HEIGHT - 7, 3, 1, &temp, GREEN, GREEN);
+	else
+		SCENEMANAGER->RenderToBackbuffer((MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) + 45, (MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) + MAPPOPUP_HEIGHT - 7, 3, 1, &temp, RED, RED);
 }
 
 MapPopup::MapPopup(string _targetSceneName)
@@ -42,39 +54,31 @@ void MapPopup::Release()
 	SAFE_DELETE_ARR(image)
 }
 
-void MapPopup::SetActive(TileType tileType)
+int MapPopup::SetActive(TileType tileType)
 {
+	isSelect = false;
 	switch (tileType)
 	{
 	case Empty:
 	case Wall:
 	case Box:
 	case Shop:
-	case Monster:
 		isActive = false;
-		break;
-	case Exit:
-		isActive = true;
-		break;
-	case BoxActive:
-		isActive = true;
-		break;
-	case Key:
-		isActive = true;
-		break;
+		return 0;
+	case Monster:
 	case MonsterActiveRange:
-		isActive = true;
-		break;
+		isActive = false;
+		return -1;
+	case Exit:
+	case BoxActive:
+	case Key:
 	case ShopActiveRange:
-		isActive = true;
-		break;
 	case DungeonIn:
 		isActive = true;
-		break;
+		return 1;
 	default:
-		break;
+		return 0;
 	}
-
 }
 
 
