@@ -35,11 +35,15 @@ void iCharacter::Init(float _hp, float _baseDamage, float _sp, float _criPer, fl
 
 float iCharacter::HitDamager(float damage)
 {
-	float realDamage = (IsCritical() ? CalcCriDamage(damage) : damage);
+	if (IsDodge()) 
+	{
+		return 0.0f; 
+	}
 
-	currentHP = (currentHP - damage) < 0 ? 0.0f : currentHP - realDamage;
+	currentHP = (currentHP - damage) < 0 ? 0.0f : currentHP - damage;
 
-	return realDamage;
+
+	return currentHP;
 }
 
 bool iCharacter::IsCritical()
@@ -47,6 +51,13 @@ bool iCharacter::IsCritical()
 	float rnd = GetFloatRange(0.0f, 100.0f);
 
 	return rnd <= criPer;
+}
+
+bool iCharacter::IsCounter()
+{
+	float rnd = GetFloatRange(0.0f, 100.0f);
+
+	return rnd <= counter;
 }
 
 float iCharacter::CalcCriDamage(float _originDamage)
@@ -61,7 +72,7 @@ bool iCharacter::IsDodge()
 	return rnd < dodge;
 }
 
- void iCharacter::AddHP(int _amount)
+void iCharacter::AddHP(int _amount)
 {
 	int current = (int)currentHP + _amount;
 
@@ -69,7 +80,7 @@ bool iCharacter::IsDodge()
 
 }
 
- void iCharacter::AddSP(int _amount)
+void iCharacter::AddSP(int _amount)
 {
 	int current = (int)currentSP + _amount;
 	currentSP = (current > (int)maxSP ? maxSP : current);

@@ -32,6 +32,7 @@ public:
 	virtual float HitDamager(float damage);
 
 	virtual bool IsCritical();
+	virtual bool IsCounter();
 	virtual float CalcCriDamage(float originDamage);
 
 	virtual bool IsDodge();

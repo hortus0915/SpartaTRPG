@@ -58,7 +58,6 @@ int main() {
 			moveCards.push_back(c);
 		}
 
-
 		std::cout << "\n카드 목록:\n";
 		for (size_t i = 0; i < moveCards.size(); ++i) {
 			const Card* c = moveCards[i];
@@ -68,40 +67,70 @@ int main() {
 		}
 		std::cout << "  0) 종료\n선택: ";
 
-		
-
 		int sel = 0;
 		if (!(std::cin >> sel)) return 0;
 		if (sel <= 0 || sel > (moveCards.size())) break;
 
-		
-
 		const Card* chosen = moveCards[sel - 1];
 		P.card = chosen;
 
-		switch (chosen->GetType())
-		{
-		case MOVE:
-			std::cout << "\n→ 이동 카드 선택: ";
-			sys.MovoToCharacter(P);
-			std::cout << "\n→ 이동 완료: P(" << pPos.x << "," << pPos.y << ")\n";
-			break;
-		case ATTACK:
-			std::cout << "\n→ 공격 카드 선택: ";
-			damage = sys.AttackToCharacter(P, M);
-			std::cout << "\n→ 공격 시도: 데미지 " << damage << "\n";
-			break;
-		case SHIELD:
-			std::cout << "\n→ 방어 카드 선택: (테스트 미구현)\n";
-			break;
-		case HEAL:
-			std::cout << "\n→ 회복 카드 선택: \n";
-			sys.HealToCharacter(P);
-			break;
+		float playerAttackDamage = 0;
+		float monsterAttackDamage = 0;
 
-		default:
-			break;
+		if ( P.card->GetType() == MOVE) {
+			std::cout << "[P 이동] "; sys.MovoToCharacter(P); cout << "\n";
 		}
+		if ( M.card->GetType() == MOVE) {
+			std::cout << "[M 이동] "; sys.MovoToCharacter(M); cout << "\n";
+		}
+
+		if (P.card->GetType() == HEAL)
+		{
+			std::cout << "[P 회복] "; sys.HealToCharacter(P);
+		}
+		if (M.card->GetType() == HEAL)
+		{
+			std::cout << "[M 회복] "; sys.HealToCharacter(M);
+		}
+
+		if (P.card->GetType() == ATTACK)
+		{
+			playerAttackDamage = (float)sys.AttackToCharacter(P, M);
+			if (playerAttackDamage > 0)
+			{
+				std::cout << "[P 공격] " << "데미지 :" << playerAttackDamage;
+				if (M.card->GetType() == SHIELD)
+				{
+					sys.ShieldToCharacter(M, P, playerAttackDamage);
+				}
+			}
+			else
+			{
+				std::cout << "[P 공격] " << "범위 밖! ";
+			}
+		
+		}
+		
+		if (M.card->GetType() == ATTACK)
+		{
+			monsterAttackDamage = (float)sys.AttackToCharacter(M, P);
+			if (monsterAttackDamage > 0)
+			{
+				std::cout << "[M 공격] " << "데미지 :" << monsterAttackDamage;
+				if (P.card->GetType() == SHIELD)
+				{
+					sys.ShieldToCharacter(P, M, monsterAttackDamage);
+				}
+				P.chr->HitDamager(monsterAttackDamage);
+
+			
+			}
+			else
+			{
+				std::cout << "[M 공격] " << "범위 밖! ";
+			}
+		}
+
 
 
 	}

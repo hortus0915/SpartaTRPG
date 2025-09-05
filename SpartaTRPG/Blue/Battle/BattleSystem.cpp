@@ -51,11 +51,22 @@ int BattleSystem::AttackToCharacter(Side& _attacker, Side& _target)
 	return (int)dmgF;
 }
 
-int BattleSystem::ShieldToCharacter(Side& _self)
+void BattleSystem::ShieldToCharacter(Side& _self, Side& _attacker, float _attackDamage)
 {
 	float shieldRate = _self.card->GetDamageRate();
+	int shieldDamage = 0;
+	
+	if (_self.chr->IsCounter())
+	{	
+		cout << " 카운터 발동! \n";
+		_attacker.chr->HitDamager(_attackDamage * 2.0f);
+	}
+	else
+	{	int shieldDamage = _attackDamage * (1.0f - shieldRate);
+		cout << " 방어 후 데미지 : " << shieldDamage << "\n";
+		_self.chr->HitDamager(shieldDamage);
+	}
 
-	return 0;
 }
 
 int BattleSystem::HealToCharacter(Side& _self)

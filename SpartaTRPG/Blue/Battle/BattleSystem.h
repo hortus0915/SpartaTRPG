@@ -15,9 +15,9 @@ struct BattleSystem {
 		const Card* card;
 	};
 
-	void MovoToCharacter(Side& target);
-	int AttackToCharacter(Side& attacker, Side& defender);
-	int ShieldToCharacter(Side& _self);
+	void MovoToCharacter(Side& _target);
+	int AttackToCharacter(Side& _attacker, Side& _defender);
+	void ShieldToCharacter(Side& _self,Side& _attacker,float _attackDamage);
 	int HealToCharacter(Side& _self);
 
 };
