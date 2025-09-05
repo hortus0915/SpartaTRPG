@@ -24,7 +24,7 @@ if (p)						\
 	p = nullptr;			\
 }							\
 
-#define MAX_SCREEN_WIDTH  100
+#define MAX_SCREEN_WIDTH  101
 #define MAX_SCREEN_HEIGTH 25
 #define TITLE "Spartaaaaaaaaaaaaaaa!!!!!!!!!!!"
 

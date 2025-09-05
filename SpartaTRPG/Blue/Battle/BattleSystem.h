@@ -12,7 +12,7 @@ struct BattleSystem {
 		iCharacter* chr;
 		std::set<int>* deck;
 		Board::Pos* pos;
-		Card* card;
+		const Card* card;
 	};
 
 	void MovoToCharacter(Side& target);
