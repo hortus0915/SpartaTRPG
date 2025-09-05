@@ -1,12 +1,12 @@
 #include "MapMovePlayer.h"
 
 #include "Singletons/CommonManagers.h"
-#include "../Red/MapPopup.h"
+#include "../Red/SelectPopup.h"
 #include "../Red/MapData.h"
 
 MapMovePlayer::MapMovePlayer(string _sn, MapData* _mapData) : iMapMovable(_sn, _mapData)
 {
-	popup = new MapPopup(_sn);
+	popup = new SelectPopup(_sn);
 }
 
 void MapMovePlayer::Init(Color _characterColor, Color _bgColor)

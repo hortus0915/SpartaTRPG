@@ -2,12 +2,12 @@
 #include "iMapMovable.h"
 #include "../Red/TileInfo.h"
 
-class MapPopup;
+class SelectPopup;
 
 class MapMovePlayer : public iMapMovable
 {
 private:
-	MapPopup* popup;
+	SelectPopup* popup;
 	bool activeCheck = false;
 public:
 	MapMovePlayer(string _sn, MapData* _mapData);

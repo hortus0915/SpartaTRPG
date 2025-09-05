@@ -8,6 +8,8 @@ private:
 	void SelectRender();
 
 public:
+	SelectPopup(string _targetScene) : Popup(_targetScene) {}
+
 	virtual void Render() override;
 	virtual void Init() override;
 
