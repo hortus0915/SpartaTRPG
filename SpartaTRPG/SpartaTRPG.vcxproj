@@ -146,7 +146,9 @@
     <ClCompile Include="Black\Singletons\Scenes\EndingScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\GameScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\MinigameScene.cpp" />
-    <ClCompile Include="Black\Singletons\Scenes\TitleScene.cpp" />
+    <ClCompile Include="Black\Singletons\Scenes\TitleScene.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Black\Singletons\SoundManager.cpp" />
     <ClCompile Include="Black\Singletons\TimeManager.cpp" />
     <ClCompile Include="Black\Singletons\Timer.cpp" />
@@ -158,7 +160,8 @@
     <ClCompile Include="Blue\Card\CardDB.cpp" />
     <ClCompile Include="Red\MapCreateTileInfo.cpp" />
     <ClCompile Include="Red\MapData.cpp" />
-    <ClCompile Include="Red\MapPopup.cpp" />
+    <ClCompile Include="Red\Popup.cpp" />
+    <ClCompile Include="Red\SelectPopup.cpp" />
     <ClCompile Include="Red\TileInfo.cpp" />
     <ClCompile Include="SpartaTRPG.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -187,7 +190,6 @@
     <ClInclude Include="Black\Singletons\SceneInterface.h" />
     <ClInclude Include="Black\Singletons\SceneManager.h" />
     <ClInclude Include="Black\Singletons\Scenes.h" />
-    <ClInclude Include="Black\Singletons\Scenes\BattleScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\DungeonScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\EndingScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\GameScene.h" />
@@ -198,11 +200,14 @@
     <ClInclude Include="Black\Singletons\TimeManager.h" />
     <ClInclude Include="Black\Singletons\Timer.h" />
     <ClInclude Include="Black\TestScene.h" />
+    <ClInclude Include="Blue\Battle\BattleSystem.h" />
     <ClInclude Include="Blue\Card\CardData.h" />
     <ClInclude Include="Blue\Card\CardDB.h" />
     <ClInclude Include="Red\MapCreateTileInfo.h" />
     <ClInclude Include="Red\MapData.h" />
-    <ClInclude Include="Red\MapPopup.h" />
+    <ClInclude Include="Red\Popup.h" />
+    <ClInclude Include="Red\PopupType.h" />
+    <ClInclude Include="Red\SelectPopup.h" />
     <ClInclude Include="Red\TileInfo.h" />
     <ClInclude Include="Red\TileType.h" />
   </ItemGroup>

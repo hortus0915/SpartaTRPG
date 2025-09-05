@@ -8,6 +8,9 @@ private:
 	void SelectRender();
 
 public:
+
+	SelectPopup(string _targetSecene) : Popup(_targetSecene) {}
+
 	virtual void Render() override;
 	virtual void Init() override;
 
