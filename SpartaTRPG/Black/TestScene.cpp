@@ -4,11 +4,13 @@
 #include "CommonMacros.h"
 
 #include "TextColors.h"
+#include "../Red/MapData.h"
 
 int TestScene::Init()
 {
-	player = new MapMovePlayer(sceneName);
-	player->Init(1, 1, 3, 3, GREEN, CYAN);
+	map = new MapData();
+	player = new MapMovePlayer(sceneName, map);
+	player->Init(WHITE, BLACK);
 
 	return 0;
 }
@@ -16,6 +18,7 @@ int TestScene::Init()
 void TestScene::Release()
 {
 	SAFE_DELETE(player);
+	SAFE_DELETE(map);
 }
 
 void TestScene::Update(float _deltaTime)
