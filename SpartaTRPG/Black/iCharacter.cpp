@@ -3,6 +3,8 @@
 #include "CommonFuncs.h"
 #include <iostream>
 
+#include "DevBlack.h"
+
 iCharacter::iCharacter()
 	:
 	currentHP(0.0f),
@@ -38,7 +40,13 @@ float iCharacter::HitDamager(float damage, void* OnHit(void))
 {
 	if (IsDodge()) 
 	{
+#ifdef DEV_BLACK
+
+
+
+#else
 		std::cout << " 회피성공! \n";
+#endif
 		return 0.0f; 
 	}
 
