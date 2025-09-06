@@ -3,9 +3,9 @@
 #include "../../Black/CommonMacros.h"
 #include "../../Black/MainGame.h"
 #include "../BasicInterfaces.h"
-#include "../../Red/Popup.h"
 #include "../../Red/ResultPopup.h"
 #include "../../Red/SelectPopup.h"
+#include "../../Red/ShopPopup.h"
 
 PopupManager* PopupManager::instance = nullptr;
 
@@ -23,6 +23,7 @@ void PopupManager::Init(MainGame* _mg)
 
 	mPopupList.insert(make_pair(PopupType::RESULTPOPUP, new ResultPopup()));
 	mPopupList.insert(make_pair(PopupType::SELECTPOPUP, new SelectPopup()));
+	mPopupList.insert(make_pair(PopupType::SHOPPOPUP, new ShopPopup()));
 }
 
 void PopupManager::Render()

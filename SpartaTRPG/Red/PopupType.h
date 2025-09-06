@@ -6,7 +6,7 @@ enum class PopupType
 {
 	RESULTPOPUP,
 	SELECTPOPUP,
-	//SHOPPOPUP,
+	SHOPPOPUP,
 	//INVENTORY,
 };
 

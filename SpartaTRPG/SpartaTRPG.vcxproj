@@ -167,6 +167,7 @@
     <ClCompile Include="Red\Popup.cpp" />
     <ClCompile Include="Red\ResultPopup.cpp" />
     <ClCompile Include="Red\SelectPopup.cpp" />
+    <ClCompile Include="Red\ShopPopup.cpp" />
     <ClCompile Include="Red\TileInfo.cpp" />
     <ClCompile Include="SpartaTRPG.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -219,6 +220,7 @@
     <ClInclude Include="Red\PopupType.h" />
     <ClInclude Include="Red\ResultPopup.h" />
     <ClInclude Include="Red\SelectPopup.h" />
+    <ClInclude Include="Red\ShopPopup.h" />
     <ClInclude Include="Red\TileInfo.h" />
     <ClInclude Include="Red\TileType.h" />
   </ItemGroup>

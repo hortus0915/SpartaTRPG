@@ -23,7 +23,8 @@ void Popup::Update(float deltaTime)
 	}
 	if (KEYMANAGER->IsStayKeyDown(VK_UP))
 	{
-		customStringIndex++;
+		if(hasCustonStringMore)
+			customStringIndex++;
 	}
 }
 
@@ -40,7 +41,7 @@ void Popup::SetPopupActiveCallback(ActiveCallback cb, void* user)
 
 Popup::Popup()
 {
-	customString = nullptr;
+	VariableInit();
 	image = new char* [MAPPOPUP_HEIGHT];
 	for (int i = 0; i < MAPPOPUP_HEIGHT; ++i)
 	{
@@ -91,17 +92,29 @@ void Popup::SetCustomStringPadding(int _leftPadding, int _rightPadding, int _upP
 	downPadding = _downPadding;
 }
 
+void Popup::VariableInit()
+{
+	customString = nullptr;
+	hasCustonStringMore = false;
+	isActive = false;
+	selectValue = 0;
+	customStringIndex = 0;
+	leftPadding = 0;
+	rightPadding = 0;
+	upPadding = 0;
+	downPadding = 0;
+}
+
 void Popup::RenderingCustomString()
 {
 	if (customString)
 	{
 		int moreLine = 0;
-		bool hasMore = false;
 		for (int i = customStringIndex; i < (*customString).size(); i++)
 		{
 			if (i + moreLine + upPadding + downPadding >= POPUPSTRING_MAXHEIGHT - 1) 
 			{
-				hasMore = true;
+				hasCustonStringMore = true;
 				break;
 			}
 
@@ -119,7 +132,7 @@ void Popup::RenderingCustomString()
 				{
 					if (i + moreLine + upPadding + downPadding >= POPUPSTRING_MAXHEIGHT - 1)
 					{
-						hasMore = true;
+						hasCustonStringMore = true;
 						return;
 					}
 					size_t take = std::min<size_t>(MAPPOPUP_WIDTH - 2 - rightPadding - leftPadding, (*customString)[i].size() - pos);
@@ -138,10 +151,10 @@ void Popup::RenderingCustomString()
 				}
 			}
 
-			if (hasMore) break;
+			if (hasCustonStringMore) break;
 		}
 
-		if (hasMore) {
+		if (hasCustonStringMore) {
 			const int maxW = MAPPOPUP_WIDTH - 2 - rightPadding - leftPadding;
 			const int arrowX =
 				(MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) / 2 + 1 + leftPadding + maxW / 2;
@@ -156,6 +169,8 @@ void Popup::RenderingCustomString()
 
 void Popup::Init()
 {
+	VariableInit();
+
 	SOUNDMANAGER->PlaySfx(TEXT("Buff1.wav"));
 
 	if (customString)

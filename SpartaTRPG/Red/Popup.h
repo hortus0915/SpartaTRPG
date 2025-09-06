@@ -15,17 +15,18 @@ public:
 
 protected:
 	char** image;
-	bool isActive = false;
+	bool isActive;
+	bool hasCustonStringMore;
 
-	int selectValue = 0;
+	int selectValue;
 
 	vector<string>* customString;
-	int customStringIndex = 0;
+	int customStringIndex;
 
-	int leftPadding = 0;
-	int rightPadding = 0;
-	int upPadding = 0;
-	int downPadding = 0;
+	int leftPadding;
+	int rightPadding;
+	int upPadding;
+	int downPadding;
 
 	void InvokeActive(int v) {
 		if (active_cb_) active_cb_(v, active_user_);
@@ -49,5 +50,6 @@ public:
 	void RenderingCustomString();
 	void SetCustonStrings(vector<string>* _customString);
 	void SetCustomStringPadding(int _leftPadding = 0, int _rightPadding = 0, int _upPadding = 0, int _downPadding = 0);
+	void VariableInit();
 };
 
