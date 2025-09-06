@@ -63,5 +63,6 @@ public:
 	const int GetMapWidth(MapType _mapType = MapType::NoneSelect);
 	const int GetMapHeight(MapType _mapType = MapType::NoneSelect);
 	inline void GetDungeonKey() { dungeonKey = true; }
+	inline bool CheckDungeonKey() { return dungeonKey; }
 };
 
