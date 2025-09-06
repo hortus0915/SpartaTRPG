@@ -1,6 +1,9 @@
 #include "iCharacter.h"
 
 #include "CommonFuncs.h"
+#include <iostream>
+
+#include "DevBlack.h"
 
 iCharacter::iCharacter()
 	:
@@ -35,16 +38,26 @@ void iCharacter::Init(float _hp, float _baseDamage, float _sp, float _criPer, fl
 
 float iCharacter::HitDamager(float damage, void* OnHit(void))
 {
-	float realDamage = (IsCritical() ? CalcCriDamage(damage) : damage);
+	if (IsDodge()) 
+	{
+#ifdef DEV_BLACK
 
-	currentHP = (currentHP - damage) < 0 ? 0.0f : currentHP - realDamage;
+
+
+#else
+		std::cout << " 회피성공! \n";
+#endif
+		return 0.0f; 
+	}
+
+	currentHP = (currentHP - damage) < 0 ? 0.0f : currentHP - damage;
 
 	if (OnHit)
 	{
 		OnHit();
 	}
 
-	return realDamage;
+	return damage;
 }
 
 bool iCharacter::IsCritical()
@@ -52,6 +65,13 @@ bool iCharacter::IsCritical()
 	float rnd = GetFloatRange(0.0f, 100.0f);
 
 	return rnd <= criPer;
+}
+
+bool iCharacter::IsCounter()
+{
+	float rnd = GetFloatRange(0.0f, 100.0f);
+
+	return rnd <= counter;
 }
 
 float iCharacter::CalcCriDamage(float _originDamage)
