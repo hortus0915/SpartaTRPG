@@ -16,6 +16,15 @@ void Popup::Update(float deltaTime)
 			POPUPMANAGER->PopupActiveOff();
 		}
 	}
+	if (KEYMANAGER->IsStayKeyDown(VK_DOWN))
+	{
+		if (customStringIndex > 0)
+			customStringIndex--;
+	}
+	if (KEYMANAGER->IsStayKeyDown(VK_UP))
+	{
+		customStringIndex++;
+	}
 }
 
 void Popup::Render()
@@ -87,15 +96,19 @@ void Popup::RenderingCustomString()
 	if (customString)
 	{
 		int moreLine = 0;
+		bool hasMore = false;
 		for (int i = customStringIndex; i < (*customString).size(); i++)
 		{
-			if (i + moreLine + upPadding + downPadding >= POPUPSTRING_MAXHEIGHT - 1)
-				return;
+			if (i + moreLine + upPadding + downPadding >= POPUPSTRING_MAXHEIGHT - 1) 
+			{
+				hasMore = true;
+				break;
+			}
 
 			if ((*customString)[i].size() < MAPPOPUP_WIDTH - 2 - rightPadding)
 				SCENEMANAGER->RenderToBackbuffer(
 					(MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) / 2 + 1 + leftPadding,
-					(MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) / 2 + 1 + i + moreLine + upPadding,
+					(MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) / 2 + 1 + i + moreLine + upPadding - customStringIndex,
 					MAPPOPUP_WIDTH - 2 - rightPadding - leftPadding,
 					1,
 					(*customString)[i]);
@@ -105,12 +118,14 @@ void Popup::RenderingCustomString()
 				while (pos < (*customString)[i].size())
 				{
 					if (i + moreLine + upPadding + downPadding >= POPUPSTRING_MAXHEIGHT - 1)
+					{
+						hasMore = true;
 						return;
-
+					}
 					size_t take = std::min<size_t>(MAPPOPUP_WIDTH - 2 - rightPadding - leftPadding, (*customString)[i].size() - pos);
 					SCENEMANAGER->RenderToBackbuffer(
 						(MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) / 2 + 1 + leftPadding,
-						(MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) / 2 + 1 + i + moreLine + upPadding,
+						(MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) / 2 + 1 + i + moreLine + upPadding - customStringIndex,
 						MAPPOPUP_WIDTH - 2 - rightPadding - leftPadding,
 						1,
 						(*customString)[i].substr(pos, take)
@@ -122,6 +137,19 @@ void Popup::RenderingCustomString()
 						++moreLine;
 				}
 			}
+
+			if (hasMore) break;
+		}
+
+		if (hasMore) {
+			const int maxW = MAPPOPUP_WIDTH - 2 - rightPadding - leftPadding;
+			const int arrowX =
+				(MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) / 2 + 1 + leftPadding + maxW / 2;
+			const int arrowY =
+				(MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) / 2 + 1 + upPadding
+				+ (POPUPSTRING_MAXHEIGHT - 1 - (upPadding + downPadding));
+
+			SCENEMANAGER->RenderToBackbuffer(arrowX, arrowY, 1, 1, "v");
 		}
 	}
 }
