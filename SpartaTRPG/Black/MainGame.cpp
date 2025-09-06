@@ -38,6 +38,7 @@ void MainGame::Init()
 
 	TIMEMANAGER->Init();
 	SCENEMANAGER->Init(this);
+	POPUPMANAGER->Init(this);
 
 	stringstream stream;
 	string mode;
@@ -49,6 +50,8 @@ void MainGame::Init()
 
 	SAFE_RELEASE_DELETE(doubleBuffer);
 	doubleBuffer = new DoubleBuffering(screen.appWidth, screen.appHeight);
+
+
 
 #pragma region Scene Test Code
 
@@ -70,6 +73,7 @@ void MainGame::Init()
 void MainGame::Update(float _deltaTime)
 {
 	SCENEMANAGER->Update(_deltaTime);
+	POPUPMANAGER->Update(_deltaTime);
 	EFFECTMANAGER->Update(_deltaTime);
 }
 
@@ -95,6 +99,7 @@ void MainGame::Render()
 	//}
 
 	SCENEMANAGER->Render();
+	POPUPMANAGER->Render();
 	EFFECTMANAGER->Render();
 
 	doubleBuffer->BufferFlipping();

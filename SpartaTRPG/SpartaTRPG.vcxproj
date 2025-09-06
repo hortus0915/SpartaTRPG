@@ -140,6 +140,7 @@
     <ClCompile Include="Black\Singletons\Effects\EffectSlash.cpp" />
     <ClCompile Include="Black\Singletons\Effects\EffectTail.cpp" />
     <ClCompile Include="Black\Singletons\KeyManager.cpp" />
+    <ClCompile Include="Black\Singletons\PopupManager.cpp" />
     <ClCompile Include="Black\Singletons\SceneInterface.cpp" />
     <ClCompile Include="Black\Singletons\SceneManager.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\BattleScene.cpp" />
@@ -155,7 +156,7 @@
     <ClCompile Include="Black\Singletons\Timer.cpp" />
     <ClCompile Include="Black\TestScene.cpp" />
     <ClCompile Include="Black_TestMain.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Blue\Battle\BattleSystem.cpp" />
     <ClCompile Include="Blue\Battle\Board.cpp" />
@@ -164,10 +165,11 @@
     <ClCompile Include="Red\MapCreateTileInfo.cpp" />
     <ClCompile Include="Red\MapData.cpp" />
     <ClCompile Include="Red\Popup.cpp" />
+    <ClCompile Include="Red\ResultPopup.cpp" />
     <ClCompile Include="Red\SelectPopup.cpp" />
     <ClCompile Include="Red\TileInfo.cpp" />
     <ClCompile Include="SpartaTRPG.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +193,7 @@
     <ClInclude Include="Black\Singletons\Effects\EffectTail.h" />
     <ClInclude Include="Black\Singletons\EffectType.h" />
     <ClInclude Include="Black\Singletons\KeyManager.h" />
+    <ClInclude Include="Black\Singletons\PopupManager.h" />
     <ClInclude Include="Black\Singletons\SceneInterface.h" />
     <ClInclude Include="Black\Singletons\SceneManager.h" />
     <ClInclude Include="Black\Singletons\Scenes.h" />
@@ -213,12 +216,16 @@
     <ClInclude Include="Red\MapData.h" />
     <ClInclude Include="Red\Popup.h" />
     <ClInclude Include="Red\PopupType.h" />
+    <ClInclude Include="Red\ResultPopup.h" />
     <ClInclude Include="Red\SelectPopup.h" />
     <ClInclude Include="Red\TileInfo.h" />
     <ClInclude Include="Red\TileType.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Black\TextColors.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

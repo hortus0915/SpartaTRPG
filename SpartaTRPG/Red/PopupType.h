@@ -1,11 +1,13 @@
 #pragma once
 
+class Popup;
+
 enum class PopupType
 {
 	RESULTPOPUP,
 	SELECTPOPUP,
-	SHOPPOPUP,
-	INVENTORY,
+	//SHOPPOPUP,
+	//INVENTORY,
 };
 
 enum class RESULTPOPUPTYPE
@@ -21,3 +23,4 @@ enum class SELECTPOPUPTYPE
 	KEYCHOICE, //열쇠 획득할건지
 	NEXTDUNGEONCHOICE, //다음 던전으로 갈건지
 };
+

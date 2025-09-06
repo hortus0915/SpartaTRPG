@@ -8,7 +8,6 @@ private:
 
 	float startHP;
 	float startSP;
-	float startDamage;
 
 	float startCriPer;
 	float startCriDmg;

@@ -62,7 +62,6 @@ void iMapMovable::MoveTo(int deltaX, int deltaY)
 	posX += deltaX;
 	posY += deltaY;
 
-	SOUNDMANAGER->PlaySfx(Text("RunSound.wav"), 0.1f);
 	MapImageSet();
 }
 

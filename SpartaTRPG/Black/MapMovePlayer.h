@@ -2,13 +2,15 @@
 #include "iMapMovable.h"
 #include "../Red/TileInfo.h"
 
+#define RUNSOUNDENDDURATION 0.3f
+
 class SelectPopup;
 
 class MapMovePlayer : public iMapMovable
 {
 private:
-	SelectPopup* popup;
 	bool activeCheck = false;
+	float runSoundDuration;
 public:
 	MapMovePlayer(string _sn, MapData* _mapData);
 
@@ -19,10 +21,13 @@ public:
 	void Render() override;
 	virtual void Release();
 
-	void PopupInput();
-	void MapInput();
+	void MapInput(float deltaTime);
 
 	void ObjectActive(TileType _tileType);
 	void CheckActive();
+
+	void ObjectSelectedActive(int selectValue);
+
+	void CheckRunSoundPlay();
 };
 
