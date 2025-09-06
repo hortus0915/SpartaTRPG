@@ -175,6 +175,7 @@
     <ClInclude Include="Black\BlinkCursor.h" />
     <ClInclude Include="Black\CommonFuncs.h" />
     <ClInclude Include="Black\CommonMacros.h" />
+    <ClInclude Include="Black\DevBlack.h" />
     <ClInclude Include="Black\DoubleBuffering.h" />
     <ClInclude Include="Black\EnemyInfoBase.h" />
     <ClInclude Include="Black\iCharacter.h" />
