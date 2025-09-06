@@ -138,6 +138,7 @@
     <ClCompile Include="Black\Singletons\EffectManager.cpp" />
     <ClCompile Include="Black\Singletons\Effects\EffectExplosion.cpp" />
     <ClCompile Include="Black\Singletons\Effects\EffectSlash.cpp" />
+    <ClCompile Include="Black\Singletons\Effects\EffectTail.cpp" />
     <ClCompile Include="Black\Singletons\KeyManager.cpp" />
     <ClCompile Include="Black\Singletons\SceneInterface.cpp" />
     <ClCompile Include="Black\Singletons\SceneManager.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="Black\Singletons\EffectManager.h" />
     <ClInclude Include="Black\Singletons\Effects\EffectExplosion.h" />
     <ClInclude Include="Black\Singletons\Effects\EffectSlash.h" />
+    <ClInclude Include="Black\Singletons\Effects\EffectTail.h" />
     <ClInclude Include="Black\Singletons\EffectType.h" />
     <ClInclude Include="Black\Singletons\KeyManager.h" />
     <ClInclude Include="Black\Singletons\SceneInterface.h" />

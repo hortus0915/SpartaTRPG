@@ -23,6 +23,13 @@ void Effect::Init(int _width, int _height, float _duration)
 void Effect::Update(float _deltaTime)
 {
 	elapsedTime += _deltaTime;
+
+	if (!IsRunning() && prevIsRunning)
+	{
+		EmitAfterEffects();
+	}
+
+	prevIsRunning = IsRunning();
 }
 
 void Effect::StartEffect(int _posX, int _posY)
@@ -44,7 +51,23 @@ void Effect::StartEffect(int _startPosX, int _startPosY, int _endPosX, int _endP
 	elapsedTime = 0.0f;
 }
 
-void Effect::AddAfterEffect(string _effectName)
+void Effect::AddAfterEffect(AfterEffectInfo _effectName)
 {
 	afterEffectList.push_back(_effectName);
+}
+
+void Effect::EmitAfterEffects()
+{
+	for (const auto& e : afterEffectList)
+	{
+		if (e.startDeltaX == e.endDeltaX &&
+			e.startDeltaY == e.endDeltaY)
+		{
+			EFFECTMANAGER->StartEffect(e.effectName, posX + e.startDeltaX, posY + e.startDeltaY);
+		}
+		else
+		{
+			EFFECTMANAGER->StartEffect(e.effectName, posX + e.startDeltaX, posY + e.startDeltaY, posX + e.endDeltaX, posY + e.endDeltaY);
+		}
+	}
 }

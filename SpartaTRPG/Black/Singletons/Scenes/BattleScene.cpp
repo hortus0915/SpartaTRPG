@@ -5,6 +5,9 @@
 #include <sstream>
 using namespace std;
 
+#include "../../PlayerInfo.h"
+#include "../../EnemyInfoBase.h"
+
 int BattleScene::Init()
 {
     SOUNDMANAGER->ChangeBGM(Text("BattleSceneBGM.mp3"), 100);

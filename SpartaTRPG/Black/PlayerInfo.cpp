@@ -2,9 +2,9 @@
 
 #define MAX_EXP_CALC	level * 100
 
-void PlayerInfo::Init(float _hp ,float _sp, float _baseDamage, float _criPer, float _criDmg, float _dod, float _counter, int _exp)
+void PlayerInfo::Init(float _hp, float _sp, float _baseDamage, float _criPer, float _criDmg, float _dod, float _counter, int _exp)
 {
-	__super::Init(_hp, _sp, _baseDamage,_criPer, _criDmg, _dod, _counter ,_exp);
+	__super::Init(_hp, _sp, _baseDamage, _criPer, _criDmg, _dod, _counter, _exp);
 
 	maxExp = MAX_EXP_CALC;
 
@@ -48,8 +48,9 @@ void PlayerInfo::CalcStatus()
 	maxHP = startHP + (level - 1) * 20.0f;
 	maxSP = startSP + (level - 1) * 20.0f;
 	baseDamage = startDamage + (level - 1) * 2.0f;
+
 	criPer += startCriPer * 0.05f;
 	criDmg += startCriDmg * 0.05f;
 	dodge  += startCriDod * 0.05f;
-	dodge += startCounter * 0.05f;
+	counter += startCounter * 0.05f;
 }
