@@ -14,7 +14,6 @@ void QuizScene::Update(float deltaTime)
 {
 	__super::Update(deltaTime);
 
-    __super::Update(deltaTime);
 
     if (elapsedTime < duration)
     {
@@ -80,10 +79,14 @@ int QuizScene::Init()
 
     int r = dist(gen);
     question.setQuestion(_quizData[r]);
-	if (!cursor)
-		cursor = new BlinkCursor("QuizScene");
-
-	cursor->SetPos(7, cursorIndex * 2 + 17);
+    if (!cursor) {
+        cursor = new BlinkCursor("QuizScene");
+    }
+    else {
+        SAFE_DELETE(cursor);
+        cursor = new BlinkCursor("QuizScene");
+    }
+	cursor->SetPos(__CURSOR_X__, cursorIndex * 2 + __CURSOR_Y__);
 	return 0;
 }
 
@@ -95,11 +98,11 @@ void QuizScene::Release()
 void QuizScene::Render()
 {
 	__super::Render();
-	cursor->Render();
+	
     SCENEMANAGER->RenderToBackbuffer(__CURSOR_X__, __CURSOR_Y__ -__QUESTION_Y__, __TEXT_WIDTH__, __TEXT__HEIGHT__, question.getQuestion(), 1);
     for (int i = 0; i < 4; ++i) {
         std::string optLine = std::to_string(i + 1) + ". " + question.getOpt(i);
         SCENEMANAGER->RenderToBackbuffer(__CURSOR_X__+__OPT_X__, __CURSOR_Y__ + i*__CURSOR_DIFF__, __TEXT_WIDTH__, __TEXT__HEIGHT__, optLine, 1);
     }
-
+    cursor->Render();
 }
