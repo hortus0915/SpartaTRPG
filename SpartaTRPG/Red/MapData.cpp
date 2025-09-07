@@ -271,7 +271,7 @@ void MapData::VillageMapSet()
 
 void MapData::DungeonObjectCreate()
 {
-    for (auto objects : objectInfo)
+    for (auto& objects : objectInfo)
     {
         objects.second.clear();
     }
@@ -284,7 +284,7 @@ void MapData::DungeonObjectCreate()
 
 void MapData::DungeonObjectLoad()
 {
-    for (auto objects : objectInfo)
+    for (auto& objects : objectInfo)
     {
         for (auto setObject : objects.second)
         {
@@ -366,7 +366,7 @@ int MapData::TileSet(TileType _tileType, int _posX, int _posY, int _fromIndexX, 
     auto tileType = GetMapInfo(_posX, _posY);
     if (tileType == TileType::Wall)
         return -1;
-    else if (tileType % 100 != 0)
+    else if (_tileType != 0 && tileType % 100 != 0)
         return 1;
     else
         mapInfo[_posX][_posY].SetTileType(_tileType, _fromIndexX, _fromIndexY);
@@ -457,11 +457,11 @@ void MapData::ObjectReset(int posX, int posY)
         return;
 
     auto nowTile = mapInfo[posX][posY];
-    auto fromTile = mapInfo[nowTile.GetFromIndexX()][nowTile.GetFromIndexY()];
-    auto objects = objectInfo.find(fromTile.GetTileType());
-    objects->second.erase(&fromTile);
+    auto fromTile = &(mapInfo[nowTile.GetFromIndexX()][nowTile.GetFromIndexY()]);
+    auto& objects = objectInfo.find(fromTile->GetTileType())->second;
+    objects.erase(fromTile);
 
-    ObjectSet(TileType::Empty, nowTile.GetFromIndexX(), nowTile.GetFromIndexY(), GetRange(nowTile.GetTileType()));
+    ObjectSet(TileType::Empty, nowTile.GetFromIndexX(), nowTile.GetFromIndexY(), GetRange(fromTile->GetTileType()));
     DungeonObjectLoad();
 }
 
