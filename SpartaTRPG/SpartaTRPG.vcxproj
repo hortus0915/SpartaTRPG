@@ -155,7 +155,7 @@
     <ClCompile Include="Black\Singletons\Timer.cpp" />
     <ClCompile Include="Black\TestScene.cpp" />
     <ClCompile Include="Black_TestMain.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Blue\Battle\BattleSystem.cpp" />
     <ClCompile Include="Blue\Battle\Board.cpp" />
@@ -167,7 +167,7 @@
     <ClCompile Include="Red\SelectPopup.cpp" />
     <ClCompile Include="Red\TileInfo.cpp" />
     <ClCompile Include="SpartaTRPG.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

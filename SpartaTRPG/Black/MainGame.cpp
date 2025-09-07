@@ -62,6 +62,8 @@ void MainGame::Init()
 	SCENEMANAGER->AddChild("GameScene", "DungeonScene", new DungeonScene("DungeonScene"));
 	SCENEMANAGER->AddChild("GameScene", "BattleScene",  new BattleScene ("BattleScene"));
 	SCENEMANAGER->AddChild("GameScene", "MinigameScene",new MinigameScene("MinigameScene"));
+	SCENEMANAGER->AddChild("GameScene", "QuizScene", new QuizScene("QuizScene"));
+
 
 	SCENEMANAGER->ChangeScene("TitleScene");
 	SCENEMANAGER->CurrentSceneInit();

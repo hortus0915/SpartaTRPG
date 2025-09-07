@@ -630,7 +630,7 @@ void TitleScene::Update(float deltaTime)
                 SOUNDMANAGER->PlaySfx(Text("GameStartSfx.wav"));
 
                 SCENEMANAGER->ChangeScene("GameScene");
-                SCENEMANAGER->ChangeChild("DungeonScene");
+                SCENEMANAGER->ChangeChild("MinigameScene");
                 SCENEMANAGER->CurrentSceneInit();
             }
             else if (cursorIndex == 1)
