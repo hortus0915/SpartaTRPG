@@ -12,8 +12,9 @@ class Quiz {
 public:
     Quiz();
     void setQuestion(const Question& q);
-    bool Render();   // 퀴즈 실행 (출력 + 입력 + 정답체크)
-
+    int getAnswer();
+    std::string getQuestion();
+    std::string getOpt(int i);
 private:
     Question question;
 };

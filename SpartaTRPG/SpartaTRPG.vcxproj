@@ -147,6 +147,7 @@
     <ClCompile Include="Black\Singletons\Scenes\EndingScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\GameScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\MinigameScene.cpp" />
+    <ClCompile Include="Black\Singletons\Scenes\QuizScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\TitleScene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -169,6 +170,8 @@
     <ClCompile Include="SpartaTRPG.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Yellow\Quiz.cpp" />
+    <ClCompile Include="Yellow\QuizData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Black\BasicInterfaces.h" />
@@ -200,6 +203,7 @@
     <ClInclude Include="Black\Singletons\Scenes\EndingScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\GameScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\MinigameScene.h" />
+    <ClInclude Include="Black\Singletons\Scenes\QuizScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\TitleScene.h" />
     <ClInclude Include="Black\Singletons\SingletonMacro.h" />
     <ClInclude Include="Black\Singletons\SoundManager.h" />
@@ -217,6 +221,10 @@
     <ClInclude Include="Red\SelectPopup.h" />
     <ClInclude Include="Red\TileInfo.h" />
     <ClInclude Include="Red\TileType.h" />
+    <ClInclude Include="Yellow\Quiz.h" />
+    <ClInclude Include="Yellow\QuizData.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Black\TextColors.h" />

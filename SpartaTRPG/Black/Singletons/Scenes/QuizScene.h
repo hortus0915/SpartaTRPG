@@ -4,15 +4,30 @@
 #include "../../CommonMacros.h"
 #include "../../../Yellow/Quiz.h"
 
+#define __CURSOR_X__ 20
+#define __CURSOR_Y__ 22
+#define __TEXT_WIDTH__ 60
+#define __TEXT__HEIGHT__ 1
+#define __QUESTION_Y__ 2
+#define __OPT_X__ 2
+#define __CURSOR_DIFF__ 2
 class BlinkCursor;
 
 
 class QuizScene : public iScene {
 private:
-	int cursorIndex;
 	Quiz question;
+	float duration;
+	float elapsedTime;
+
+	int cursorIndex;
+
+	int effectCount;
+
+	bool correct;
 
 	BlinkCursor* cursor;
+
 
 
 public:
