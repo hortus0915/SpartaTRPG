@@ -1,10 +1,9 @@
 #include "Inventory.h"
-#include<algorithm>
 
-Item* Inventory::AddItem(int itemUID)
+Item* Inventory::AddItem(int _itemUID)
 {
-	auto& itemPartition = allItems[Item::GetItemType(itemUID)];
-	auto ret = itemPartition.try_emplace(itemUID, itemUID);
+	auto& itemPartition = allItems[Item::GetItemType(_itemUID)];
+	auto ret = itemPartition.try_emplace(_itemUID, _itemUID);
 
 	if (!ret.second)
 	{
@@ -14,15 +13,15 @@ Item* Inventory::AddItem(int itemUID)
 	return &(ret.first->second);
 }
 
-Item* Inventory::GetItem(int itemUID)
+Item* Inventory::GetItem(int _itemUID)
 {
-	auto itemPartition = allItems.find(Item::GetItemType(itemUID));
+	auto itemPartition = allItems.find(Item::GetItemType(_itemUID));
 	if (itemPartition == allItems.end())
 	{
 		return nullptr;
 	}
 
-	auto findItem = itemPartition->second.find(itemUID);
+	auto findItem = itemPartition->second.find(_itemUID);
 	if (findItem == itemPartition->second.end())
 	{
 		return nullptr;
@@ -31,21 +30,21 @@ Item* Inventory::GetItem(int itemUID)
 	return &(findItem->second);
 }
 
-int Inventory::UsingItem(int itemUID, int count)
+int Inventory::UsingItem(int _itemUID, int _count)
 {
-	auto itemPartition = allItems.find(Item::GetItemType(itemUID));
+	auto itemPartition = allItems.find(Item::GetItemType(_itemUID));
 	if (itemPartition == allItems.end())
 	{
 		return -1;
 	}
 
-	auto findItem = itemPartition->second.find(itemUID);
+	auto findItem = itemPartition->second.find(_itemUID);
 	if (findItem == itemPartition->second.end())
 	{
 		return -1;
 	}
 
-	int ret = findItem->second.UsingItem(count); 
+	int ret = findItem->second.UsingItem(_count);
 	if (ret <= 0) {
 		itemPartition->second.erase(findItem);             
 		ret = 0;
@@ -54,7 +53,21 @@ int Inventory::UsingItem(int itemUID, int count)
 	return ret;
 }
 
-std::unordered_map<int, Item>& Inventory::GetItemPartition(ItemType _itemType)
+std::map<int, Item>& Inventory::GetItemPartition(ItemType _itemType)
 {
 	return allItems[_itemType];
+}
+
+Item* Inventory::GetItem_fromIndex(ItemType _itemType, long index)
+{
+	if (index < 0) return nullptr;
+
+	auto partition = allItems.find(_itemType);
+	if (partition == allItems.end() || partition->second.size() <= index)
+		return nullptr;
+
+	auto beginIter = partition->second.begin();
+	std::advance(beginIter, index);
+
+	return &(beginIter->second);
 }
