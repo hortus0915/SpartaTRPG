@@ -162,6 +162,8 @@
     <ClCompile Include="Blue\Battle\Board.cpp" />
     <ClCompile Include="Blue\Card\CardData.cpp" />
     <ClCompile Include="Blue\Card\CardDB.cpp" />
+    <ClCompile Include="Red\Inventory.cpp" />
+    <ClCompile Include="Red\Item.cpp" />
     <ClCompile Include="Red\MapCreateTileInfo.cpp" />
     <ClCompile Include="Red\MapData.cpp" />
     <ClCompile Include="Red\Popup.cpp" />
@@ -214,6 +216,8 @@
     <ClInclude Include="Blue\Battle\Board.h" />
     <ClInclude Include="Blue\Card\CardData.h" />
     <ClInclude Include="Blue\Card\CardDB.h" />
+    <ClInclude Include="Red\Inventory.h" />
+    <ClInclude Include="Red\Item.h" />
     <ClInclude Include="Red\MapCreateTileInfo.h" />
     <ClInclude Include="Red\MapData.h" />
     <ClInclude Include="Red\Popup.h" />
