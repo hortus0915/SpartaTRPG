@@ -3,17 +3,15 @@
 
 Item* Inventory::AddItem(int itemUID)
 {
-	auto itemPartition = allItems[Item::GetItemType(itemUID)];
-	auto findItem = itemPartition.find(itemUID);
-	if (findItem == itemPartition.end())
+	auto& itemPartition = allItems[Item::GetItemType(itemUID)];
+	auto ret = itemPartition.try_emplace(itemUID, itemUID);
+
+	if (!ret.second)
 	{
-		Item* addItem = new Item(itemUID);
-		itemPartition.emplace(std::make_pair(itemUID, addItem));
-		return addItem;
+		ret.first->second.AddItem();
 	}
 
-	findItem->second->AddItem();
-	return findItem->second;
+	return &(ret.first->second);
 }
 
 Item* Inventory::GetItem(int itemUID)
@@ -30,7 +28,7 @@ Item* Inventory::GetItem(int itemUID)
 		return nullptr;
 	}
 
-	return findItem->second;
+	return &(findItem->second);
 }
 
 int Inventory::UsingItem(int itemUID, int count)
@@ -47,10 +45,16 @@ int Inventory::UsingItem(int itemUID, int count)
 		return -1;
 	}
 
-	return findItem->second->UsingItem(count);
+	int ret = findItem->second.UsingItem(count); 
+	if (ret <= 0) {
+		itemPartition->second.erase(findItem);             
+		ret = 0;
+	}
+
+	return ret;
 }
 
-std::map<int, Item*>& Inventory::GetItemPartition(ItemType _itemType)
+std::unordered_map<int, Item>& Inventory::GetItemPartition(ItemType _itemType)
 {
 	return allItems[_itemType];
 }
