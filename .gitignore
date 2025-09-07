@@ -60,6 +60,7 @@ ipch/
 *.cachefile
 *.dbmdl
 *.bak
+root/Black/DevBlack.h
 
 # Visual Studio profiler
 *.psess
