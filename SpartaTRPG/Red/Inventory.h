@@ -13,5 +13,7 @@ public:
     Item* GetItem(int itemUID);
     int UsingItem(int itemUID, int count);
     std::map<int, Item*>& GetItemPartition(ItemType _itemType);
+
+
 };
 

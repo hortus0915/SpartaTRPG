@@ -1,22 +1,14 @@
 #include "Inventory.h"
+#include<algorithm>
 
 Item* Inventory::AddItem(int itemUID)
 {
-	auto itemPartition = allItems.find(Item::GetItemType(itemUID));
-	if (itemPartition == allItems.end())
-	{
-		std::map<int, Item*> createPartition;
-		Item* addItem = new Item(itemUID);
-		createPartition.emplace(std::make_pair(itemUID, addItem));
-		allItems.emplace(std::make_pair(Item::GetItemType(itemUID), createPartition));
-		return addItem;
-	}
-
-	auto findItem = itemPartition->second.find(itemUID);
-	if (findItem == itemPartition->second.end())
+	auto itemPartition = allItems[Item::GetItemType(itemUID)];
+	auto findItem = itemPartition.find(itemUID);
+	if (findItem == itemPartition.end())
 	{
 		Item* addItem = new Item(itemUID);
-		itemPartition->second.emplace(std::make_pair(itemUID, addItem));
+		itemPartition.emplace(std::make_pair(itemUID, addItem));
 		return addItem;
 	}
 
@@ -60,13 +52,5 @@ int Inventory::UsingItem(int itemUID, int count)
 
 std::map<int, Item*>& Inventory::GetItemPartition(ItemType _itemType)
 {
-	auto itemPartition = allItems.find(_itemType);
-	if (itemPartition == allItems.end())
-	{
-		std::map<int, Item*> createPartition;
-		allItems.emplace(std::make_pair(_itemType, createPartition));
-		return createPartition;
-	}
-
-	return itemPartition->second;
+	return allItems[_itemType];
 }
