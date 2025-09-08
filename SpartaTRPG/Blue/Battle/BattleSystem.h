@@ -15,7 +15,8 @@ struct BattleSystem {
 		const Card* card;
 	};
 
-	void BeginVPS(Side& _target);
+	void BeginVSP(Side& _target);
+	bool TryPickWithVSP(Side& _target, const Card* _card);
 
 	void MovoToCharacter(Side& _target);
 	void ShieldToCharacter(Side& _self,Side& _attacker,float _attackDamage , float& _outAttackDamage, float& _outCounterDamage);
