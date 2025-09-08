@@ -3,6 +3,11 @@
 #include <sstream>
 #include "BattleSystem.h"
 
+void BattleSystem::BeginVPS(Side& _target)
+{
+	_target.chr->vSPCost = _target.chr->GetCurSP();
+}
+
 void BattleSystem::MovoToCharacter(Side& _target)
 {
 	int steps = _target.card->GetDamageRate();
@@ -101,12 +106,8 @@ int BattleSystem::HealToCharacter(Side& _self)
 	const int ManaAmount = _self.card->GetStaminaCost();
 
 	if (healAmount > 0) _self.chr->AddHP(healAmount);
-	if (ManaAmount < 0) _self.chr->AddSP(ManaAmount);
-
-	////test print
-	//if (healAmount > 0) std::cout << " 체력+" << healAmount;
-	//if (ManaAmount > 0) std::cout << " 마나+" << ManaAmount;
-	//std::cout << "\n";
+	
+	_self.chr->AddSP(-ManaAmount);
 
 
 	return 0;
@@ -120,7 +121,7 @@ int BattleSystem::HealToCharacter(Side& _self, stringstream& sStream)
 	if (healAmount > 0) _self.chr->AddHP(healAmount);
 
 	 _self.chr->AddSP(-ManaAmount);
-
+	 
 	//test print
 	if (healAmount > 0) sStream << " 체력 + " << healAmount;
 	if (ManaAmount < 0) sStream << " 마나 + " << ManaAmount;

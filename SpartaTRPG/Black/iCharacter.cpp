@@ -89,6 +89,18 @@ bool iCharacter::IsDodge()
 	return rnd < dodge;
 }
 
+inline bool iCharacter::TryApplyVSPCost(const int& _vSPCost)
+{	
+	int current = vSPCost - _vSPCost;
+	if(current >= 0)
+	{
+		vSPCost = Clamp(0, (int)maxSP, (int)current);
+		return true;
+	}
+
+	return false;
+}
+
 void iCharacter::AddHP(int _amount)
 {
 	int current = (int)currentHP + _amount;
@@ -100,7 +112,8 @@ void iCharacter::AddHP(int _amount)
 void iCharacter::AddSP(int _amount)
 {
 	int current = (int)currentSP + _amount;
-	currentSP = (current > (int)maxSP ? maxSP : current);
+	
+	currentSP = Clamp(0,(int)maxSP,(int)current);
 }
 
 

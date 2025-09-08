@@ -15,9 +15,12 @@ struct BattleSystem {
 		const Card* card;
 	};
 
+	void BeginVPS(Side& _target);
+
 	void MovoToCharacter(Side& _target);
-	int AttackToCharacter(Side& _attacker, Side& _defender, std::vector<Board::Pos>& outRange);
 	void ShieldToCharacter(Side& _self,Side& _attacker,float _attackDamage , float& _outAttackDamage, float& _outCounterDamage);
+
+	int AttackToCharacter(Side& _attacker, Side& _defender, std::vector<Board::Pos>& outRange);
 	int HealToCharacter(Side& _self);
 	int HealToCharacter(Side& _self, stringstream& sStream);
 

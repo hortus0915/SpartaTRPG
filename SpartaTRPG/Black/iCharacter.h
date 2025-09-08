@@ -29,6 +29,7 @@ public:
 	virtual void Init(float _hp, float _baseDamage, float _sp, float _criPer, float _criDmg, float _dod, float _counter, int _exp);
 	// Post Return : hitted real damage
 	virtual float HitDamager(float damage, void (*OnHit)() = nullptr);
+	float vSPCost=0;
 
 	virtual bool IsCritical();
 	virtual bool IsCounter();
@@ -59,6 +60,8 @@ public:
 	inline void SetDodge(const float& _dod) { dodge = _dod; }
 	inline void SetCounter(const float& _counter) { counter = _counter; }
 	inline void SetExp(const int& _exp) { exp = _exp; }
+
+	inline bool TryApplyVSPCost(const int& _vSPCost);
 
 	void AddHP(int _amount);
 	void AddSP(int _amount);
