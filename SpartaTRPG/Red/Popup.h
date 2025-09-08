@@ -19,10 +19,9 @@ protected:
 	bool hasCustonStringMore;
 
 	int selectValue;
-	int moreLine;
 
 	vector<string>* customString;
-	int customStringIndex;
+	int customStringPageIndex;
 
 	int leftPadding;
 	int rightPadding;

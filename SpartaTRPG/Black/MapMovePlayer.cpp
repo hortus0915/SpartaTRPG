@@ -177,7 +177,7 @@ void MapMovePlayer::CheckActive()
 			initString,
 			15,
 			0,
-			5,
+			2,
 			4
 		);
 	}
@@ -194,7 +194,7 @@ void MapMovePlayer::CheckActive()
 			initString,
 			15,
 			0,
-			5,
+			2,
 			4
 		);
 	}
@@ -205,15 +205,54 @@ void MapMovePlayer::CheckActive()
 		initString->push_back("던전 입구");
 		initString->push_back("");
 		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?박스를 열겠습니까?");
-
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
+		initString->push_back("던전에 입장하시겠습니까?");
 		POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::ObjectSelectedActive>(
 			PopupType::SELECTPOPUP,
 			this,
 			initString,
 			15,
 			0,
-			5,
+			2,
 			4
 		);
 	}
@@ -236,7 +275,7 @@ void MapMovePlayer::CheckActive()
 				initString,
 				15,
 				0,
-				5,
+				2,
 				4
 			);
 		}
@@ -251,7 +290,7 @@ void MapMovePlayer::CheckActive()
 				initString,
 				15,
 				0,
-				5,
+				2,
 				0
 			);
 		}

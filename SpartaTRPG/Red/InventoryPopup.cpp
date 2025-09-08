@@ -15,15 +15,15 @@ void InventoryPopup::Update(float deltaTime)
 			InvokeActive(selectValue);
 		}
 	}
-	if (KEYMANAGER->IsStayKeyDown(VK_DOWN))
+	if (KEYMANAGER->IsStayKeyDown(VK_LEFT))
 	{
-		if (customStringIndex > 0)
-			customStringIndex--;
+		if (customStringPageIndex > 0)
+			customStringPageIndex--;
 	}
-	if (KEYMANAGER->IsStayKeyDown(VK_UP))
+	if (KEYMANAGER->IsStayKeyDown(VK_RIGHT))
 	{
-		if (hasCustonStringMore)
-			customStringIndex++;
+		if (customStringPageIndex)
+			customStringPageIndex++;
 	}
 }
 

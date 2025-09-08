@@ -16,15 +16,15 @@ void Popup::Update(float deltaTime)
 			InvokeActive(selectValue);
 		}
 	}
-	if (KEYMANAGER->IsStayKeyDown(VK_DOWN))
+	if (KEYMANAGER->IsStayKeyDown(VK_LEFT))
 	{
-		if (customStringIndex > 0)
-			customStringIndex--;
+		if (hasCustonStringMore && customStringPageIndex > 0)
+			customStringPageIndex--;
 	}
-	if (KEYMANAGER->IsStayKeyDown(VK_UP))
+	if (KEYMANAGER->IsStayKeyDown(VK_RIGHT))
 	{
-		if(hasCustonStringMore)
-			customStringIndex++;
+		if(hasCustonStringMore && customStringPageIndex * (POPUPSTRING_MAXHEIGHT - downPadding - upPadding - 1) < customString->size())
+			customStringPageIndex++;
 	}
 }
 
@@ -76,7 +76,7 @@ void Popup::SetCustonStrings(vector<string>* _customString)
 		SAFE_DELETE(customString);
 
 	customString = _customString;
-	customStringIndex = 0;
+	customStringPageIndex = 0;
 }
 
 void Popup::SetActive(bool active)
@@ -98,7 +98,7 @@ void Popup::VariableInit()
 	hasCustonStringMore = false;
 	isActive = false;
 	selectValue = -1;
-	customStringIndex = 0;
+	customStringPageIndex = 0;
 	leftPadding = 0;
 	rightPadding = 0;
 	upPadding = 0;
@@ -109,84 +109,50 @@ void Popup::RenderingCustomString()
 {
 	if (customString)
 	{
-		//if(customStringIndex > 0)
+		int stringMaxX = POPUPSTRING_MAXWIDTH - leftPadding - rightPadding;
+		int stringMaxY = POPUPSTRING_MAXHEIGHT - downPadding - upPadding;
 
+		int printLine = stringMaxY;
 
-		//int stringMaxX = POPUPSTRING_MAXWIDTH - leftPadding - rightPadding;
-		//int stringMaxY = POPUPSTRING_MAXHEIGHT - downPadding - upPadding;
-
-		//for (int i = 0; i < stringMaxY; i++)
-		//{
-		//	if (i + customStringIndex + moreLine >= stringMaxY - 1)
-		//	{
-		//		hasCustonStringMore = true;
-		//		break;
-		//	}
-
-
-		//}
-
-
-
-
-		int moreLine = 0;
-		for (int i = customStringIndex; i < (*customString).size(); i++)
+		if (customString->size() >= stringMaxY - 1)
 		{
-			if (i + moreLine + upPadding + downPadding >= POPUPSTRING_MAXHEIGHT - 1) 
-			{
-				hasCustonStringMore = true;
+			hasCustonStringMore = true;
+			printLine -= 1;
+		}
+
+		for (int i = 0; i < printLine; i++)
+		{
+			if (printLine * customStringPageIndex + i >= customString->size() - 1)
 				break;
-			}
 
-			if ((*customString)[i].size() < MAPPOPUP_WIDTH - 2 - rightPadding)
-				SCENEMANAGER->RenderToBackbuffer(
-					(MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) / 2 + 1 + leftPadding,
-					(MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) / 2 + 1 + i + moreLine + upPadding - customStringIndex,
-					MAPPOPUP_WIDTH - 2 - rightPadding - leftPadding,
-					1,
-					(*customString)[i]);
-			else
-			{
-				size_t pos = 0;
-				while (pos < (*customString)[i].size())
-				{
-					if (i + moreLine + upPadding + downPadding >= POPUPSTRING_MAXHEIGHT - 1)
-					{
-						hasCustonStringMore = true;
-						return;
-					}
-					size_t take = std::min<size_t>(MAPPOPUP_WIDTH - 2 - rightPadding - leftPadding, (*customString)[i].size() - pos);
-					SCENEMANAGER->RenderToBackbuffer(
-						(MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) / 2 + 1 + leftPadding,
-						(MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) / 2 + 1 + i + moreLine + upPadding - customStringIndex,
-						MAPPOPUP_WIDTH - 2 - rightPadding - leftPadding,
-						1,
-						(*customString)[i].substr(pos, take)
-					);
-
-					pos += take;
-
-					if (pos < (*customString)[i].size())
-						++moreLine;
-				}
-			}
-
-			if (hasCustonStringMore) break;
+			SCENEMANAGER->RenderToBackbuffer(
+				(MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) / 2 + leftPadding,
+				(MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) / 2 + i + upPadding,
+				MAPPOPUP_WIDTH - rightPadding - leftPadding,
+				1,
+				(*customString)[printLine * customStringPageIndex + i]);
 		}
 
-		if (hasCustonStringMore) {
-			const int arrowX = MAX_SCREEN_WIDTH / 2;
-			const int arrowY =
-				(MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) / 2 + 1 + upPadding
-				+ (POPUPSTRING_MAXHEIGHT - 1 - (upPadding + downPadding));
-
-			SCENEMANAGER->RenderToBackbuffer(arrowX, arrowY, 1, 1, "V");
-		}
-		if (customStringIndex > 0) 
+		if (hasCustonStringMore)
 		{
-			const int arrowX = MAX_SCREEN_WIDTH / 2;
-
-			SCENEMANAGER->RenderToBackbuffer(arrowX, MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT + upPadding, 1, 1, "¡ü");
+			if (customStringPageIndex > 0)
+			{
+				SCENEMANAGER->RenderToBackbuffer(
+					MAX_SCREEN_WIDTH / 2 - 10,
+					(MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) / 2 + stringMaxY + upPadding - 1,
+					MAPPOPUP_WIDTH - rightPadding - leftPadding,
+					1,
+					"<");
+			}
+			if (customStringPageIndex * (POPUPSTRING_MAXHEIGHT - downPadding - upPadding - 1) < customString->size())
+			{
+				SCENEMANAGER->RenderToBackbuffer(
+					MAX_SCREEN_WIDTH / 2 + 10,
+					(MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) / 2 + stringMaxY + upPadding - 1,
+					MAPPOPUP_WIDTH - rightPadding - leftPadding,
+					1,
+					">");
+			}
 		}
 	}
 }
