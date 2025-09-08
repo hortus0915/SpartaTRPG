@@ -16,7 +16,7 @@ struct BattleSystem {
 	};
 
 	void MovoToCharacter(Side& _target);
-	int AttackToCharacter(Side& _attacker, Side& _defender);
+	int AttackToCharacter(Side& _attacker, Side& _defender, std::vector<Board::Pos>& outRange);
 	void ShieldToCharacter(Side& _self,Side& _attacker,float _attackDamage , float& _outAttackDamage, float& _outCounterDamage);
 	int HealToCharacter(Side& _self);
 	int HealToCharacter(Side& _self, stringstream& sStream);
