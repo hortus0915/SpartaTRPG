@@ -589,7 +589,7 @@ void BattleScene::Render()
     {
         if (playerSelectedIdx[i] == -1) continue;
 
-        int defaultCardLength = 20;
+        int defaultCardLength = 25;
         int originCardSelectPosX = 0;
         int originCardSelectPosY = BOARD_HEIGHT + 14;
         int cursorPosX = playerSelectedIdx[i] % cardsCountInRow * defaultCardLength + 1;
