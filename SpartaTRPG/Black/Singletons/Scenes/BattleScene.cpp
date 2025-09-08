@@ -149,6 +149,10 @@ int BattleScene::Init()
     sys.BeginVSP(P);
     sys.BeginVSP(M);
 
+    cardsNum = pdeck.size() / cardsCountInRow + 1;
+    if (!cardSelect)
+        cardSelect = new string[cardsNum];
+
     return 0;
 }
 
@@ -158,6 +162,8 @@ void BattleScene::Release()
     for (int i = 0; i < cardSelectCount; ++i)
         SAFE_RELEASE_DELETE(cardUi[i]);
     SAFE_DELETE(cursor);
+
+    SAFE_DELETE_ARR(cardSelect);
 
     sStream.clear();
 }
@@ -218,9 +224,9 @@ void BattleScene::Update(float _deltaTime)
                 }
             }
             
-            int defaultCardLength = 20;
+            int defaultCardLength = 25;
             int idxOffset = 0;
-            for (int i = 0; i < 3; ++i)
+            for (int i = 0; i < cardsNum; ++i)
             {
                 sStream.str("");
                 for (int j = 0; j < cardsCountInRow; ++j)
@@ -571,7 +577,7 @@ void BattleScene::Render()
 
     int originCardSelectPosX = 0;
     int originCardSelectPosY = BOARD_HEIGHT + 14;
-    for (int i = 0; i < 3; ++i)
+    for (int i = 0; i < cardsNum; ++i)
     {
         SCENEMANAGER->RenderToBackbuffer(originCardSelectPosX, originCardSelectPosY + 2 * i, cardSelect[i].size(), 1, cardSelect[i]);
     }

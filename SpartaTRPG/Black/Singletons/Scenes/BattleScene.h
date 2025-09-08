@@ -67,7 +67,8 @@ private:
 	int cardsCountInRow;
 
 	string board[BOARD_HEIGHT];
-	string cardSelect[3];
+	string* cardSelect;
+	int		cardsNum;
 	string playerImage[3];
 	string enemyImage[3];
 	string sequenceStr;
@@ -89,7 +90,7 @@ private:
 	BattleSequence currentSequence;
 
 public:
-	BattleScene(string _sceneName) : iScene(_sceneName) {}
+	BattleScene(string _sceneName) : iScene(_sceneName), cardSelect(nullptr) {}
 
 	// iScene을(를) 통해 상속됨
 	int Init() override;
