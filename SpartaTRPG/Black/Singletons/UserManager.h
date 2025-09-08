@@ -24,13 +24,13 @@ class UserManager
 
 private:
 	int stage = 0;
-	int isStageKey = 0;
+	int stageKey = 0;
 
 	Inventory* inventory = nullptr;
 public:
 	void Init();
-
 	void GetKey();
+	void ResetKey();
 	bool CheckHasKey();
 
 	void SetNextStage();
@@ -41,6 +41,5 @@ public:
 	std::map<int, Item>* GetItemPartition(ItemType _itemType);
 
 	int UsingItem(int itemUID, int count);
-
 	inline int GetStage() { return stage; }
 };

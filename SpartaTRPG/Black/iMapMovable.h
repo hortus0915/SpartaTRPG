@@ -21,7 +21,6 @@ protected:
 	Color bgColor;
 
 	bool isNewRender = false;
-
 	bool SetWall(int harfX, int harfY, int j, int i, int posY, int posX);
 public:
 	iMapMovable(string _targetSceneName, MapData* _mapData);
@@ -34,7 +33,7 @@ public:
 
 	virtual void MoveTo(int _deltaX, int _deltaY);
 	virtual void SetPos(int _posX, int _posY);
-	virtual void MapImageSet();
+	virtual void MapImageSet() {};
 
 	virtual bool IsCanMove(int _targetX, int _targetY);
 

@@ -19,6 +19,7 @@ protected:
 	bool hasCustonStringMore;
 
 	int selectValue;
+	int moreLine;
 
 	vector<string>* customString;
 	int customStringIndex;

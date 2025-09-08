@@ -29,7 +29,7 @@ public:
 
 	void ObjectActive(TileType _tileType);
 	void CheckActive();
-
+	virtual void MapImageSet() override;
 	void ObjectSelectedActive(int selectValue);
 
 	void CheckRunSoundPlay();

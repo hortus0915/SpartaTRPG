@@ -3,6 +3,7 @@
 #include "TileInfo.h"
 #include "../Black/CommonMacros.h"
 #include "../Black/CommonFuncs.h"
+#include "../Black/Singletons/CommonManagers.h"
 
 int MapData::GetIndex(int x, int y)
 {
@@ -11,7 +12,7 @@ int MapData::GetIndex(int x, int y)
 
 MapData::MapData()
 {
-    dungeonLevel = 0;
+    USERMANAGER->GetKey();
     mapInfo = new TileInfo * [GetMapWidth(MapType::Dungeon) + 1];
     for (int i = 0; i < GetMapWidth(MapType::Dungeon); i++)
     {
@@ -42,16 +43,15 @@ void MapData::CreateMap(MapType _mapType)
     switch (mapType)
     {
     case Village:
-        dungeonLevel = 0;
+        USERMANAGER->ResetKey();
         VillageMapSet();
         VillageObjectSet();
         break;
     case Dungeon:
-        dungeonLevel++;
+        USERMANAGER->SetNextStage();
         DungeonMapSet();
         DungeonObjectCreate();
         DungeonObjectLoad();
-        dungeonKey = false;
         break;
     default:
         break;
@@ -394,11 +394,11 @@ int MapData::GetObjectCount(TileType _tileType)
     case Exit:
         return 1;
     case Box:
-        return dungeonLevel + 3;
+        return USERMANAGER->GetStage() + 3;
     case Key:
-        return 1;
+        return 3;
     case Monster:
-        return dungeonLevel + 8;
+        return USERMANAGER->GetStage() + 5;
     default:
         return 0;
     }

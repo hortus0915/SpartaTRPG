@@ -9,24 +9,29 @@ UserManager* UserManager::instance = nullptr;
 void UserManager::Init()
 {
 	stage = 0;
-	isStageKey = false;
+	stageKey = 0;
 	inventory = new Inventory();
 }
 
 void UserManager::GetKey()
 {
-	isStageKey = 1;
+	stageKey++;
+}
+
+void UserManager::ResetKey()
+{
+	stageKey = 0;
 }
 
 bool UserManager::CheckHasKey()
 {
-	return isStageKey;
+	return stageKey > 0;
 }
 
 void UserManager::SetNextStage()
 {
 	stage++;
-	isStageKey = false;
+	stageKey = 0;
 }
 
 void UserManager::AddItem(int itemUID)

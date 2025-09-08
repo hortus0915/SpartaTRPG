@@ -18,6 +18,8 @@
 #include <functional>
 #include <cmath>
 
+#define DEV_BLACK 0
+
 //       4       11      19      27
 //   * * * * * * * * * * * * * * * * *
 //   *       *       *       *       *

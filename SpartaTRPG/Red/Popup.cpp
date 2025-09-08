@@ -10,7 +10,7 @@ void Popup::Update(float deltaTime)
 	}
 	if (KEYMANAGER->IsStayKeyDown(VK_RETURN))
 	{
-		if (isActive)
+		if (selectValue >= 0 && isActive)
 		{
 			POPUPMANAGER->PopupActiveOff();
 			InvokeActive(selectValue);
@@ -97,7 +97,7 @@ void Popup::VariableInit()
 	customString = nullptr;
 	hasCustonStringMore = false;
 	isActive = false;
-	selectValue = 0;
+	selectValue = -1;
 	customStringIndex = 0;
 	leftPadding = 0;
 	rightPadding = 0;
@@ -109,6 +109,26 @@ void Popup::RenderingCustomString()
 {
 	if (customString)
 	{
+		//if(customStringIndex > 0)
+
+
+		//int stringMaxX = POPUPSTRING_MAXWIDTH - leftPadding - rightPadding;
+		//int stringMaxY = POPUPSTRING_MAXHEIGHT - downPadding - upPadding;
+
+		//for (int i = 0; i < stringMaxY; i++)
+		//{
+		//	if (i + customStringIndex + moreLine >= stringMaxY - 1)
+		//	{
+		//		hasCustonStringMore = true;
+		//		break;
+		//	}
+
+
+		//}
+
+
+
+
 		int moreLine = 0;
 		for (int i = customStringIndex; i < (*customString).size(); i++)
 		{
@@ -155,14 +175,18 @@ void Popup::RenderingCustomString()
 		}
 
 		if (hasCustonStringMore) {
-			const int maxW = MAPPOPUP_WIDTH - 2 - rightPadding - leftPadding;
-			const int arrowX =
-				(MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) / 2 + 1 + leftPadding + maxW / 2;
+			const int arrowX = MAX_SCREEN_WIDTH / 2;
 			const int arrowY =
 				(MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) / 2 + 1 + upPadding
 				+ (POPUPSTRING_MAXHEIGHT - 1 - (upPadding + downPadding));
 
-			SCENEMANAGER->RenderToBackbuffer(arrowX, arrowY, 1, 1, "v");
+			SCENEMANAGER->RenderToBackbuffer(arrowX, arrowY, 1, 1, "V");
+		}
+		if (customStringIndex > 0) 
+		{
+			const int arrowX = MAX_SCREEN_WIDTH / 2;
+
+			SCENEMANAGER->RenderToBackbuffer(arrowX, MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT + upPadding, 1, 1, "¡ü");
 		}
 	}
 }

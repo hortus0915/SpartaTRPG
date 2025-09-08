@@ -28,8 +28,6 @@ class MapData
 private:
 	TileInfo** mapInfo;
 	int GetIndex(int x, int y);
-	int dungeonLevel;
-	bool dungeonKey = false;
 	MapType mapType = MapType::Dungeon;
 	std::map<TileType,std::set<TileInfo*>> objectInfo;
 
@@ -62,7 +60,5 @@ public:
 
 	const int GetMapWidth(MapType _mapType = MapType::NoneSelect);
 	const int GetMapHeight(MapType _mapType = MapType::NoneSelect);
-	inline void GetDungeonKey() { dungeonKey = true; }
-	inline bool CheckDungeonKey() { return dungeonKey; }
 };
 
