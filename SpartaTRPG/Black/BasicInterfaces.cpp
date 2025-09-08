@@ -9,6 +9,15 @@ IUpdatable::IUpdatable(string _targetSceneName)
 	{
 		node->AddUpdatable(this);
 	}
+	else
+	{
+		iScene* find = SCENEMANAGER->FindChild(_targetSceneName);
+
+		if (find)
+		{
+			find->AddUpdatable(this);
+		}
+	}
 }
 
 IRenderable::IRenderable(string _targetSceneName)
@@ -17,5 +26,14 @@ IRenderable::IRenderable(string _targetSceneName)
 	if (node)
 	{
 		node->AddRenderable(this);
+	}
+	else
+	{
+		iScene* find = SCENEMANAGER->FindChild(_targetSceneName);
+
+		if (find)
+		{
+			find->AddRenderable(this);
+		}
 	}
 }

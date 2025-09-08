@@ -1,6 +1,8 @@
 #include "iCharacter.h"
 
 #include "CommonFuncs.h"
+#include "CommonMacros.h"
+#include "Singletons/CommonManagers.h"
 #include <iostream>
 
 #include "DevBlack.h"
@@ -36,13 +38,14 @@ void iCharacter::Init(float _hp, float _baseDamage, float _sp, float _criPer, fl
 	exp = _exp;
 }
 
-float iCharacter::HitDamager(float damage, void* OnHit(void))
+float iCharacter::HitDamager(float damage, void (*OnHit)())
 {
 	if (IsDodge()) 
 	{
 #ifdef DEV_BLACK
 
-
+		string dodgeStr = " 회피성공! ";
+		SCENEMANAGER->RenderToBackbuffer(0, MAX_SCREEN_HEIGTH, dodgeStr.size(), 1, dodgeStr);
 
 #else
 		std::cout << " 회피성공! \n";

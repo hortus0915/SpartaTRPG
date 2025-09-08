@@ -9,6 +9,7 @@
 #include "Singletons/EffectType.h"
 
 #include "Singletons/Scenes.h"
+#include "DevBlack.h"
 
 bool MainGame::isGameRun = true;
 
@@ -66,7 +67,18 @@ void MainGame::Init()
 	SCENEMANAGER->AddChild("GameScene", "BattleScene",  new BattleScene ("BattleScene"));
 	SCENEMANAGER->AddChild("GameScene", "MinigameScene",new MinigameScene("MinigameScene"));
 
+#ifndef DEV_BLACK
+
 	SCENEMANAGER->ChangeScene("TitleScene");
+
+#else
+
+	SCENEMANAGER->ChangeScene("GameScene");
+	SCENEMANAGER->ChangeChild("BattleScene");
+	SCENEMANAGER->CurrentSceneInit();
+
+#endif // !DEV)BLACK
+
 	SCENEMANAGER->CurrentSceneInit();
 }
 

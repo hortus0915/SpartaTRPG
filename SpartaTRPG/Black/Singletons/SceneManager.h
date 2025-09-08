@@ -110,6 +110,9 @@ public:
 	SceneNode*	FindScene(string _sceneName);
 	// 키 값에 해당하는 씬 노드의 부모 씬 반환
 	iScene*		FindParent(string _sceneName);
+	// 차일드 씬 이름
+	// 부모 씬 이름으로 등록된 씬 노드에서 차일드 씬 반환
+	iScene*		FindChild(string _child);
 	// 부모 씬 이름, 차일드 씬 이름
 	// 부모 씬 이름으로 등록된 씬 노드에서 차일드 씬 반환
 	iScene*		FindChild(string _parent, string _child);
