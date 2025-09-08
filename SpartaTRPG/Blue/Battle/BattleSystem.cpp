@@ -33,15 +33,34 @@ void BattleSystem::MovoToCharacter(Side& _target)
 
 }
 
-int BattleSystem::AttackToCharacter(Side& _attacker, Side& _target)
+int BattleSystem::AttackToCharacter(Side& _attacker, Side& _target , vector<Board::Pos>& outRange)
 {
 	const int dx = _target.pos->x - _attacker.pos->x;
 	const int dy = _target.pos->y - _attacker.pos->y;
 
-	if (dx < -1 || dx > 1 || dy < -1 || dy > 1) return 0;
-
 	const int bit = (dy + 1) * 3 + (dx + 1);
 	const u16 mask = _attacker.card->GetRange();
+
+	outRange.clear();
+
+	for (int dy = -1; dy <= 1; ++dy) {
+		for (int dx = -1; dx <= 1; ++dx) {
+			int bit = (dy + 1) * 3 + (dx + 1);
+			if (mask & (1u << bit)) {
+				int nx = _attacker.pos->x + dx;
+				int ny = _attacker.pos->y + dy;
+
+				if (nx < 0 || nx >= Board::W) continue;
+				if (ny < 0 || ny >= Board::H) continue;
+
+				outRange.push_back({ nx, ny });
+			}
+		}
+	}
+
+
+	if (dx < -1 || dx > 1 || dy < -1 || dy > 1) return 0;
+
 
 	if ((mask & ((1u) << bit)) == 0) return 0;
 
