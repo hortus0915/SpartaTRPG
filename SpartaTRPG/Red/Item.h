@@ -14,11 +14,12 @@ enum class ItemType
 enum class ItemValueType
 {
     Gold = 0,
-	StatAdd_HP = 1, //장비
-	StatAdd_MP = 2,
-	CardUID = 3, // 카드
-	HPHeal = 4,// 포션
-	MPHeal = 5,
+	CardUID_MOVE = 1,
+    CardUID_ATTACK = 2,
+    StatAdd_HP = 3, //장비
+    StatAdd_MP = 4, // 카드
+	HPHeal = 5,// 포션
+	MPHeal = 6,
 };
 
 class Item
@@ -38,20 +39,20 @@ private:
 public: 
     std::string GetName();
     int GetItemCount();
-    static ItemType GetItemType(int _itemUID) noexcept
+
+    static constexpr ItemType GetItemType(int _itemUID) noexcept
     {
         return static_cast<ItemType>(_itemUID / 10000);
     }
-    static ItemValueType GetItemValueType(int _itemUID) noexcept
+    static constexpr ItemValueType GetItemValueType(int _itemUID) noexcept
     {
         return static_cast<ItemValueType>((_itemUID / 100) % 100);
     }
-    static int GetItemID(int _itemUID) noexcept
+    static constexpr int GetItemID(int _itemUID) noexcept
     {
         return _itemUID % 100;
     }
-
-    static int GetItemUID(ItemType _itemType, ItemValueType _valueType, int _itemID) noexcept
+    static constexpr int GetItemUID(ItemType _itemType, ItemValueType _valueType, int _itemID) noexcept
     {
         return static_cast<int>(_itemType) * 10000 + static_cast<int>(_valueType) * 100 + _itemID;
     }
