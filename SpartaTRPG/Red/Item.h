@@ -56,5 +56,10 @@ public:
     {
         return static_cast<int>(_itemType) * 10000 + static_cast<int>(_valueType) * 100 + _itemID;
     }
+
+    static constexpr int GetCardUID(int _cardUID)
+    {
+        return static_cast<int>(ItemType::Card) * 10000 + _cardUID;
+    }
 };
 
