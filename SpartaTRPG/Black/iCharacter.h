@@ -1,6 +1,10 @@
 #pragma once
 
+#include "../Blue/Card/CardDB.h"
+
 #include "BasicInterfaces.h"
+
+#include <set>
 
 #define LEVEL_MAX	10
 
@@ -22,6 +26,9 @@ protected:
 
 	int exp;
 
+	set<int> deck;
+
+
 public:
 	iCharacter();
 	virtual ~iCharacter() {}
@@ -29,6 +36,7 @@ public:
 	virtual void Init(float _hp, float _baseDamage, float _sp, float _criPer, float _criDmg, float _dod, float _counter, int _exp);
 	// Post Return : hitted real damage
 	virtual float HitDamager(float damage, void (*OnHit)() = nullptr);
+	float vSPCost=0;
 
 	virtual bool IsCritical();
 	virtual bool IsCounter();
@@ -48,6 +56,7 @@ public:
 	inline float GetDodge()	 const { return dodge; }
 	inline float GetCounter() const { return counter; }
 	inline int   GetExp()    const { return exp; }
+	inline set<int> GetDeck() const { return deck; }
 
 	inline void SetMaxHP(const float& _hp) { maxHP = _hp; }
 	inline void SetCurHP(const float& _hp) { currentHP = _hp; }
@@ -59,6 +68,8 @@ public:
 	inline void SetDodge(const float& _dod) { dodge = _dod; }
 	inline void SetCounter(const float& _counter) { counter = _counter; }
 	inline void SetExp(const int& _exp) { exp = _exp; }
+
+	 bool TryApplyVSPCost(const int& _vSPCost);
 
 	void AddHP(int _amount);
 	void AddSP(int _amount);

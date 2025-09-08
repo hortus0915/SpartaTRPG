@@ -79,9 +79,9 @@ constexpr u16 EDGES4 = (DIR_U | DIR_L | DIR_R | DIR_D);
 enum CardType
 {
 	MOVE,     // 이동
-	ATTACK,   // 공격
 	SHIELD,   // 방어/쉴드
-	HEAL      // 회복
+	HEAL,     // 회복
+	ATTACK   // 공격
 };
 
 class Card
