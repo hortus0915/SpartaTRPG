@@ -10,8 +10,6 @@
 
 #include "../EffectType.h"
 
-#include<iostream>
-
 
 void QuizScene::Update(float deltaTime)
 {
@@ -40,7 +38,7 @@ void QuizScene::Update(float deltaTime)
             if (cursor)
             {
                 SOUNDMANAGER->PlaySfx(Text("CursorMove.wav"));
-                cursor->SetPos(__CURSOR_X__, cursorIndex * 2 + __CURSOR_Y__);
+                cursor->SetPos(__CURSOR_X__+__TOTAL_X__, cursorIndex * 2 + __CURSOR_Y__+__TOTAL_Y__);
             }
         }
 
@@ -54,7 +52,7 @@ void QuizScene::Update(float deltaTime)
             if (cursor)
             {
                 SOUNDMANAGER->PlaySfx(Text("CursorMove.wav"));
-                cursor->SetPos(__CURSOR_X__, cursorIndex * 2 + __CURSOR_Y__);
+                cursor->SetPos(__CURSOR_X__ + __TOTAL_X__, cursorIndex * 2 + __CURSOR_Y__ + __TOTAL_Y__);
             }
         }
 
@@ -77,6 +75,7 @@ void QuizScene::Update(float deltaTime)
                     5,
                     0
                 );
+                USERMANAGER->GetKey();
                 is_end = true;
             }
             else
@@ -122,7 +121,7 @@ int QuizScene::Init()
         SAFE_DELETE(cursor);
         cursor = new BlinkCursor("QuizScene");
     }
-	cursor->SetPos(__CURSOR_X__, cursorIndex * 2 + __CURSOR_Y__);
+    cursor->SetPos(__CURSOR_X__ + __TOTAL_X__, cursorIndex * 2 + __CURSOR_Y__ + __TOTAL_Y__);
 	return 0;
 }
 
@@ -135,10 +134,10 @@ void QuizScene::Render()
 {
 	__super::Render();
 	
-    SCENEMANAGER->RenderToBackbuffer(__CURSOR_X__, __CURSOR_Y__ -__QUESTION_Y__, __TEXT_WIDTH__, __TEXT__HEIGHT__, question.getQuestion(), 1);
+    SCENEMANAGER->RenderToBackbuffer(__CURSOR_X__ + __TOTAL_X__, __CURSOR_Y__ -__QUESTION_Y__+__TOTAL_Y__, __TEXT_WIDTH__, __TEXT__HEIGHT__, question.getQuestion(), 1);
     for (int i = 0; i < 4; ++i) {
         std::string optLine = std::to_string(i + 1) + ". " + question.getOpt(i);
-        SCENEMANAGER->RenderToBackbuffer(__CURSOR_X__+__OPT_X__, __CURSOR_Y__ + i*__CURSOR_DIFF__, __TEXT_WIDTH__, __TEXT__HEIGHT__, optLine, 1);
+        SCENEMANAGER->RenderToBackbuffer(__CURSOR_X__+__OPT_X__+__TOTAL_X__, __CURSOR_Y__ + i*__CURSOR_DIFF__+__TOTAL_Y__, __TEXT_WIDTH__, __TEXT__HEIGHT__, optLine, 1);
     }
     cursor->Render();
 }

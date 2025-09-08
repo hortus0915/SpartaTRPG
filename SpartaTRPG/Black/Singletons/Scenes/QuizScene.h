@@ -11,6 +11,9 @@
 #define __QUESTION_Y__ 2
 #define __OPT_X__ 2
 #define __CURSOR_DIFF__ 2
+
+#define __TOTAL_X__ 10
+#define __TOTAL_Y__ -10
 class BlinkCursor;
 
 
