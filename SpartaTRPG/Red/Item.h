@@ -13,7 +13,7 @@ enum class ItemType
 
 enum class ItemValueType
 {
-    Gold = 0,
+    Cost = 0,
 	CardUID_MOVE = 1,
     CardUID_ATTACK = 2,
     StatAdd_HP = 3, //¿Â∫Ò
@@ -27,7 +27,7 @@ class Item
 public:
     Item(int _itemUID);
 
-    void AddItem();
+    void AddItem(int _count = 1);
     int UsingItem(int usingCount = 1);
 private:
     const int itemUID; // 00 ItemType 00 TiemValueType 00 ItemID

@@ -11,6 +11,8 @@ void UserManager::Init()
 	stage = 0;
 	stageKey = 0;
 	inventory = new Inventory();
+	inventory->AddItem(Item::GetItemUID(ItemType::Cost, ItemValueType::Cost, 1), 100);
+	inventory->AddItem(Item::GetItemUID(ItemType::Cost, ItemValueType::Cost, 2), 100);
 }
 
 void UserManager::GetKey()
@@ -34,10 +36,10 @@ void UserManager::SetNextStage()
 	stageKey = 0;
 }
 
-void UserManager::AddItem(int itemUID)
+void UserManager::AddItem(int _itemUID, int _count)
 {
 	if (inventory)
-		inventory->AddItem(itemUID);
+		inventory->AddItem(_itemUID, _count);
 }
 
 Item* UserManager::GetItemInfo(int itemUID)

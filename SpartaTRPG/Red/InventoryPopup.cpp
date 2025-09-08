@@ -3,10 +3,11 @@
 
 void InventoryPopup::Update(float deltaTime)
 {
-	if (KEYMANAGER->IsStayKeyDown(VK_BACK))
+	if (KEYMANAGER->IsStayKeyDown(VK_BACK) || KEYMANAGER->IsStayKeyDown(VK_ESCAPE))
 	{
 		POPUPMANAGER->PopupActiveOff();
 	}
+
 	if (KEYMANAGER->IsStayKeyDown(VK_RETURN))
 	{
 		if (isActive)
@@ -15,41 +16,100 @@ void InventoryPopup::Update(float deltaTime)
 			InvokeActive(selectValue);
 		}
 	}
+
+	if (KEYMANAGER->IsStayKeyDown(VK_UP))
+	{
+		if (itemIndex > 0)
+			itemIndex--;
+	}
+
+	if (KEYMANAGER->IsStayKeyDown(VK_DOWN))
+	{
+		if (itemIndex < printLine && printLine * customStringPageIndex + itemIndex - 1 < customString->size())
+			itemIndex++;
+	}
+
 	if (KEYMANAGER->IsStayKeyDown(VK_LEFT))
 	{
 		if (customStringPageIndex > 0)
+		{
+			itemIndex = 0;
 			customStringPageIndex--;
+		}
 	}
+
 	if (KEYMANAGER->IsStayKeyDown(VK_RIGHT))
 	{
-		if (customStringPageIndex)
+		if (hasCustonStringMore && (customStringPageIndex + 1) * printLine < customString->size())
+		{
+			itemIndex = 0;
 			customStringPageIndex++;
+		}
+	}
+
+	if (KEYMANAGER->IsStayKeyDown(VK_NUMPAD1))
+	{
+		if (itemIndex != 1)
+		{
+			itemIndex = 1;
+			SetItemType(ItemType::Cost);
+		}
+	}
+
+	if (KEYMANAGER->IsStayKeyDown(VK_NUMPAD2))
+	{
+		if (itemIndex != 2)
+		{
+			itemIndex = 2;
+			SetItemType(ItemType::Eequipment);
+		}
+	}
+
+	if (KEYMANAGER->IsStayKeyDown(VK_NUMPAD3))
+	{
+		if (itemIndex != 3)
+		{
+			itemIndex = 3;
+			SetItemType(ItemType::Potion);
+		}
 	}
 }
 
 void InventoryPopup::Render()
 {
 	__super::Render();
-	//카테고리 출력
-	//customString으로 아이템 목록 출력
-	//현제 선택중인 아이템 > 요거 이건 위에거랑 같이 넣고
 
-	//사용 가능한 아이템인지 확인해서 사용, 버리기 버튼 활성화
-	//사용 불가능한 아이템이면 버리기 버튼 가운데에 활성화
+	SCENEMANAGER->RenderToBackbuffer(
+		(MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) / 2 + CATEGORYLENGTH,
+		(MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) / 2 + 1,
+		CATEGORYLENGTH * 3 + 1,
+		1,
+		"1.cost             2.equipment    3.Potion");
+	auto temp = customString;
+	RenderingCustomString();
+
+	SCENEMANAGER->RenderToBackbuffer(
+		(MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) / 2 + leftPadding - 3,
+		(MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) / 2 + itemIndex + upPadding,
+		1,
+		1,
+		">");
 }
 
 void InventoryPopup::Init()
 {
 	__super::Init();
 
-	upPadding = 1;
-	downPadding = 3;
-	leftPadding = 8;
-
 	if(!customString)
 		customString = new vector<string>();
-
+	
 	SetItemType(ItemType::Cost);
+}
+
+void InventoryPopup::SetCustomStringPadding(int _leftPadding, int _rightPadding, int _upPadding, int _downPadding)
+{
+	leftPadding = 15;
+	upPadding = 3;
 }
 
 void InventoryPopup::SetItemType(ItemType _itemType)
@@ -62,6 +122,11 @@ void InventoryPopup::SetItemType(ItemType _itemType)
 	{
 		char buf[128];
 		std::snprintf(buf, sizeof(buf), "아이템 이름 : %s , 수량 : %d", item.second.GetName().c_str(), item.second.GetItemCount());
-		customString->emplace_back(buf);
+		customString->push_back(buf);
 	}
+}
+
+void InventoryPopup::ShowItemDetail(int _itemUID)
+{
+	auto selectItem = USERMANAGER->GetItemInfo_fromIndex(itemType, printLine * customStringPageIndex + itemIndex);
 }

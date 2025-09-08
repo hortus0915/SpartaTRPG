@@ -9,6 +9,8 @@
 MapMovePlayer::MapMovePlayer(string _sn, MapData* _mapData) : iMapMovable(_sn, _mapData)
 {
 	runSoundDuration = RUNSOUNDENDDURATION;
+	range_Of_Sight = 0;
+	mapMove = 1;
 	testInven = new Inventory();
 }
 
@@ -19,22 +21,48 @@ void MapMovePlayer::Init(Color _characterColor, Color _bgColor)
 
 void MapMovePlayer::Update(float deltaTime)
 {
-	if(POPUPMANAGER->CheckPopupActive() == false)
-		MapInput(deltaTime);
-
-	if (!activeCheck)
+	if (mapMove > 0)
 	{
-		CheckActive();
-		activeCheck = true;
+		range_Of_Sight += deltaTime * 50;
+		
+		if (range_Of_Sight > RANGE_OF_SIGHT)
+		{
+			range_Of_Sight = RANGE_OF_SIGHT;
+			mapMove = 0;
+		}
+		MapImageSet();
+	}
+	if (mapMove < 0)
+	{
+		range_Of_Sight -= deltaTime * 50;
+
+		if (range_Of_Sight < 0)
+		{
+			range_Of_Sight = 0;
+			mapMove = 1;
+		}
+		MapImageSet();
 	}
 
-	if (runSoundDuration < RUNSOUNDENDDURATION)
+	if (mapMove == 0)
 	{
-		runSoundDuration += deltaTime;
-	}
-	else
-	{
-		SOUNDMANAGER->StopAmbient(Text("RunSound.wav"));
+		if (POPUPMANAGER->CheckPopupActive() == false)
+			MapInput(deltaTime);
+
+		if (!activeCheck)
+		{
+			CheckActive();
+			activeCheck = true;
+		}
+
+		if (runSoundDuration < RUNSOUNDENDDURATION)
+		{
+			runSoundDuration += deltaTime;
+		}
+		else
+		{
+			SOUNDMANAGER->StopAmbient(Text("RunSound.wav"));
+		}
 	}
 }
 
@@ -85,6 +113,7 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 	{
 	case Exit:
 	{
+		mapMove = -1;
 		mapData->CreateMap(MapType::Dungeon);
 		break;
 	}
@@ -121,11 +150,14 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 			5,
 			0
 		);
+
+		USERMANAGER->GetKey();
 		mapData->ObjectReset(posX, posY);
 		break;
 	}
 	case DungeonIn:
 	{
+		mapMove = -1;
 		mapData->CreateMap(MapType::Dungeon);
 		break;
 	}
@@ -154,14 +186,13 @@ void MapMovePlayer::CheckActive()
 	case Monster:
 	case MonsterActiveRange:
 	{
-		auto battle = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "BattleScene");
-		if (battle)
-		{
-			//battle->SetBattlers(USERMANAGER->GetPlayer(), USERMANAGER->SetMonster());
-		}
-
-		SCENEMANAGER->ChangeChild("BattleScene");
-		SCENEMANAGER->CurrentSceneInit();
+		//auto battle = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "BattleScene");
+		//if (battle)
+		//{
+		//	//battle->SetBattlers(USERMANAGER->GetPlayer(), USERMANAGER->SetMonster());
+		//}
+		//SCENEMANAGER->ChangeChild("BattleScene");
+		//SCENEMANAGER->CurrentSceneInit();
 
 		break;
 	}
@@ -177,8 +208,8 @@ void MapMovePlayer::CheckActive()
 			initString,
 			15,
 			0,
-			2,
-			4
+			5,
+			1
 		);
 	}
 	break;
@@ -186,6 +217,7 @@ void MapMovePlayer::CheckActive()
 	{
 		vector<string>* initString = new vector<string>();
 		initString->push_back("열쇠를 발견했다!");
+		initString->push_back("");
 		initString->push_back("열쇠를 줍겠습니까?");
 
 		POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::ObjectSelectedActive>(
@@ -194,8 +226,8 @@ void MapMovePlayer::CheckActive()
 			initString,
 			15,
 			0,
-			2,
-			4
+			5,
+			1
 		);
 	}
 	break;
@@ -205,55 +237,14 @@ void MapMovePlayer::CheckActive()
 		initString->push_back("던전 입구");
 		initString->push_back("");
 		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
-		initString->push_back("던전에 입장하시겠습니까?");
 		POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::ObjectSelectedActive>(
 			PopupType::SELECTPOPUP,
 			this,
 			initString,
 			15,
 			0,
-			2,
-			4
+			5,
+			1
 		);
 	}
 	break;
@@ -266,8 +257,8 @@ void MapMovePlayer::CheckActive()
 		{
 			vector<string>* initString = new vector<string>();
 			initString->push_back("다음 던전으로 통하는 입구를 발견했다!");
+			initString->push_back("");
 			initString->push_back("다음 던전에 입장하시겠습니까?");
-
 
 			POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::ObjectSelectedActive>(
 				PopupType::SELECTPOPUP,
@@ -275,8 +266,8 @@ void MapMovePlayer::CheckActive()
 				initString,
 				15,
 				0,
-				2,
-				4
+				5,
+				1
 			);
 		}
 		else
@@ -290,7 +281,7 @@ void MapMovePlayer::CheckActive()
 				initString,
 				15,
 				0,
-				2,
+				5,
 				0
 			);
 		}
@@ -303,6 +294,8 @@ void MapMovePlayer::MapImageSet()
 {
 	int harfWidth = MAX_SCREEN_WIDTH / 2;
 	int harfHeight = MAX_SCREEN_HEIGTH / 2;
+
+	int nowRange_Of_Sight = range_Of_Sight;
 
 	for (int i = 0; i < harfHeight; ++i)
 	{
@@ -318,7 +311,7 @@ void MapMovePlayer::MapImageSet()
 			if (SetWall(harfWidth, harfHeight, j, i, harfHeight + i, harfWidth + j)) continue;
 
 			int mapX = posX + j;
-			if (i * i * 4 + j * j < RANGE_OF_SIGHT * RANGE_OF_SIGHT)
+			if (i * i * 4 + j * j < nowRange_Of_Sight * nowRange_Of_Sight)
 			{
 				image[harfHeight + i][harfWidth + j] = mapData->GetMapData(mapX, mapY);
 			}
@@ -332,7 +325,7 @@ void MapMovePlayer::MapImageSet()
 			if (SetWall(harfWidth, harfHeight, j, i, harfHeight + i, harfWidth - j)) continue;
 
 			int mapX = posX - j;
-			if (i * i * 4 + j * j < RANGE_OF_SIGHT * RANGE_OF_SIGHT)
+			if (i * i * 4 + j * j < nowRange_Of_Sight * nowRange_Of_Sight)
 			{
 				image[harfHeight + i][harfWidth - j] = mapData->GetMapData(mapX, mapY);
 			}
@@ -350,7 +343,7 @@ void MapMovePlayer::MapImageSet()
 			if (SetWall(harfWidth, harfHeight, j, i, harfHeight - i, harfWidth + j)) continue;
 
 			int mapX = posX + j;
-			if (i * i * 4 + j * j < RANGE_OF_SIGHT * RANGE_OF_SIGHT)
+			if (i * i * 4 + j * j < nowRange_Of_Sight * nowRange_Of_Sight)
 			{
 				image[harfHeight - i][harfWidth + j] = mapData->GetMapData(mapX, mapY);
 			}
@@ -364,7 +357,7 @@ void MapMovePlayer::MapImageSet()
 			if (SetWall(harfWidth, harfHeight, j, i, harfHeight - i, harfWidth - j)) continue;
 
 			int mapX = posX - j;
-			if (i * i * 4 + j * j < RANGE_OF_SIGHT * RANGE_OF_SIGHT)
+			if (i * i * 4 + j * j < nowRange_Of_Sight * nowRange_Of_Sight)
 			{
 				image[harfHeight - i][harfWidth - j] = mapData->GetMapData(mapX, mapY);
 			}

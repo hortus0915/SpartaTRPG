@@ -22,6 +22,7 @@ protected:
 
 	vector<string>* customString;
 	int customStringPageIndex;
+	int printLine;
 
 	int leftPadding;
 	int rightPadding;
@@ -49,7 +50,7 @@ public:
 
 	void RenderingCustomString();
 	void SetCustonStrings(vector<string>* _customString);
-	void SetCustomStringPadding(int _leftPadding = 0, int _rightPadding = 0, int _upPadding = 0, int _downPadding = 0);
+	virtual void SetCustomStringPadding(int _leftPadding = 0, int _rightPadding = 0, int _upPadding = 0, int _downPadding = 0);
 	void VariableInit();
 };
 

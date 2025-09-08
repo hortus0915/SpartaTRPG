@@ -3,6 +3,8 @@
 #include <map>
 #include "Item.h"
 
+#define CATEGORYLENGTH 13
+
 class InventoryPopup : public Popup
 {
 private:
@@ -19,6 +21,8 @@ public:
 	virtual void Render() override;
 	virtual void Init() override;
 
+	virtual void SetCustomStringPadding(int _leftPadding = 0, int _rightPadding = 0, int _upPadding = 0, int _downPadding = 0) override;
 	void SetItemType(ItemType _itemType);
+	void ShowItemDetail(int _itemUID);
 };
 

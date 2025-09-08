@@ -263,19 +263,19 @@ void BattleScene::Update(float _deltaTime)
                     case ATTACK:
                         if (!pActionDone)
                         {
-                            playerAttackDamage = (float)sys.AttackToCharacter(P, M);
-                            if (playerAttackDamage > 0)
-                            {
-                                if (M.card->GetType() == SHIELD)
-                                {
-                                    sys.ShieldToCharacter(M, P, playerAttackDamage, playerAttackDamage, enemyAttackDamage);
-                                }
-                                
-                                if (M.chr->HitDamager(playerAttackDamage))
-                                {
-                                    battleUi->UpdateUI();
-                                }
-                            }
+                            //playerAttackDamage = (float)sys.AttackToCharacter(P, M);
+                            //if (playerAttackDamage > 0)
+                            //{
+                            //    if (M.card->GetType() == SHIELD)
+                            //    {
+                            //        sys.ShieldToCharacter(M, P, playerAttackDamage, playerAttackDamage, enemyAttackDamage);
+                            //    }
+                            //    
+                            //    if (M.chr->HitDamager(playerAttackDamage))
+                            //    {
+                            //        battleUi->UpdateUI();
+                            //    }
+                            //}
 
                             pActionDone = true;
                         }
@@ -324,19 +324,19 @@ void BattleScene::Update(float _deltaTime)
                         case ATTACK:
                             if (!mActionDone)
                             {
-                                enemyAttackDamage = (float)sys.AttackToCharacter(M, P);
-                                if (enemyAttackDamage > 0)
-                                {
-                                    if (M.card->GetType() == SHIELD)
-                                    {
-                                        sys.ShieldToCharacter(P, M, enemyAttackDamage, enemyAttackDamage, playerAttackDamage);
-                                    }
+                                //enemyAttackDamage = (float)sys.AttackToCharacter(M, P);
+                                //if (enemyAttackDamage > 0)
+                                //{
+                                //    if (M.card->GetType() == SHIELD)
+                                //    {
+                                //        sys.ShieldToCharacter(P, M, enemyAttackDamage, enemyAttackDamage, playerAttackDamage);
+                                //    }
 
-                                    if (P.chr->HitDamager(enemyAttackDamage))
-                                    {
-                                        battleUi->UpdateUI();
-                                    }
-                                }
+                                //    if (P.chr->HitDamager(enemyAttackDamage))
+                                //    {
+                                //        battleUi->UpdateUI();
+                                //    }
+                                //}
 
                                 mActionDone = true;
                             }

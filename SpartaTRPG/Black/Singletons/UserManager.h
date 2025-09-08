@@ -35,7 +35,7 @@ public:
 
 	void SetNextStage();
 
-	void AddItem(int itemUID);
+	void AddItem(int itemUID, int _count = 1);
 	Item* GetItemInfo(int itemUID);
 	Item* GetItemInfo_fromIndex(ItemType itemType ,int index); 
 	std::map<int, Item>* GetItemPartition(ItemType _itemType);

@@ -7,9 +7,9 @@ Item::Item(int _itemUID)
 	count = 1;
 }
 
-void Item::AddItem()
+void Item::AddItem(int _count)
 {
-	count++;
+	count += count;
 }
 
 int Item::UsingItem(int usingCount)
@@ -24,7 +24,8 @@ void Item::SetItemValue(int _itemUID)
 {
 	switch (_itemUID)
 	{
-	case 0:
+	case Item::GetItemUID(ItemType::Cost, ItemValueType::Cost, 1):
+	case Item::GetItemUID(ItemType::Cost, ItemValueType::Cost, 2):
 		value = 10;
 	default:
 		break;
@@ -35,8 +36,10 @@ std::string Item::GetName()
 {
 	switch (itemUID)
 	{
-	case 1:
+	case Item::GetItemUID(ItemType::Cost, ItemValueType::Cost, 1):
 		return "골드";
+	case Item::GetItemUID(ItemType::Cost, ItemValueType::Cost, 2):
+		return "다이아몬드";
 	default:
 		return {};
 	}

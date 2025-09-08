@@ -4,7 +4,7 @@
 
 void Popup::Update(float deltaTime)
 {
-	if (KEYMANAGER->IsStayKeyDown(VK_BACK))
+	if (KEYMANAGER->IsStayKeyDown(VK_BACK) || KEYMANAGER->IsStayKeyDown(VK_ESCAPE))
 	{
 		POPUPMANAGER->PopupActiveOff();
 	}
@@ -23,7 +23,7 @@ void Popup::Update(float deltaTime)
 	}
 	if (KEYMANAGER->IsStayKeyDown(VK_RIGHT))
 	{
-		if(hasCustonStringMore && customStringPageIndex * (POPUPSTRING_MAXHEIGHT - downPadding - upPadding - 1) < customString->size())
+		if(hasCustonStringMore && (customStringPageIndex + 1) * printLine < customString->size())
 			customStringPageIndex++;
 	}
 }
@@ -72,11 +72,14 @@ void Popup::Release()
 
 void Popup::SetCustonStrings(vector<string>* _customString)
 {
-	if (customString)
-		SAFE_DELETE(customString);
+	if (_customString)
+	{
+		if (customString)
+			SAFE_DELETE(customString);
 
-	customString = _customString;
-	customStringPageIndex = 0;
+		customString = _customString;
+		customStringPageIndex = 0;
+	}
 }
 
 void Popup::SetActive(bool active)
@@ -94,7 +97,8 @@ void Popup::SetCustomStringPadding(int _leftPadding, int _rightPadding, int _upP
 
 void Popup::VariableInit()
 {
-	customString = nullptr;
+	if (customString)
+		customString->clear();
 	hasCustonStringMore = false;
 	isActive = false;
 	selectValue = -1;
@@ -112,7 +116,7 @@ void Popup::RenderingCustomString()
 		int stringMaxX = POPUPSTRING_MAXWIDTH - leftPadding - rightPadding;
 		int stringMaxY = POPUPSTRING_MAXHEIGHT - downPadding - upPadding;
 
-		int printLine = stringMaxY;
+		printLine = stringMaxY;
 
 		if (customString->size() >= stringMaxY - 1)
 		{
@@ -122,7 +126,7 @@ void Popup::RenderingCustomString()
 
 		for (int i = 0; i < printLine; i++)
 		{
-			if (printLine * customStringPageIndex + i >= customString->size() - 1)
+			if (printLine * customStringPageIndex + i >= customString->size())
 				break;
 
 			SCENEMANAGER->RenderToBackbuffer(
@@ -144,7 +148,7 @@ void Popup::RenderingCustomString()
 					1,
 					"<");
 			}
-			if (customStringPageIndex * (POPUPSTRING_MAXHEIGHT - downPadding - upPadding - 1) < customString->size())
+			if ((customStringPageIndex + 1) * printLine < customString->size())
 			{
 				SCENEMANAGER->RenderToBackbuffer(
 					MAX_SCREEN_WIDTH / 2 + 10,
@@ -162,9 +166,6 @@ void Popup::Init()
 	VariableInit();
 
 	SOUNDMANAGER->PlaySfx(TEXT("Buff1.wav"));
-
-	if (customString)
-		SAFE_DELETE(customString);
 
 	for (int i = 0; i < MAPPOPUP_HEIGHT; ++i)
 	{

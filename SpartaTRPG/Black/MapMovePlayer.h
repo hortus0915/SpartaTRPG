@@ -12,8 +12,10 @@ class MapMovePlayer : public iMapMovable
 private:
 	bool activeCheck = false;
 	float runSoundDuration;
-
+	float range_Of_Sight;
 	Inventory* testInven;
+
+	int mapMove;
 
 public:
 	MapMovePlayer(string _sn, MapData* _mapData);

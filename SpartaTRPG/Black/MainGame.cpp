@@ -39,6 +39,7 @@ void MainGame::Init()
 
 	TIMEMANAGER->Init();
 	SCENEMANAGER->Init(this);
+	USERMANAGER->Init();
 	POPUPMANAGER->Init(this);
 
 	stringstream stream;
