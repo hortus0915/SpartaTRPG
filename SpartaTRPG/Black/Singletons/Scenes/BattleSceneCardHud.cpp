@@ -150,7 +150,7 @@ void BattleSceneCardHud::Render()
 			++offsetY;
 
 			sStream.str("");
-			sStream << "코스트 : " << currentCard->GetStaminaCost();
+			sStream << "코스트 : " << ((currentCard->GetStaminaCost() > 0) ? currentCard->GetStaminaCost() : 0);
 			COST = sStream.str();
 			SCENEMANAGER->RenderToBackbuffer(posX, posY + offsetY, COST.size(), 1, COST);
 			++offsetY;
@@ -160,7 +160,7 @@ void BattleSceneCardHud::Render()
 			++offsetY;
 
 			bool hpHeal = (currentCard->GetDamageRate() > 0.0f);
-			bool spHeal = (currentCard->GetStaminaCost() > 0);
+			bool spHeal = (currentCard->GetStaminaCost() < 0);
 			if (hpHeal)
 			{
 				sStream.str("");
@@ -173,7 +173,7 @@ void BattleSceneCardHud::Render()
 			if (spHeal)
 			{
 				sStream.str("");
-				sStream << "마나 + " << ((int)currentCard->GetStaminaCost());
+				sStream << "마나 + " << ((int)-currentCard->GetStaminaCost());
 				attackRange[0] = sStream.str();
 				SCENEMANAGER->RenderToBackbuffer(posX, posY + offsetY, attackRange[0].size(), 1, attackRange[0]);
 				++offsetY;

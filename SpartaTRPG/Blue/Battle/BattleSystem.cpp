@@ -82,14 +82,14 @@ void BattleSystem::ShieldToCharacter(Side& _self, Side& _attacker, float _attack
 
 	if (_self.chr->IsCounter())
 	{
-		cout << " 카운터 발동! \n";
+		//cout << " 카운터 발동! \n";
 		_outCounterDamage = _attackDamage * 2.0f;
 		_outAttackDamage = 0;
 	}
 	else
 	{	
 		int shieldDamage = _attackDamage * (1.0f - shieldRate);
-		cout << " 방어 후 데미지 : " << shieldDamage << "\n";
+	//	cout << " 방어 후 데미지 : " << shieldDamage << "\n";
 		_outAttackDamage = shieldDamage;
 	}
 
@@ -101,12 +101,12 @@ int BattleSystem::HealToCharacter(Side& _self)
 	const int ManaAmount = _self.card->GetStaminaCost();
 
 	if (healAmount > 0) _self.chr->AddHP(healAmount);
-	if (ManaAmount > 0) _self.chr->AddSP(ManaAmount);
+	if (ManaAmount < 0) _self.chr->AddSP(ManaAmount);
 
-	//test print
-	if (healAmount > 0) std::cout << " 체력+" << healAmount;
-	if (ManaAmount > 0) std::cout << " 마나+" << ManaAmount;
-	std::cout << "\n";
+	////test print
+	//if (healAmount > 0) std::cout << " 체력+" << healAmount;
+	//if (ManaAmount > 0) std::cout << " 마나+" << ManaAmount;
+	//std::cout << "\n";
 
 
 	return 0;
@@ -118,11 +118,12 @@ int BattleSystem::HealToCharacter(Side& _self, stringstream& sStream)
 	const int ManaAmount = _self.card->GetStaminaCost();
 
 	if (healAmount > 0) _self.chr->AddHP(healAmount);
-	if (ManaAmount > 0) _self.chr->AddSP(ManaAmount);
+
+	 _self.chr->AddSP(-ManaAmount);
 
 	//test print
 	if (healAmount > 0) sStream << " 체력 + " << healAmount;
-	if (ManaAmount > 0) sStream << " 마나 + " << ManaAmount;
+	if (ManaAmount < 0) sStream << " 마나 + " << ManaAmount;
 	std::cout << "\n";
 
 
