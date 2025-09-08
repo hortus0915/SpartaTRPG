@@ -53,9 +53,9 @@ int Inventory::UsingItem(int _itemUID, int _count)
 	return ret;
 }
 
-std::map<int, Item>& Inventory::GetItemPartition(ItemType _itemType)
+std::map<int, Item>* Inventory::GetItemPartition(ItemType _itemType)
 {
-	return allItems[_itemType];
+	return &(allItems[_itemType]);
 }
 
 Item* Inventory::GetItem_fromIndex(ItemType _itemType, long index)

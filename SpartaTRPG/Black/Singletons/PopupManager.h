@@ -79,5 +79,4 @@ public:
         activePopup->SetActive();
         return activePopup;
     }
-
 };

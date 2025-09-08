@@ -8,6 +8,7 @@
 MapMovePlayer::MapMovePlayer(string _sn, MapData* _mapData) : iMapMovable(_sn, _mapData)
 {
 	runSoundDuration = RUNSOUNDENDDURATION;
+	testInven = new Inventory();
 }
 
 void MapMovePlayer::Init(Color _characterColor, Color _bgColor)
@@ -68,7 +69,13 @@ void MapMovePlayer::MapInput(float deltaTime)
 		MoveTo(0, 1);
 		CheckRunSoundPlay();
 	}
-
+	if (KEYMANAGER->IsStayKeyDown(VK_TAB))
+	{
+		POPUPMANAGER->InitPopup<MapMovePlayer, nullptr>(
+			PopupType::INVENTORYPOPUP,
+			nullptr
+		);
+	}
 }
 
 void MapMovePlayer::ObjectActive(TileType _tileType)
@@ -76,25 +83,59 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 	switch (_tileType)
 	{
 	case Exit:
+	{
 		mapData->CreateMap(MapType::Dungeon);
 		break;
+	}
 	case Box:
 	case BoxActive:
+	{
+		vector<string>* initString = new vector<string>();
+		initString->push_back("박스에서 아이템을 획득하였다!");
+
+		POPUPMANAGER->InitPopup<MapMovePlayer, nullptr>(
+			PopupType::RESULTPOPUP,
+			nullptr,
+			initString,
+			15,
+			0,
+			5,
+			0
+		);
 		//아이템 획득
 		mapData->ObjectReset(posX, posY);
 		break;
+	}
 	case Key:
+	{
 		mapData->GetDungeonKey();
+		vector<string>* initString = new vector<string>();
+		initString->push_back("열쇠를 획득하였다!");
+
+		POPUPMANAGER->InitPopup<MapMovePlayer, nullptr>(
+			PopupType::RESULTPOPUP,
+			nullptr,
+			initString,
+			15,
+			0,
+			5,
+			0
+		);
 		mapData->ObjectReset(posX, posY);
 		break;
+	}
 	case DungeonIn:
+	{
 		mapData->CreateMap(MapType::Dungeon);
 		break;
+	}
 	case Monster:
 	case MonsterActiveRange:
+	{
 		//전투 씬으로 이동
 		mapData->ObjectReset(posX, posY);
 		break;
+	}
 	default:
 		break;
 	}
@@ -116,6 +157,18 @@ void MapMovePlayer::CheckActive()
 	case BoxActive:
 	{
 		vector<string>* initString = new vector<string>();
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
 		initString->push_back("박스를 열겠습니까?");
 
 		POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::ObjectSelectedActive>(
@@ -178,6 +231,21 @@ void MapMovePlayer::CheckActive()
 			POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::ObjectSelectedActive>(
 				PopupType::SELECTPOPUP,
 				this,
+				initString,
+				15,
+				0,
+				5,
+				0
+			);
+		}
+		else
+		{
+			vector<string>* initString = new vector<string>();
+			initString->push_back("열쇠가 필요하다!");
+
+			POPUPMANAGER->InitPopup<MapMovePlayer, nullptr>(
+				PopupType::RESULTPOPUP,
+				nullptr,
 				initString,
 				15,
 				0,

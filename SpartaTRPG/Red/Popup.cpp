@@ -12,8 +12,8 @@ void Popup::Update(float deltaTime)
 	{
 		if (isActive)
 		{
-			InvokeActive(selectValue);
 			POPUPMANAGER->PopupActiveOff();
+			InvokeActive(selectValue);
 		}
 	}
 	if (KEYMANAGER->IsStayKeyDown(VK_DOWN))

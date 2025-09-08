@@ -154,6 +154,7 @@
     <ClCompile Include="Black\Singletons\SoundManager.cpp" />
     <ClCompile Include="Black\Singletons\TimeManager.cpp" />
     <ClCompile Include="Black\Singletons\Timer.cpp" />
+    <ClCompile Include="Black\Singletons\UserManager.cpp" />
     <ClCompile Include="Black\TestScene.cpp" />
     <ClCompile Include="Black_TestMain.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -163,6 +164,7 @@
     <ClCompile Include="Blue\Card\CardData.cpp" />
     <ClCompile Include="Blue\Card\CardDB.cpp" />
     <ClCompile Include="Red\Inventory.cpp" />
+    <ClCompile Include="Red\InventoryPopup.cpp" />
     <ClCompile Include="Red\Item.cpp" />
     <ClCompile Include="Red\MapCreateTileInfo.cpp" />
     <ClCompile Include="Red\MapData.cpp" />
@@ -211,12 +213,14 @@
     <ClInclude Include="Black\Singletons\SoundManager.h" />
     <ClInclude Include="Black\Singletons\TimeManager.h" />
     <ClInclude Include="Black\Singletons\Timer.h" />
+    <ClInclude Include="Black\Singletons\UserManager.h" />
     <ClInclude Include="Black\TestScene.h" />
     <ClInclude Include="Blue\Battle\BattleSystem.h" />
     <ClInclude Include="Blue\Battle\Board.h" />
     <ClInclude Include="Blue\Card\CardData.h" />
     <ClInclude Include="Blue\Card\CardDB.h" />
     <ClInclude Include="Red\Inventory.h" />
+    <ClInclude Include="Red\InventoryPopup.h" />
     <ClInclude Include="Red\Item.h" />
     <ClInclude Include="Red\MapCreateTileInfo.h" />
     <ClInclude Include="Red\MapData.h" />

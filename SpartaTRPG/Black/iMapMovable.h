@@ -1,8 +1,9 @@
 #pragma once
 
 #include "BasicInterfaces.h"
-
 #include "TextColors.h"
+
+#define RANGE_OF_SIGHT 30
 
 class MapData;
 
@@ -21,6 +22,7 @@ protected:
 
 	bool isNewRender = false;
 
+	bool SetWall(int harfX, int harfY, int j, int i, int posY, int posX);
 public:
 	iMapMovable(string _targetSceneName, MapData* _mapData);
 	virtual ~iMapMovable();

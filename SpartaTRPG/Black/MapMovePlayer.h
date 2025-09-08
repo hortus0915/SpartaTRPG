@@ -1,6 +1,7 @@
 #pragma once
 #include "iMapMovable.h"
 #include "../Red/TileInfo.h"
+#include "../Red/Inventory.h"
 
 #define RUNSOUNDENDDURATION 0.3f
 
@@ -11,6 +12,9 @@ class MapMovePlayer : public iMapMovable
 private:
 	bool activeCheck = false;
 	float runSoundDuration;
+
+	Inventory* testInven;
+
 public:
 	MapMovePlayer(string _sn, MapData* _mapData);
 

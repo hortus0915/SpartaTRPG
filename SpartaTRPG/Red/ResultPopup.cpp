@@ -4,6 +4,7 @@
 void ResultPopup::Render()
 {
 	__super::Render();
+	RenderingCustomString();
 }
 
 void ResultPopup::Init()

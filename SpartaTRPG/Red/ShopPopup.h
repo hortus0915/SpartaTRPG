@@ -1,17 +1,15 @@
 #pragma once
 #include "Popup.h"
 #include <map>
+#include "Item.h"
 
 class ShopPopup : public Popup
 {
 private:
-
-	int itemIndex = 0;
-
-	std::map<int, map<string, int>> itemTemp;
-
+	ItemType itemType;
+	int itemIndex;
 public:
-	ShopPopup() : Popup() {}
+	ShopPopup() : Popup() { itemType = ItemType::Eequipment; itemIndex = 0; }
 
 	virtual void Render() override;
 	virtual void Init() override;

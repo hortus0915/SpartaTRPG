@@ -20,13 +20,29 @@ int Item::UsingItem(int usingCount)
 	return --count;
 }
 
-void Item::SetItemValue(int itemUID)
+void Item::SetItemValue(int _itemUID)
 {
-	switch (itemUID)
+	switch (_itemUID)
 	{
 	case 0:
 		value = 10;
 	default:
 		break;
 	}
+}
+
+std::string Item::GetName()
+{
+	switch (itemUID)
+	{
+	case 1:
+		return "°ñµå";
+	default:
+		return {};
+	}
+}
+
+int Item::GetItemCount()
+{
+	return count;
 }
