@@ -1,6 +1,10 @@
 #pragma once
 
+#include "../Blue/Card/CardDB.h"
+
 #include "BasicInterfaces.h"
+
+#include <set>
 
 #define LEVEL_MAX	10
 
@@ -21,6 +25,9 @@ protected:
 	float counter;
 
 	int exp;
+
+	set<int> deck;
+
 
 public:
 	iCharacter();
@@ -49,6 +56,7 @@ public:
 	inline float GetDodge()	 const { return dodge; }
 	inline float GetCounter() const { return counter; }
 	inline int   GetExp()    const { return exp; }
+	inline set<int> GetDeck() const { return deck; }
 
 	inline void SetMaxHP(const float& _hp) { maxHP = _hp; }
 	inline void SetCurHP(const float& _hp) { currentHP = _hp; }

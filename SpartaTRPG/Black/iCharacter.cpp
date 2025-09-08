@@ -22,7 +22,7 @@ iCharacter::iCharacter()
 {
 }
 
-void iCharacter::Init(float _hp, float _baseDamage, float _sp, float _criPer, float _criDmg, float _dod, float _counter, int _exp)
+void iCharacter::Init(float _hp, float _sp, float _baseDamage, float _criPer, float _criDmg, float _dod, float _counter, int _exp)
 {
 	maxHP = currentHP = _hp;
 	maxSP = currentSP = _sp;

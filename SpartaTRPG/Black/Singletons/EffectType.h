@@ -11,3 +11,7 @@
 #define Tail_Explosion			"TailExplosion"
 #define Tail_Slash				"TailSlash"
 #define Tail_Explosion_Slash	"TailExplosionSlash"
+#define Tail_Shining			"TailShining"
+
+#include "Effects/EffectShining.h"
+#define Shining "Shining"
