@@ -89,7 +89,7 @@ bool iCharacter::IsDodge()
 	return rnd < dodge;
 }
 
-inline bool iCharacter::TryApplyVSPCost(const int& _vSPCost)
+ bool iCharacter::TryApplyVSPCost(const int& _vSPCost)
 {	
 	int current = vSPCost - _vSPCost;
 	if(current >= 0)

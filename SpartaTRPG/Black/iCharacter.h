@@ -61,7 +61,7 @@ public:
 	inline void SetCounter(const float& _counter) { counter = _counter; }
 	inline void SetExp(const int& _exp) { exp = _exp; }
 
-	inline bool TryApplyVSPCost(const int& _vSPCost);
+	 bool TryApplyVSPCost(const int& _vSPCost);
 
 	void AddHP(int _amount);
 	void AddSP(int _amount);

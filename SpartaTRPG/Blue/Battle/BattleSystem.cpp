@@ -3,6 +3,8 @@
 #include <sstream>
 #include "BattleSystem.h"
 
+
+
 void BattleSystem::BeginVSP(Side& _target)
 {
 	_target.chr->vSPCost = _target.chr->GetCurSP();
@@ -10,10 +12,9 @@ void BattleSystem::BeginVSP(Side& _target)
 
 bool BattleSystem::TryPickWithVSP(Side& _target, const Card* _card)
 {
-	if (!_card) return;
 	int cost = _card->GetStaminaCost();
 
-	return (_target.chr->TryApplyVSPCost(cost));
+	return _target.chr->TryApplyVSPCost(cost);
 }
 
 void BattleSystem::MovoToCharacter(Side& _target)
