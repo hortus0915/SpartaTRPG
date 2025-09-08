@@ -324,6 +324,21 @@ iScene* SceneManager::FindParent(string _sceneName)
 	return nullptr;
 }
 
+iScene* SceneManager::FindChild(string _child)
+{
+	iScene* find = nullptr;
+
+	for (const auto& n : mSceneList)
+	{
+		find = n.second->FindChild(_child);
+
+		if (find)
+			break;
+	}
+
+	return find;
+}
+
 iScene* SceneManager::FindChild(string _parent, string _child)
 {
 	SceneNode* s = this->FindScene(_parent);

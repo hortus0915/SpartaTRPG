@@ -28,7 +28,7 @@ public:
 
 	virtual void Init(float _hp, float _baseDamage, float _sp, float _criPer, float _criDmg, float _dod, float _counter, int _exp);
 	// Post Return : hitted real damage
-	virtual float HitDamager(float damage, void* OnHit(void) = nullptr);
+	virtual float HitDamager(float damage, void (*OnHit)() = nullptr);
 
 	virtual bool IsCritical();
 	virtual bool IsCounter();

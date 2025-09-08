@@ -45,18 +45,18 @@ namespace CardDB
 		Clear();
 
 		// ===== 이동 (101~) — 한 방향 1칸,  =====
-		AddCard(Card(101, "한칸이동", MOVE, DIR_R, 1));   // 동(→)
-		AddCard(Card(102, "한칸이동", MOVE, DIR_L, 1));   // 서(←)
-		AddCard(Card(103, "한칸이동", MOVE, DIR_U, 1));   // 북(↑)
-		AddCard(Card(104, "한칸이동", MOVE, DIR_D, 1));   // 남(↓)
-		AddCard(Card(105, "한칸이동", MOVE, DIR_UL, 1, 10));  // 북서(↖)
-		AddCard(Card(106, "한칸이동", MOVE, DIR_UR, 1, 10));  // 북동(↗)
-		AddCard(Card(107, "한칸이동", MOVE, DIR_DR, 1, 10));  // 남동(↘)
-		AddCard(Card(108, "한칸이동", MOVE, DIR_DL, 1, 10));  // 남서(↙)
-		AddCard(Card(111, "두칸이동", MOVE, DIR_R, 2, 10));   // 동(→)
-		AddCard(Card(112, "두칸이동", MOVE, DIR_L, 2, 10));   // 서(←)
-		AddCard(Card(113, "두칸이동", MOVE, DIR_U, 2, 10));   // 북(↑)
-		AddCard(Card(114, "두칸이동", MOVE, DIR_D, 2, 10));   // 남(↓)
+		AddCard(Card(101, "한칸이동 →", MOVE, DIR_R, 1));   // 동(→)
+		AddCard(Card(102, "한칸이동 ←", MOVE, DIR_L, 1));   // 서(←)
+		AddCard(Card(103, "한칸이동 ↑", MOVE, DIR_U, 1));   // 북(↑)
+		AddCard(Card(104, "한칸이동 ↓", MOVE, DIR_D, 1));   // 남(↓)
+		AddCard(Card(105, "한칸이동↖", MOVE, DIR_UL, 1, 10));  // 북서(↖)
+		AddCard(Card(106, "한칸이동↗", MOVE, DIR_UR, 1, 10));  // 북동(↗)
+		AddCard(Card(107, "한칸이동↘", MOVE, DIR_DR, 1, 10));  // 남동(↘)
+		AddCard(Card(108, "한칸이동↙", MOVE, DIR_DL, 1, 10));  // 남서(↙)
+		AddCard(Card(111, "두칸이동 →", MOVE, DIR_R, 2, 10));   // 동(→)
+		AddCard(Card(112, "두칸이동 ←", MOVE, DIR_L, 2, 10));   // 서(←)
+		AddCard(Card(113, "두칸이동 ↑", MOVE, DIR_U, 2, 10));   // 북(↑)
+		AddCard(Card(114, "두칸이동 ↓", MOVE, DIR_D, 2, 10));   // 남(↓)
 
 
 		// ===== 가드 (201~) =====

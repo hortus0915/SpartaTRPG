@@ -144,6 +144,8 @@
     <ClCompile Include="Black\Singletons\SceneInterface.cpp" />
     <ClCompile Include="Black\Singletons\SceneManager.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\BattleScene.cpp" />
+    <ClCompile Include="Black\Singletons\Scenes\BattleSceneCardHud.cpp" />
+    <ClCompile Include="Black\Singletons\Scenes\BattleSceneHud.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\DungeonScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\EndingScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\GameScene.cpp" />
@@ -207,6 +209,8 @@
     <ClInclude Include="Black\Singletons\SceneManager.h" />
     <ClInclude Include="Black\Singletons\Scenes.h" />
     <ClInclude Include="Black\Singletons\Scenes\BattleScene.h" />
+    <ClInclude Include="Black\Singletons\Scenes\BattleSceneCardHud.h" />
+    <ClInclude Include="Black\Singletons\Scenes\BattleSceneHud.h" />
     <ClInclude Include="Black\Singletons\Scenes\DungeonScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\EndingScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\GameScene.h" />

@@ -1,5 +1,6 @@
 #include <cstdlib> 
 #include <algorithm> 
+#include <sstream>
 #include "BattleSystem.h"
 
 void BattleSystem::MovoToCharacter(Side& _target)
@@ -86,6 +87,23 @@ int BattleSystem::HealToCharacter(Side& _self)
 	//test print
 	if (healAmount > 0) std::cout << " 체력+" << healAmount;
 	if (ManaAmount > 0) std::cout << " 마나+" << ManaAmount;
+	std::cout << "\n";
+
+
+	return 0;
+}
+
+int BattleSystem::HealToCharacter(Side& _self, stringstream& sStream)
+{
+	const int healAmount = (int)_self.card->GetDamageRate();
+	const int ManaAmount = _self.card->GetStaminaCost();
+
+	if (healAmount > 0) _self.chr->AddHP(healAmount);
+	if (ManaAmount > 0) _self.chr->AddSP(ManaAmount);
+
+	//test print
+	if (healAmount > 0) sStream << " 체력 + " << healAmount;
+	if (ManaAmount > 0) sStream << " 마나 + " << ManaAmount;
 	std::cout << "\n";
 
 

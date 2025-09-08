@@ -73,7 +73,7 @@ void DoubleBuffering::SetFontColor(Color color)
 {
     CONSOLE_SCREEN_BUFFER_INFO info;
     GetConsoleScreenBufferInfo(hBuffer[nScreenIndex], &info);
-    SetConsoleTextAttribute(hBuffer[nScreenIndex], (info.wAttributes & 0xf0) | (color & 0xf));
+    SetConsoleTextAttribute(hBuffer[nScreenIndex], ((info.wAttributes & 0xf) << 4) | (color & 0xf));
 }
 
 //배경 색상 변경 함수

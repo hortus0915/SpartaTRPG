@@ -107,7 +107,7 @@ Effect* EffectManager::CreateEffectInstance(string _effectName)
 	{
 		newEffect = new EffectSlash(1, 5, 0.15f);
 	}
-	else if (_effectName == Tail)
+	else if (_effectName == Tail_Base)
 	{
 		newEffect = new EffectTail(1, 1, 0.5f);
 	}
