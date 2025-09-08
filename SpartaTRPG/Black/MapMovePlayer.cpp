@@ -4,9 +4,11 @@
 #include "../Red/SelectPopup.h"
 #include "../Red/MapData.h"
 
+
 MapMovePlayer::MapMovePlayer(string _sn, MapData* _mapData) : iMapMovable(_sn, _mapData)
 {
-	popup = new SelectPopup(_sn);
+	runSoundDuration = RUNSOUNDENDDURATION;
+	testInven = new Inventory();
 }
 
 void MapMovePlayer::Init(Color _characterColor, Color _bgColor)
@@ -16,95 +18,64 @@ void MapMovePlayer::Init(Color _characterColor, Color _bgColor)
 
 void MapMovePlayer::Update(float deltaTime)
 {
-	if (popup->CheckActive())
+	if(POPUPMANAGER->CheckPopupActive() == false)
+		MapInput(deltaTime);
+
+	if (!activeCheck)
 	{
-		PopupInput();
+		CheckActive();
+		activeCheck = true;
+	}
+
+	if (runSoundDuration < RUNSOUNDENDDURATION)
+	{
+		runSoundDuration += deltaTime;
 	}
 	else
 	{
-		MapInput();
-
-		if (!activeCheck)
-		{
-			CheckActive();
-			activeCheck = true;
-		}
+		SOUNDMANAGER->StopAmbient(Text("RunSound.wav"));
 	}
 }
 
 void MapMovePlayer::Render()
 {
 	__super::Render();
-
-	if (popup->CheckActive())
-	{
-		popup->Render();
-	}
 }
 
 void MapMovePlayer::Release()
 {
 	__super::Release();
-
-	if (popup)
-	{
-		popup->Release();
-		SAFE_DELETE(popup);
-	}
 }
 
-void MapMovePlayer::PopupInput()
+void MapMovePlayer::MapInput(float deltaTime)
 {
 	if (KEYMANAGER->IsStayKeyDown(VK_LEFT))
 	{
-		popup->Select(true);
-	}
-	if (KEYMANAGER->IsStayKeyDown(VK_RIGHT))
-	{
-		popup->Select(false);
-	}
-	if (KEYMANAGER->IsStayKeyDown(VK_RETURN))
-	{
-		if (popup->CheckSelect())
-		{
-			popup->SetActive(false);
-			ObjectActive(mapData->GetMapInfo(posX, posY));
-			MapImageSet();
-		}
-		else
-		{
-			popup->SetActive(false);
-		}
-	}
-	if (KEYMANAGER->IsStayKeyDown(VK_BACK))
-	{
-		popup->SetActive(false);
-	}
-}
-
-void MapMovePlayer::MapInput()
-{
-	if (KEYMANAGER->IsStayKeyDown(VK_LEFT))
-	{
-		MoveTo(-1, 0);
-		activeCheck = false;
+		MoveTo(-1, 0); 
+		CheckRunSoundPlay();
 	}
 	if (KEYMANAGER->IsStayKeyDown(VK_RIGHT))
 	{
 		MoveTo(1, 0);
-		activeCheck = false;
+		CheckRunSoundPlay();
 	}
 	if (KEYMANAGER->IsStayKeyDown(VK_UP))
 	{
 		MoveTo(0, -1);
-		activeCheck = false;
+		CheckRunSoundPlay();
 	}
 	if (KEYMANAGER->IsStayKeyDown(VK_DOWN))
 	{
 		MoveTo(0, 1);
-		activeCheck = false;
+		CheckRunSoundPlay();
 	}
-
+	if (KEYMANAGER->IsStayKeyDown(VK_TAB))
+	{
+		POPUPMANAGER->InitPopup<MapMovePlayer, nullptr>(
+			PopupType::INVENTORYPOPUP,
+			nullptr
+		);
+	}
 }
 
 void MapMovePlayer::ObjectActive(TileType _tileType)
@@ -112,25 +83,59 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 	switch (_tileType)
 	{
 	case Exit:
+	{
 		mapData->CreateMap(MapType::Dungeon);
 		break;
+	}
 	case Box:
 	case BoxActive:
+	{
+		vector<string>* initString = new vector<string>();
+		initString->push_back("박스에서 아이템을 획득하였다!");
+
+		POPUPMANAGER->InitPopup<MapMovePlayer, nullptr>(
+			PopupType::RESULTPOPUP,
+			nullptr,
+			initString,
+			15,
+			0,
+			5,
+			0
+		);
 		//아이템 획득
 		mapData->ObjectReset(posX, posY);
 		break;
+	}
 	case Key:
+	{
 		mapData->GetDungeonKey();
+		vector<string>* initString = new vector<string>();
+		initString->push_back("열쇠를 획득하였다!");
+
+		POPUPMANAGER->InitPopup<MapMovePlayer, nullptr>(
+			PopupType::RESULTPOPUP,
+			nullptr,
+			initString,
+			15,
+			0,
+			5,
+			0
+		);
 		mapData->ObjectReset(posX, posY);
 		break;
+	}
 	case DungeonIn:
+	{
 		mapData->CreateMap(MapType::Dungeon);
 		break;
+	}
 	case Monster:
 	case MonsterActiveRange:
+	{
 		//전투 씬으로 이동
 		mapData->ObjectReset(posX, posY);
 		break;
+	}
 	default:
 		break;
 	}
@@ -146,23 +151,128 @@ void MapMovePlayer::CheckActive()
 	case Wall:
 	case Monster:
 	case MonsterActiveRange:
-		popup->SetActive(false);
+		POPUPMANAGER->PopupActiveOff();
 		break;
 	case Box:
 	case BoxActive:
+	{
+		vector<string>* initString = new vector<string>();
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+		initString->push_back("박스를 열겠습니까?");
+
+		POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::ObjectSelectedActive>(
+			PopupType::SELECTPOPUP,
+			this,
+			initString,
+			15,
+			0,
+			5,
+			0
+		);
+	}
+	break;
 	case Key:
+	{
+		vector<string>* initString = new vector<string>();
+		initString->push_back("열쇠를 발견했다!");
+		initString->push_back("열쇠를 줍겠습니까?");
+
+		POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::ObjectSelectedActive>(
+			PopupType::SELECTPOPUP,
+			this,
+			initString,
+			15,
+			0,
+			5,
+			0
+		);
+	}
+	break;
 	case DungeonIn:
+	{
+		vector<string>* initString = new vector<string>();
+		initString->push_back("던전 입구");
+		initString->push_back("");
+		initString->push_back("던전에 입장하시겠습니까?");
+
+		POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::ObjectSelectedActive>(
+			PopupType::SELECTPOPUP,
+			this,
+			initString,
+			15,
+			0,
+			5,
+			0
+		);
+	}
+	break;
 	case Shop:
 	case ShopActiveRange:
-		popup->SetActive();
 		break;
 	case Exit:
+	{
 		if (mapData->CheckDungeonKey())
 		{
-			popup->SetActive();
+			vector<string>* initString = new vector<string>();
+			initString->push_back("다음 던전으로 통하는 입구를 발견했다!");
+			initString->push_back("다음 던전에 입장하시겠습니까?");
+
+			POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::ObjectSelectedActive>(
+				PopupType::SELECTPOPUP,
+				this,
+				initString,
+				15,
+				0,
+				5,
+				0
+			);
 		}
-		break;
-	default:
-		break;
+		else
+		{
+			vector<string>* initString = new vector<string>();
+			initString->push_back("열쇠가 필요하다!");
+
+			POPUPMANAGER->InitPopup<MapMovePlayer, nullptr>(
+				PopupType::RESULTPOPUP,
+				nullptr,
+				initString,
+				15,
+				0,
+				5,
+				0
+			);
+		}
 	}
+	break;
+	}
+}
+
+void MapMovePlayer::ObjectSelectedActive(int selectValue)
+{
+	if (selectValue == 0)
+	{
+		ObjectActive(mapData->GetMapInfo(posX, posY));
+		MapImageSet();
+	}
+}
+
+void MapMovePlayer::CheckRunSoundPlay()
+{
+	if (runSoundDuration >= RUNSOUNDENDDURATION)
+	{
+		SOUNDMANAGER->PlayAmbient(Text("RunSound.wav"));
+	}
+	runSoundDuration = 0;
+	activeCheck = false;
 }

@@ -6,6 +6,16 @@
 
 #include <Windows.h>
 
+bool iMapMovable::SetWall(int harfX, int harfY, int j, int i, int posY, int posX)
+{
+	if (i == harfY - 1 || j == harfX - 1)
+	{
+		image[posY][posX] = '#';
+		return true;
+	}
+	return false;
+}
+
 iMapMovable::iMapMovable(string _targetSceneName, MapData* _mapData)
 	:
 	image(nullptr),
@@ -62,7 +72,6 @@ void iMapMovable::MoveTo(int deltaX, int deltaY)
 	posX += deltaX;
 	posY += deltaY;
 
-	SOUNDMANAGER->PlaySfx(Text("RunSound.wav"), 0.1f);
 	MapImageSet();
 }
 
@@ -78,26 +87,78 @@ void iMapMovable::SetPos(int _posX, int _posY)
 
 void iMapMovable::MapImageSet()
 {
-	for (int i = 0; i < MAX_SCREEN_HEIGTH; ++i)
-	{
-		for (int j = 0; j < MAX_SCREEN_WIDTH; ++j)
-		{
-			int harfX = MAX_SCREEN_WIDTH / 2;
-			int harfY = MAX_SCREEN_HEIGTH / 2;
+	int harfWidth = MAX_SCREEN_WIDTH / 2;
+	int harfHeight = MAX_SCREEN_HEIGTH / 2;
 
-			if (i == 0 || i == MAX_SCREEN_HEIGTH - 1 || j == 0 || j == MAX_SCREEN_WIDTH - 1)
-				image[i][j] = '#';
-			else if (j == harfX && i == harfY)
-				image[i][j] = 'O';
+	for (int i = 0; i < harfHeight; ++i)
+	{
+		int mapY = posY + i;
+		for (int j = 0; j < harfWidth; ++j)
+		{
+			if (i == 0 && j == 0)
+			{
+				image[harfHeight + i][harfWidth + j] = 'O';
+				continue;
+			}
+			
+			if (SetWall(harfWidth, harfHeight,j,i, harfHeight + i, harfWidth + j)) continue;
+
+			int mapX = posX + j;
+			if( i * i * 4 + j * j < RANGE_OF_SIGHT * RANGE_OF_SIGHT)
+			{
+				image[harfHeight + i][harfWidth + j] = mapData->GetMapData(mapX , mapY );
+			}
 			else
 			{
-				int mapX = posX - ((MAX_SCREEN_WIDTH) / 2 - j + 1);
-				int mapY = posY - ((MAX_SCREEN_HEIGTH) / 2 - i + 1);
-
-				image[i][j] = mapData->GetMapData(mapX + 1, mapY + 1);
+				image[harfHeight + i][harfWidth + j] = '.';
 			}
 		}
-		image[i][MAX_SCREEN_WIDTH] = '\0';
+		for (int j = 1; j < harfWidth; ++j)
+		{
+			if (SetWall(harfWidth, harfHeight, j, i, harfHeight + i,harfWidth - j)) continue;
+
+			int mapX = posX - j;
+			if (i * i * 4 + j * j < RANGE_OF_SIGHT * RANGE_OF_SIGHT)
+			{
+				image[harfHeight + i][harfWidth - j] = mapData->GetMapData(mapX , mapY );
+			}
+			else
+			{
+				image[harfHeight + i][harfWidth - j] = '.';
+			}
+		}
+	}
+	for (int i = 1; i < harfHeight; ++i)
+	{
+		int mapY = posY - i;
+		for (int j = 0; j < harfWidth; ++j)
+		{
+			if (SetWall(harfWidth, harfHeight, j, i, harfHeight - i, harfWidth + j)) continue;
+
+			int mapX = posX + j;
+			if (i * i * 4 + j * j < RANGE_OF_SIGHT * RANGE_OF_SIGHT)
+			{
+				image[harfHeight - i][harfWidth + j] = mapData->GetMapData(mapX , mapY );
+			}
+			else
+			{
+				image[harfHeight - i][harfWidth + j] = '.';
+			}
+		}
+		for (int j = 1; j < harfWidth; ++j)
+		{
+			if (SetWall(harfWidth, harfHeight, j, i, harfHeight - i, harfWidth - j)) continue;
+
+			int mapX = posX - j;
+			if (i * i * 4 + j * j < RANGE_OF_SIGHT * RANGE_OF_SIGHT)
+			{
+				image[harfHeight - i][harfWidth - j] = mapData->GetMapData(mapX , mapY );
+			}
+			else
+			{
+				image[harfHeight - i][harfWidth - j] = '.';
+			}
+		}
 	}
 	isNewRender = true;
 }
