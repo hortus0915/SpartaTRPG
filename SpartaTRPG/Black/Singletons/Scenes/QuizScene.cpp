@@ -1,6 +1,8 @@
 #include "QuizScene.h"
 #include "../../../Yellow/QuizData.h"
 #include <random>
+
+
 #include "../CommonManagers.h"
 #include "../../CommonFuncs.h"
 #include "../../MainGame.h"
@@ -8,6 +10,7 @@
 
 #include "../EffectType.h"
 
+#include<iostream>
 
 
 void QuizScene::Update(float deltaTime)
@@ -58,14 +61,46 @@ void QuizScene::Update(float deltaTime)
 
         if (KEYMANAGER->IsOnceKeyDown(VK_RETURN))
         {
+            
             if (cursorIndex == question.getAnswer())
             {
                 // 정답일경우
+                vector<string>* initString = new vector<string>();
+                initString->push_back("정답!");
+
+                POPUPMANAGER->InitPopup<QuizScene, nullptr>(
+                    PopupType::RESULTPOPUP,
+                    nullptr,
+                    initString,
+                    15,
+                    0,
+                    5,
+                    0
+                );
+                is_end = true;
             }
             else
             {
                 // 오답일경우
+                vector<string>* initString = new vector<string>();
+                initString->push_back("오답!");
+
+                POPUPMANAGER->InitPopup<QuizScene, nullptr>(
+                    PopupType::RESULTPOPUP,
+                    nullptr,
+                    initString,
+                    15,
+                    0,
+                    5,
+                    0
+                );
+                is_end = true;
+            
             }
+            
+        }
+        if (!POPUPMANAGER->CheckPopupActive() && is_end) {
+            SCENEMANAGER->ChangeChild("DungeonScene");
         }
     }
 }
@@ -73,6 +108,7 @@ void QuizScene::Update(float deltaTime)
 int QuizScene::Init()
 {
     auto _quizData = LoadQuizData();
+    is_end = false;
     std::random_device rd;   
     std::mt19937 gen(rd());  
     std::uniform_int_distribution<int> dist(0, _quizData.size() - 1); 

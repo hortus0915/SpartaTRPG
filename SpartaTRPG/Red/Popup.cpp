@@ -12,7 +12,7 @@ void Popup::Update(float deltaTime)
 	{
 		if (isActive)
 		{
-			POPUPMANAGER->PopupActiveOff();
+			//POPUPMANAGER->PopupActiveOff();
 			InvokeActive(selectValue);
 		}
 	}

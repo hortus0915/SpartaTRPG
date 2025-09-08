@@ -26,6 +26,8 @@ private:
 
 	bool correct;
 
+	bool is_end;
+
 	BlinkCursor* cursor;
 
 
