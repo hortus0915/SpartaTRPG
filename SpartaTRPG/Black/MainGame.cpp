@@ -67,7 +67,8 @@ void MainGame::Init()
 	SCENEMANAGER->AddScene("GameScene",  new GameScene ("GameScene"));
 	SCENEMANAGER->AddChild("GameScene", "DungeonScene", new DungeonScene("DungeonScene"));
 	SCENEMANAGER->AddChild("GameScene", "BattleScene",  new BattleScene ("BattleScene"));
-	SCENEMANAGER->AddChild("GameScene", "MinigameScene",new MinigameScene("MinigameScene"));
+	SCENEMANAGER->AddChild("GameScene", "MinigameScene", new MinigameScene("MinigameScene"));
+	SCENEMANAGER->AddChild("GameScene", "ShopScene", new ShopScene("ShopScene"));
 
 #ifndef DEV_BLACK
 
@@ -76,7 +77,7 @@ void MainGame::Init()
 #else
 
 	SCENEMANAGER->ChangeScene("GameScene");
-	SCENEMANAGER->ChangeChild("BattleScene");
+	SCENEMANAGER->ChangeChild("ShopScene");
 	SCENEMANAGER->CurrentSceneInit();
 
 #endif // !DEV)BLACK

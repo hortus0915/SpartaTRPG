@@ -13,16 +13,19 @@ private:
 	int blinkCount;
 	bool isCursorOff;
 	string cursor;
+	string shape;
 
 	Color fontColor;
 
 public:
-	BlinkCursor(string _sceneName) : IUpdatable(_sceneName), isCursorOff(false), cursor("V"), blinkCount(0), fontColor(ORIGINCOLOR) {}
+	BlinkCursor(string _sceneName) : IUpdatable(_sceneName), isCursorOff(false), cursor("V"), blinkCount(0), fontColor(ORIGINCOLOR), shape("V") {}
 
 	// IUpdatable을(를) 통해 상속됨
 	void Update(float deltaTime) override;
 	void Render();
 
 	void SetPos(const int& x, const int& y);
+
+	inline void SetShape(const string& _s) { shape = _s; }
 };
 
