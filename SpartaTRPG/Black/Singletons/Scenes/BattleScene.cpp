@@ -418,19 +418,28 @@ void BattleScene::Update(float _deltaTime)
 							gain = player->GetLevel() * 100;
 							player->GainExp(gain);
 
-							sequenceStr = "플레이어 승리! 경험치 +" + std::to_string(gain);
-							lastActionStr = sequenceStr;
+							vector<string>* temp = new vector<string>();
+							temp->push_back("플레이어 승리! 경험치 +" + std::to_string(gain));
 							currentSequence = Victory;
+							lastActionStr = sequenceStr;
+							POPUPMANAGER->InitPopup<BattleScene, nullptr>(PopupType::SELECTPOPUP, nullptr, temp, 8, 0, 4, 0);
 						}
 						else if (playerDead && !enemyDead) {
-							sequenceStr = "패배... GAME OVER";
+							vector<string>* temp = new vector<string>();
+							temp->push_back("패배... 마을로 돌아갑니다");
 							lastActionStr = sequenceStr;
 							currentSequence = Defeat;
+							POPUPMANAGER->InitPopup<BattleScene, nullptr>(PopupType::SELECTPOPUP, nullptr, temp, 8, 0, 4, 0);
 						}
 						else {
-							sequenceStr = "무승부";
+							vector<string>* temp = new vector<string>();
+							temp->push_back("무승부");
+							temp->push_back("");
+							temp->push_back("좋은 승부였지만 더 이상 움직일 힘은 없는 듯 하다.");
+							temp->push_back("마을로 돌아갑니다");
 							lastActionStr = sequenceStr;
 							currentSequence = Draw;
+							POPUPMANAGER->InitPopup<BattleScene, nullptr>(PopupType::SELECTPOPUP, nullptr, temp, 8, 0, 4, 0);
 						}
 
 						waitingToStartAction = false;
@@ -471,8 +480,8 @@ void BattleScene::Update(float _deltaTime)
 		}
 	}
 	break;
-
 	case Victory:
+
 	case Defeat:
 	case Draw:
 	{
