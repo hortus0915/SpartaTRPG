@@ -101,11 +101,12 @@ void MinigameScene::Update(float deltaTime)
                     0
                 );
                 USERMANAGER->GetKey();
+                
                 is_end = true;
-
+                ResetPlayerPos();
                 if (!POPUPMANAGER->CheckPopupActive() && is_end) {
                     //SCENEMANAGER->ChangeChild("DungeonScene");
-                    ResetPlayerPos();
+                    
                 }
             }
         }
@@ -156,12 +157,12 @@ void MinigameScene::Render()
     }
     
 
-    for (int r = 0; r < map->m_map.rows; ++r) {
+   /* for (int r = 0; r < map->m_map.rows; ++r) {
         for (int c = 0; c < map->m_map.cols; ++c) {
             std::string charToString(1, map->m_map.at(r, c));
             SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_+__DEFAULT_PLAYER_X__ + r*(__INTERVAL_X_),+__DEFAULT_PLAYER_Y__ +c*(__INTERVAL_Y_), 1, 1, charToString, 1);
        }
-    }
+    }*/
 
     player->Render();
 }
