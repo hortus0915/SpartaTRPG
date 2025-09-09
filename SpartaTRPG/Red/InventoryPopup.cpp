@@ -196,10 +196,13 @@ void InventoryPopup::ShowItemDetail()
 		case ItemType::Card:
 		{
 			vector<string>* initString = new vector<string>();
+			initString->push_back("전투에서 사용되는 카드");
+			initString->push_back(" ");
+			RenderCardInfo(initString);
+			initString->push_back("");
 			char buf[128];
-			std::snprintf(buf, sizeof(buf), "%s을(를) 장착했습니다.", selectItem->GetName().c_str());
+			std::snprintf(buf, sizeof(buf), "%d개 갖고 있다", selectItem->GetItemCount());
 			initString->push_back(buf);
-
 
 			POPUPMANAGER->InitPopup<InventoryPopup, nullptr>(
 				PopupType::RESULTPOPUP,
@@ -225,7 +228,7 @@ void InventoryPopup::ShowItemDetail()
 			initString->push_back("");
 			initString->push_back("사용 하시겠습니까?");
 
-			POPUPMANAGER->InitPopup<InventoryPopup, &InventoryPopup::EquipItem>(
+			POPUPMANAGER->InitPopup<InventoryPopup, &InventoryPopup::UsingPotion>(
 				PopupType::SELECTPOPUP,
 				this,
 				initString,
@@ -248,13 +251,10 @@ void InventoryPopup::EquipItem(int _selectValue)
 		USERMANAGER->EquipItem(selectItem);
 
 		vector<string>* initString = new vector<string>();
-		initString->push_back("전투에서 사용되는 카드");
-		initString->push_back(" ");
-		RenderCardInfo(initString);
-		initString->push_back("");
 		char buf[128];
-		std::snprintf(buf, sizeof(buf), "%d개 갖고 있다", selectItem->GetItemCount());
+		std::snprintf(buf, sizeof(buf), "%s을(를) 장착했습니다.", selectItem->GetName().c_str());
 		initString->push_back(buf);
+
 
 		POPUPMANAGER->InitPopup<InventoryPopup, nullptr>(
 			PopupType::RESULTPOPUP,
@@ -331,30 +331,30 @@ void InventoryPopup::RenderCardInfo(vector<string>* _customString)
 			for (int i = 0; i < 9; ++i) {
 				if (currentCard->GetRange() & (1u << i)) { dirIdx = i; break; }
 			}
-			customString->push_back(currentCard->GetName());
+			_customString->push_back(currentCard->GetName());
 			char buf[128];
 			std::snprintf(buf, sizeof(buf), "코스트 : %d", currentCard->GetStaminaCost());
-			customString->push_back(buf);
-			customString->push_back("타입 : 이동");
-			std::snprintf(buf, sizeof(buf), "%c %d 칸", arrows[dirIdx], (int)currentCard->GetDamageRate());
-			customString->push_back(buf);
+			_customString->push_back(buf);
+			_customString->push_back("타입 : 이동");
+			std::snprintf(buf, sizeof(buf), "%s %d 칸", arrows[dirIdx], (int)currentCard->GetDamageRate());
+			_customString->push_back(buf);
 
 		}
 		break;
 
 		case ATTACK:
 		{
-			customString->push_back(currentCard->GetName());
+			_customString->push_back(currentCard->GetName());
 
 			char buf[128];
 			std::snprintf(buf, sizeof(buf), "코스트 : %d", currentCard->GetStaminaCost());
-			customString->push_back(buf);
-			customString->push_back("타입 : 공격");
+			_customString->push_back(buf);
+			_customString->push_back("타입 : 공격");
 
 			std::snprintf(buf, sizeof(buf), "공격배율 : %f", currentCard->GetDamageRate());
-			customString->push_back(buf);
-			customString->push_back("");
-			customString->push_back("공격범위");
+			_customString->push_back(buf);
+			_customString->push_back("");
+			_customString->push_back("공격범위");
 
 			string attackRange[9];
 			for (int i = 0; i < 9; i++)
@@ -368,7 +368,7 @@ void InventoryPopup::RenderCardInfo(vector<string>* _customString)
 			for (int i = 0; i < 3; ++i)
 			{
 				string temp = attackRange[0 + i * 3] + attackRange[1 + i * 3] + attackRange[2 + i * 3];
-				customString->push_back(temp);
+				_customString->push_back(temp);
 			}
 		}
 		break;
@@ -379,39 +379,39 @@ void InventoryPopup::RenderCardInfo(vector<string>* _customString)
 
 			char buf[128];
 			std::snprintf(buf, sizeof(buf), "코스트 : %d", currentCard->GetStaminaCost());
-			customString->push_back(buf);
-			customString->push_back("타입 : 방어");
-			customString->push_back("");
+			_customString->push_back(buf);
+			_customString->push_back("타입 : 방어");
+			_customString->push_back("");
 			std::snprintf(buf, sizeof(buf), "방어 : %d", (int)(currentCard->GetDamageRate() * 100));
-			customString->push_back(buf);
+			_customString->push_back(buf);
 		}
 		break;
 
 		case HEAL:
 		{
 			int count = 5;
-			customString->push_back(currentCard->GetName());
+			_customString->push_back(currentCard->GetName());
 
 			char buf[128];
 			std::snprintf(buf, sizeof(buf), "코스트 : %d", currentCard->GetStaminaCost());
-			customString->push_back(buf);
-			customString->push_back("타입 : 힐");
-			customString->push_back("");
+			_customString->push_back(buf);
+			_customString->push_back("타입 : 힐");
+			_customString->push_back("");
 
 			bool hpHeal = (currentCard->GetDamageRate() > 0.0f);
 			bool spHeal = (currentCard->GetStaminaCost() < 0);
 			if (hpHeal)
 			{
-				customString->push_back("");
+				_customString->push_back("");
 				std::snprintf(buf, sizeof(buf), "체력 : %d", (int)currentCard->GetDamageRate());
-				customString->push_back(buf);
+				_customString->push_back(buf);
 				--count;
 			}
 			if (spHeal)
 			{
-				customString->push_back("");
+				_customString->push_back("");
 				std::snprintf(buf, sizeof(buf), "마나 : %d", (int)currentCard->GetStaminaCost());
-				customString->push_back(buf);
+				_customString->push_back(buf);
 				--count;
 			}
 

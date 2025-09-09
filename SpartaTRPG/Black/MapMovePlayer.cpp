@@ -16,6 +16,8 @@ MapMovePlayer::MapMovePlayer(string _sn, MapData* _mapData) : iMapMovable(_sn, _
 	monsterEffect = nullptr;
 	activeCheck = false;
 	randomType = RandomItemType::None;
+	moveToShop = false;
+	moveToMiniGame = false;
 }
 
 void MapMovePlayer::Init(Color _characterColor, Color _bgColor)
@@ -62,14 +64,24 @@ void MapMovePlayer::Update(float deltaTime)
 			{
 				monsterEffect = nullptr;
 				mapData->ObjectReset(posX, posY);
-				//auto battle = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "BattleScene");
-				//if (battle)
-				//{
-				//	//battle->SetBattlers(USERMANAGER->GetPlayer(), USERMANAGER->SetMonster());
-				//}
-				//SCENEMANAGER->ChangeChild("BattleScene");
-				//SCENEMANAGER->CurrentSceneInit();
+				auto battle = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "BattleScene");
+				SCENEMANAGER->ChangeChild("BattleScene");
+				SCENEMANAGER->CurrentSceneInit();
 				return;
+			}
+			else if(moveToShop)
+			{
+				moveToShop = false;
+				auto shop = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "ShopScene");
+				SCENEMANAGER->ChangeChild("ShopScene");
+				SCENEMANAGER->CurrentSceneInit();
+			}
+			else if (moveToMiniGame)
+			{
+				moveToMiniGame = false;
+				auto shop = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "MinigameScene");
+				SCENEMANAGER->ChangeChild("MinigameScene");
+				SCENEMANAGER->CurrentSceneInit();
 			}
 		}
 		MapImageSet();
@@ -184,21 +196,10 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 	}
 	case Key:
 	{
-		vector<string>* initString = new vector<string>();
-		initString->push_back("열쇠를 획득하였다!");
-
-		POPUPMANAGER->InitPopup<MapMovePlayer, nullptr>(
-			PopupType::RESULTPOPUP,
-			nullptr,
-			initString,
-			15,
-			0,
-			5,
-			0
-		);
-
-		USERMANAGER->GetKey();
 		mapData->ObjectReset(posX, posY);
+		SOUNDMANAGER->StopAmbient(Text("RunSound.wav"));
+		moveToMiniGame = true;
+		mapMove = -1;
 		break;
 	}
 	case DungeonIn:
@@ -235,7 +236,7 @@ void MapMovePlayer::CheckActive()
 	case MonsterActiveRange:
 	{
 		auto monsterPosition = mapData->GetTileFromPosition(posX, posY);
-		monsterEffect = EFFECTMANAGER->StartEffect(Explosion, monsterPosition.first - posX + (MAX_SCREEN_WIDTH / 2) - 2, monsterPosition.second - posY + (MAX_SCREEN_HEIGTH / 2) - 2);
+		monsterEffect = EFFECTMANAGER->StartEffect(Shining, monsterPosition.first - posX + (MAX_SCREEN_WIDTH / 2) - 2, monsterPosition.second - posY + (MAX_SCREEN_HEIGTH / 2) - 2);
 		break;
 	}
 	case Box:
@@ -260,7 +261,7 @@ void MapMovePlayer::CheckActive()
 		vector<string>* initString = new vector<string>();
 		initString->push_back("열쇠를 발견했다!");
 		initString->push_back("");
-		initString->push_back("열쇠를 줍겠습니까?");
+		initString->push_back("열쇠를 줍기위해 미니게임을 도전하시겠습니까?");
 
 		POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::ObjectSelectedActive>(
 			PopupType::SELECTPOPUP,
@@ -292,7 +293,12 @@ void MapMovePlayer::CheckActive()
 	break;
 	case Shop:
 	case ShopActiveRange:
+	{
+		SOUNDMANAGER->StopAmbient(Text("RunSound.wav")); 
+		moveToShop = true;
+		mapMove = -1;
 		break;
+	}
 	case Exit:
 	{
 		if (USERMANAGER->CheckHasKey())

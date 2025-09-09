@@ -24,6 +24,8 @@ private:
 	RandomItemType randomType;
 	std::map<char, string> tileDescriptions;
 
+	bool moveToShop;
+	bool moveToMiniGame;
 public:
 	MapMovePlayer(string _sn, MapData* _mapData);
 	virtual void Init(Color _characterColor = ORIGINCOLOR, Color _bgColor = BLACK) override;

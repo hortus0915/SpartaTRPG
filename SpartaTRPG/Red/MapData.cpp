@@ -473,6 +473,10 @@ std::string MapData::GetTileDescription(char _tile)
         return "M : 몬스터";
     case 'K':
         return "K : 다음 던전으로 가는 통로를 여는 열쇠";
+    case 'S':
+        return "S : 상점";
+    case 'D':
+        return "D : 던전 입장";
     default:
         return "";
     }
