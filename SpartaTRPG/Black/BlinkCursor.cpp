@@ -9,7 +9,7 @@ void BlinkCursor::Update(float deltaTime)
     if (blinkCount % 10 == 0)
         isCursorOff = !isCursorOff;
 
-    cursor = (isCursorOff ? " " : "V");
+    cursor = (isCursorOff ? " " : shape);
 
     fontColor = GetIntRange(BLACK + 1, COLOREND - 1);
 }

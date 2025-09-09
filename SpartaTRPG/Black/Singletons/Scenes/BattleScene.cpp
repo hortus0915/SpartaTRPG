@@ -198,21 +198,29 @@ void BattleScene::Update(float _deltaTime)
 
 		if (KEYMANAGER->IsOnceKeyDown(VK_LEFT))
 		{
+			SOUNDMANAGER->PlaySfx(Text("CursorMove.wav"));
 			playerCardIdx = (playerCardIdx - 1 + playerCards.size()) % playerCards.size();
 		}
 		if (KEYMANAGER->IsOnceKeyDown(VK_RIGHT))
 		{
+			SOUNDMANAGER->PlaySfx(Text("CursorMove.wav"));
 			playerCardIdx = (playerCardIdx + 1) % playerCards.size();
 		}
 		if (KEYMANAGER->IsOnceKeyDown(VK_UP))
 		{
 			if ((playerCardIdx - cardsCountInRow) >= 0)
+			{
+				SOUNDMANAGER->PlaySfx(Text("CursorMove.wav"));
 				playerCardIdx = (playerCardIdx - cardsCountInRow + playerCards.size()) % playerCards.size();
+			}
 		}
 		if (KEYMANAGER->IsOnceKeyDown(VK_DOWN))
 		{
 			if ((playerCardIdx + cardsCountInRow) < playerCards.size())
+			{
+				SOUNDMANAGER->PlaySfx(Text("CursorMove.wav"));
 				playerCardIdx = (playerCardIdx + cardsCountInRow) % playerCards.size();
+			}
 		}
 		for (int i = 0; i < cardSelectCount; ++i)
 		{

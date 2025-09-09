@@ -215,6 +215,7 @@ void InventoryPopup::ShowItemDetail()
 		}
 
 		case ItemType::Potion:
+		{
 			vector<string>* initString = new vector<string>();
 			initString->push_back("Æ÷¼Ç");
 			initString->push_back("");
@@ -233,6 +234,7 @@ void InventoryPopup::ShowItemDetail()
 				5,
 				0
 			);
+		}
 		default:
 			break;
 		}
