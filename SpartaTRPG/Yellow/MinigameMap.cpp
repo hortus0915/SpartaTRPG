@@ -14,8 +14,8 @@ MinigameMap::MinigameMap(int shortSide, unsigned seed, int maxAttempts)
 {
     // shortSide는 '짧은 변' 길이 (가로)
     m_map.cols = std::max(2, shortSide); // 가로 (짧은 변) 최소 2
-    m_map.rows = m_map.cols * 2;         // 세로 = 2 * 짧은변 (긴 변)
-    m_map.grid.assign(m_map.rows, std::string(m_map.cols, '*'));
+    m_map.rows = m_map.cols * 3;         // 세로 = 2 * 짧은변 (긴 변)
+    m_map.grid.assign(m_map.rows, std::string(m_map.cols, 'X'));
     // start/goal will be set in generate()
 }
 
@@ -106,7 +106,7 @@ bool MinigameMap::generate() {
             // fill grid from visited
             for (int r = 0; r < rows; ++r) {
                 for (int c = 0; c < cols; ++c) {
-                    m_map.grid[r][c] = visited[r][c] ? '.' : '*';
+                    m_map.grid[r][c] = visited[r][c] ? '.' : 'X';
                 }
             }
             m_map.grid[m_map.start.first][m_map.start.second] = 'S';
@@ -118,7 +118,7 @@ bool MinigameMap::generate() {
     }
 
     // fallback deterministic unique path: straight down from start then across last row to goal
-    for (int r = 0; r < rows; ++r) m_map.grid[r].assign(cols, '*');
+    for (int r = 0; r < rows; ++r) m_map.grid[r].assign(cols, 'X');
     int cr = m_map.start.first, cc = m_map.start.second;
     m_map.grid[cr][cc] = 'S';
     while (cr < rows - 1) {

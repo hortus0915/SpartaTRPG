@@ -35,7 +35,7 @@ void MinigameScene::Update(float deltaTime)
     {
         if (KEYMANAGER->IsOnceKeyDown(VK_UP)) {
            
-            if (player)
+            if (player && !POPUPMANAGER->CheckPopupActive())
             {
 
                 SOUNDMANAGER->PlaySfx(Text("CursorMove.wav"));
@@ -49,7 +49,7 @@ void MinigameScene::Update(float deltaTime)
 
         if (KEYMANAGER->IsOnceKeyDown(VK_DOWN)) {
             
-            if (player)
+            if (player && !POPUPMANAGER->CheckPopupActive())
             {
                 SOUNDMANAGER->PlaySfx(Text("CursorMove.wav"));
                 if (playerCols < __MAP_SIZE__ - 1) {
@@ -63,10 +63,10 @@ void MinigameScene::Update(float deltaTime)
 
         if (KEYMANAGER->IsOnceKeyDown(VK_RIGHT)) {
 
-            if (player)
+            if (player && !POPUPMANAGER->CheckPopupActive())
             {
                 SOUNDMANAGER->PlaySfx(Text("CursorMove.wav"));
-                if (playerRows < __MAP_SIZE__ * 2) {
+                if (playerRows < __MAP_SIZE__ * 3) {
                     player->SetPos(player->GetPosX() + __INTERVAL_X_, player->GetPosY());
                     playerRows++;
                 }
@@ -76,7 +76,7 @@ void MinigameScene::Update(float deltaTime)
 
         if (KEYMANAGER->IsOnceKeyDown(VK_LEFT)) {
 
-            if (player)
+            if (player && !POPUPMANAGER->CheckPopupActive())
             {
                 SOUNDMANAGER->PlaySfx(Text("CursorMove.wav"));
                 if (playerRows > -1) {
@@ -88,7 +88,7 @@ void MinigameScene::Update(float deltaTime)
         }
 
         if (playerRows >= 0 && playerCols >= 0) {
-            if (map->m_map.at(playerRows, playerCols) == '*') {
+            if (map->m_map.at(playerRows, playerCols) == 'X') {
                 ResetPlayerPos();
                 SOUNDMANAGER->PlaySfx(Text("Explosion.wav"));
             }
@@ -173,20 +173,37 @@ void MinigameScene::Render()
 
 
     for (int c = 0; c < map->m_map.rows; ++c) {
-        SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_ + __DEFAULT_PLAYER_X__ + c * (__INTERVAL_X_), +__DEFAULT_PLAYER_Y__-__INTERVAL_Y_, 1, 1, "====", 1);
-        SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_ + __DEFAULT_PLAYER_X__ + c * (__INTERVAL_X_), +__DEFAULT_PLAYER_Y__ + __MAP_SIZE__*__INTERVAL_Y_, 1, 1, "====", 1);
+        SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_ + __DEFAULT_PLAYER_X__ + c * (__INTERVAL_X_), +__DEFAULT_PLAYER_Y__-__INTERVAL_Y_ +2, 1, 1, "====", 2,2);
+        SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_ + __DEFAULT_PLAYER_X__ + c * (__INTERVAL_X_), +__DEFAULT_PLAYER_Y__ + __MAP_SIZE__*__INTERVAL_Y_, 1, 1, "====", 2,2);
 
     }
     
-    SCENEMANAGER->RenderToBackbuffer(__DEFAULT_PLAYER_X__, +__DEFAULT_PLAYER_Y__ - 2*__INTERVAL_Y_, 1, 1, "죽은 횟수:", 1);
+    SCENEMANAGER->RenderToBackbuffer(__DEFAULT_PLAYER_X__, +__DEFAULT_PLAYER_Y__ - 2*__INTERVAL_Y_, 1, 1, "죽은 횟수:", 1,7);
     string stDeathNum = to_string(deathNum);
-    SCENEMANAGER->RenderToBackbuffer(__DEFAULT_PLAYER_X__ + 10, +__DEFAULT_PLAYER_Y__ - 2 * __INTERVAL_Y_, 1, 1, stDeathNum, 1);
-   /* for (int r = 0; r < map->m_map.rows; ++r) {
+    SCENEMANAGER->RenderToBackbuffer(__DEFAULT_PLAYER_X__ + 10, +__DEFAULT_PLAYER_Y__ - 2 * __INTERVAL_Y_, 1, 1, stDeathNum, 4);
+    for (int r = 0; r < map->m_map.rows; ++r) {
         for (int c = 0; c < map->m_map.cols; ++c) {
             std::string charToString(1, map->m_map.at(r, c));
-            SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_+__DEFAULT_PLAYER_X__ + r*(__INTERVAL_X_),+__DEFAULT_PLAYER_Y__ +c*(__INTERVAL_Y_), 1, 1, charToString, 1);
+            SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_ + __DEFAULT_PLAYER_X__ + r * (__INTERVAL_X_), +__DEFAULT_PLAYER_Y__ + c * (__INTERVAL_Y_)+1, 1, 1," ", 1, 7);
+            if (deathNum > 15 && r < map->m_map.rows && charToString == "X") {
+                SCENEMANAGER->RenderToBackbuffer(__DEFAULT_PLAYER_X__, +__DEFAULT_PLAYER_Y__ - 3 * __INTERVAL_Y_, 1, 1, "천재적인 멍청이...", 1, 4);
+                SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_ + __DEFAULT_PLAYER_X__ + r * (__INTERVAL_X_), +__DEFAULT_PLAYER_Y__ + c * (__INTERVAL_Y_)+1, 1, 1, charToString, 1,0);
+
+            }else if (deathNum > 10 && r < map->m_map.rows*2/3 && charToString == "X") {
+                SCENEMANAGER->RenderToBackbuffer(__DEFAULT_PLAYER_X__, +__DEFAULT_PLAYER_Y__ - 3 * __INTERVAL_Y_, 1, 1, "조금 모자란 친구.", 1, 4);
+                SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_ + __DEFAULT_PLAYER_X__ + r * (__INTERVAL_X_), +__DEFAULT_PLAYER_Y__ + c * (__INTERVAL_Y_)+1, 1, 1, charToString, 1, 0);
+
+            }else if (deathNum > 5 && r < map->m_map.rows/3 && charToString == "X") {
+                SCENEMANAGER->RenderToBackbuffer(__DEFAULT_PLAYER_X__, +__DEFAULT_PLAYER_Y__ - 3 * __INTERVAL_Y_, 1, 1, "평범한 모험가", 1, 4);
+                SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_ + __DEFAULT_PLAYER_X__ + r * (__INTERVAL_X_), +__DEFAULT_PLAYER_Y__ + c * (__INTERVAL_Y_)+1, 1, 1, charToString, 1, 0);
+
+            }
+            else if (deathNum < 5) {
+                SCENEMANAGER->RenderToBackbuffer(__DEFAULT_PLAYER_X__, +__DEFAULT_PLAYER_Y__ - 3 * __INTERVAL_Y_, 1, 1, "천재적인 모험가!", 1, 4);
+
+            }
        }
-    }*/
+    }
 
     player->Render();
 }
