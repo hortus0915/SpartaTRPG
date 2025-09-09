@@ -3,7 +3,7 @@
 Item* Inventory::AddItem(int _itemUID, int _count)
 {
 	auto& itemPartition = allItems[Item::GetItemType(_itemUID)];
-	auto ret = itemPartition.try_emplace(_itemUID, _itemUID);
+	auto ret = itemPartition.try_emplace(_itemUID, _itemUID, _count);
 
 	if (!ret.second)
 	{
