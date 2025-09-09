@@ -28,7 +28,7 @@ enum class ItemValueType
 class Item
 {
 public:
-    Item(int _itemUID);
+    Item(int _itemUID, int _itemCount = 1);
 
     void AddItem(int _count = 1);
     int UsingItem(int usingCount = 1);

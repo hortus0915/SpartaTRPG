@@ -1,10 +1,10 @@
 #include "Item.h"
 
-Item::Item(int _itemUID)
+Item::Item(int _itemUID, int _itemCount)
 	: itemUID(_itemUID)
 {
 	SetItemValue(_itemUID);
-	count = 1;
+	count = _itemCount;
 }
 
 void Item::AddItem(int _count)
@@ -17,7 +17,7 @@ int Item::UsingItem(int usingCount)
 	if (count < usingCount)
 		return -1;
 
-	return --count;
+	return count -= usingCount;
 }
 
 void Item::SetItemValue(int _itemUID)

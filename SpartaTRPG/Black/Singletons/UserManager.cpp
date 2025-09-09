@@ -16,7 +16,6 @@ void UserManager::Init()
 	random.Init();
 	inventory = new Inventory();
 	inventory->AddItem(Item::GetItemUID(ItemType::Cost, ItemValueType::Cost, 1), 100);
-	inventory->AddItem(Item::GetItemUID(ItemType::Cost, ItemValueType::Cost, 2), 100);
 	inventory->AddItem(20101);
 	inventory->AddItem(20102);
 	inventory->AddItem(20103);
