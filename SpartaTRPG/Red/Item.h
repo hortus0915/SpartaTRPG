@@ -40,6 +40,8 @@ public:
     std::string GetName();
     int GetItemCount();
 
+    int GetItemUID() { return itemUID; }
+
     static constexpr ItemType GetItemType(int _itemUID) noexcept
     {
         return static_cast<ItemType>(_itemUID / 10000);
