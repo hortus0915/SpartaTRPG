@@ -40,6 +40,7 @@ void MapData::Release()
 void MapData::CreateMap(MapType _mapType)
 {
     mapType = _mapType;
+
     switch (mapType)
     {
     case Village:
@@ -49,9 +50,19 @@ void MapData::CreateMap(MapType _mapType)
         break;
     case Dungeon:
         USERMANAGER->SetNextStage();
-        DungeonMapSet();
-        DungeonObjectCreate();
-        DungeonObjectLoad();
+        if (USERMANAGER->GetStage() < MAXSTAGE)
+        {
+            DungeonMapSet();
+            DungeonObjectCreate();
+            DungeonObjectLoad();
+        }
+        else
+        {
+            //º¸½º¸Ê »ı¼º
+            DungeonMapSet();
+            DungeonObjectCreate();
+            DungeonObjectLoad();
+        }
         break;
     default:
         break;

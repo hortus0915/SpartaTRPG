@@ -9,7 +9,7 @@
 #include "Singletons/EffectType.h"
 
 #include "Singletons/Scenes.h"
-#include "DevBlack.h"
+//#include "DevBlack.h"
 
 bool MainGame::isGameRun = true;
 
@@ -41,6 +41,7 @@ void MainGame::Init()
 	SCENEMANAGER->Init(this);
 	USERMANAGER->Init();
 	POPUPMANAGER->Init(this);
+	LOGMANAGER->Init();
 
 	stringstream stream;
 	string mode;
@@ -88,6 +89,7 @@ void MainGame::Update(float _deltaTime)
 	SCENEMANAGER->Update(_deltaTime);
 	POPUPMANAGER->Update(_deltaTime);
 	EFFECTMANAGER->Update(_deltaTime);
+	LOGMANAGER->Update(_deltaTime);
 }
 
 void MainGame::Release()

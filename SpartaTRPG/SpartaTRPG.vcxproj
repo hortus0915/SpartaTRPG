@@ -141,6 +141,7 @@
     <ClCompile Include="Black\Singletons\Effects\EffectSlash.cpp" />
     <ClCompile Include="Black\Singletons\Effects\EffectTail.cpp" />
     <ClCompile Include="Black\Singletons\KeyManager.cpp" />
+    <ClCompile Include="Black\Singletons\LogManager.cpp" />
     <ClCompile Include="Black\Singletons\PopupManager.cpp" />
     <ClCompile Include="Black\Singletons\SceneInterface.cpp" />
     <ClCompile Include="Black\Singletons\SceneManager.cpp" />
@@ -149,6 +150,7 @@
     <ClCompile Include="Black\Singletons\Scenes\BattleSceneHud.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\DungeonScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\EndingScene.cpp" />
+    <ClCompile Include="Black\Singletons\Scenes\EndScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\GameScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\MinigameScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\TitleScene.cpp">
@@ -204,6 +206,7 @@
     <ClInclude Include="Black\Singletons\Effects\EffectTail.h" />
     <ClInclude Include="Black\Singletons\EffectType.h" />
     <ClInclude Include="Black\Singletons\KeyManager.h" />
+    <ClInclude Include="Black\Singletons\LogManager.h" />
     <ClInclude Include="Black\Singletons\PopupManager.h" />
     <ClInclude Include="Black\Singletons\SceneInterface.h" />
     <ClInclude Include="Black\Singletons\SceneManager.h" />
@@ -213,6 +216,7 @@
     <ClInclude Include="Black\Singletons\Scenes\BattleSceneHud.h" />
     <ClInclude Include="Black\Singletons\Scenes\DungeonScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\EndingScene.h" />
+    <ClInclude Include="Black\Singletons\Scenes\EndScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\GameScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\MinigameScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\TitleScene.h" />

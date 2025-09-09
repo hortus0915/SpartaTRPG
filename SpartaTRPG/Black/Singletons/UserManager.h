@@ -15,6 +15,8 @@ using namespace std;
 #define POPUPSTRING_MAXWIDTH 77
 #define POPUPSTRING_MAXHEIGHT 15
 
+#define MAXSTAGE 4
+
 using namespace std;
 
 class Inventory;
@@ -30,6 +32,8 @@ private:
 	Inventory* inventory = nullptr;
 	Item* equipItem = nullptr;
 	RandomItem random;
+
+
 public:
 	void Init();
 	void GetKey();

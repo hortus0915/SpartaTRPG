@@ -73,7 +73,7 @@ void UserManager::AddItem(int _itemUID, int _count)
 			char buf[128];
 			std::snprintf(buf, sizeof(buf), "%sÀ»(¸¦) %d°³ È¹µæÇß´Ù!", addedItem->GetName().c_str(), addedItem->GetItemCount());
 			initString->push_back(buf);
-
+			LOGMANAGER->AddLog(buf);
 			POPUPMANAGER->InitPopup<UserManager, nullptr>(
 				PopupType::RESULTPOPUP,
 				nullptr,

@@ -7,6 +7,7 @@
 #include "EffectManager.h"
 #include "PopupManager.h"
 #include "UserManager.h"
+#include "LogManager.h"
 
 #define SCENEMANAGER	SceneManager::GetInstance()
 #define SOUNDMANAGER	SoundManager::GetInstance()
@@ -15,3 +16,4 @@
 #define EFFECTMANAGER	EffectManager::GetInstance()
 #define POPUPMANAGER	PopupManager::GetInstance()
 #define USERMANAGER		UserManager::GetInstance()
+#define LOGMANAGER		LogManager::GetInstance()

@@ -10,7 +10,7 @@ bool iMapMovable::SetWall(int harfX, int harfY, int j, int i, int posY, int posX
 {
 	if (i == harfY - 1 || j == harfX - 1 || i == 1 - harfY || j == 1 - harfX)
 	{
-		image[posY][posX] = 'A';
+		image[posY][posX] = '.';
 		return true;
 	}
 	return false;

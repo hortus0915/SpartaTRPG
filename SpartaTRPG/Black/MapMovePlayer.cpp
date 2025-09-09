@@ -9,7 +9,8 @@
 
 MapMovePlayer::MapMovePlayer(string _sn, MapData* _mapData) : iMapMovable(_sn, _mapData)
 {
-	runSoundDuration = RUNSOUNDENDDURATION;
+	runResetSoundDuration = RUNSOUNDENDDURATION;
+	runPlayDuration = 0;
 	range_Of_Sight = 0;
 	mapMove = 1;
 	monsterEffect = nullptr;
@@ -85,9 +86,20 @@ void MapMovePlayer::Update(float deltaTime)
 			activeCheck = true;
 		}
 
-		if (runSoundDuration < RUNSOUNDENDDURATION)
+		if (runResetSoundDuration == 0)
 		{
-			runSoundDuration += deltaTime;
+			if (runPlayDuration > RUNSOUNDENDDURATIONMAX)
+			{
+				runPlayDuration = 0;
+				SOUNDMANAGER->StopAmbient(Text("RunSound.wav"));
+				SOUNDMANAGER->PlayAmbient(Text("RunSound.wav"));
+			}
+			runPlayDuration += deltaTime;
+		}
+
+		if (runResetSoundDuration < RUNSOUNDENDDURATION)
+		{
+			runResetSoundDuration += deltaTime;
 		}
 		else
 		{
@@ -199,7 +211,6 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 	case Monster:
 	case MonsterActiveRange:
 	{
-		//전투 씬으로 이동
 		mapData->ObjectReset(posX, posY);
 		break;
 	}
@@ -419,11 +430,11 @@ void MapMovePlayer::ObjectSelectedActive(int _selectValue)
 
 void MapMovePlayer::CheckRunSoundPlay()
 {
-	if (runSoundDuration >= RUNSOUNDENDDURATION)
+	if (runResetSoundDuration >= RUNSOUNDENDDURATION)
 	{
 		SOUNDMANAGER->PlayAmbient(Text("RunSound.wav"));
 	}
-	runSoundDuration = 0;
+	runResetSoundDuration = 0;
 	activeCheck = false;
 }
 
