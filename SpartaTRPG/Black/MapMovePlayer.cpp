@@ -62,13 +62,13 @@ void MapMovePlayer::Update(float deltaTime)
 			{
 				monsterEffect = nullptr;
 				mapData->ObjectReset(posX, posY);
-				auto battle = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "BattleScene");
-				if (battle)
-				{
-					//battle->SetBattlers(USERMANAGER->GetPlayer(), USERMANAGER->SetMonster());
-				}
-				SCENEMANAGER->ChangeChild("BattleScene");
-				SCENEMANAGER->CurrentSceneInit();
+				//auto battle = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "BattleScene");
+				//if (battle)
+				//{
+				//	//battle->SetBattlers(USERMANAGER->GetPlayer(), USERMANAGER->SetMonster());
+				//}
+				//SCENEMANAGER->ChangeChild("BattleScene");
+				//SCENEMANAGER->CurrentSceneInit();
 				return;
 			}
 		}
@@ -211,7 +211,7 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 	case Monster:
 	case MonsterActiveRange:
 	{
-		mapData->ObjectReset(posX, posY);
+		//mapData->ObjectReset(posX, posY);
 		break;
 	}
 	default:

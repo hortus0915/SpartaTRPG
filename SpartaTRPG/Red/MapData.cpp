@@ -420,7 +420,7 @@ int MapData::TileSet(TileType _tileType, int _posX, int _posY, int _fromIndexX, 
         return -1;
     else if (tileType == TileType::WallV)
         return -2;
-    else if (_tileType != 0 && tileType % 100 != 0)
+    else if (tileType % 100 != 0)
         return 1;
     else
         mapInfo[_posX][_posY].SetTileType(_tileType, _fromIndexX, _fromIndexY);
@@ -452,7 +452,7 @@ int MapData::GetObjectCount(TileType _tileType)
     case Key:
         return 3;
     case Monster:
-        return USERMANAGER->GetStage() + 5;
+        return USERMANAGER->GetStage() + 15;
     default:
         return 0;
     }
@@ -487,8 +487,8 @@ char MapData::GetMapData(int _posX, int _posY)
     {
     case TileType::Empty:
     case TileType::BoxActive:
-    case TileType::MonsterActiveRange:
     case TileType::ShopActiveRange:
+    case TileType::MonsterActiveRange:
         return ' ';
     case TileType::Wall:
     case TileType::WallH:
@@ -564,10 +564,12 @@ void MapData::ObjectReset(int _posX, int _posY)
 
     auto nowTile = mapInfo[_posX][_posY];
     auto fromTile = &(mapInfo[nowTile.GetFromIndexX()][nowTile.GetFromIndexY()]);
-    auto& objects = objectInfo.find(fromTile->GetTileType())->second;
-    objects.erase(fromTile);
-
+    auto objects = objectInfo.find(fromTile->GetTileType());
+    if (objects != objectInfo.end()) {
+        objects->second.erase(fromTile);
+    }
     ObjectSet(TileType::Empty, nowTile.GetFromIndexX(), nowTile.GetFromIndexY(), GetRange(fromTile->GetTileType()));
+    mapInfo[nowTile.GetFromIndexX()][nowTile.GetFromIndexY()].SetTileType(TileType::Empty, nowTile.GetFromIndexX(), nowTile.GetFromIndexY());
     DungeonObjectLoad();
 }
 
