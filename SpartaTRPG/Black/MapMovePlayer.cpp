@@ -465,3 +465,16 @@ void MapMovePlayer::CheckTileDescription(char _data)
 		tileDescriptions.emplace(_data, mapData->GetTileDescription(_data));
 	}
 }
+
+void MapMovePlayer::SetVictory()
+{
+	auto addItem = USERMANAGER->GetRandomItem(RandomItemType::Monster);
+	USERMANAGER->AddItem(addItem->GetItemUID(), addItem->GetItemCount());
+}
+
+void MapMovePlayer::SetDefeat()
+{
+	posX = 1;
+	posY = 1;
+	mapData->CreateMap(MapType::Village);
+}

@@ -16,7 +16,8 @@ DungeonScene::DungeonScene(string _sceneName) : iScene(_sceneName)
 
 int DungeonScene::Init()
 {
-	player->Init(WHITE, BLACK);
+	if(player)	
+		player->Init(WHITE, BLACK);
 	return 0;
 }
 
@@ -34,4 +35,16 @@ void DungeonScene::Update(float _deltaTime)
 void DungeonScene::Render()
 {
 	__super::Render();
+}
+
+void DungeonScene::SetVictory()
+{
+	if (player)
+		player->SetVictory();
+}
+
+void DungeonScene::SetDefeat()
+{
+	if (player)
+		player->SetDefeat();
 }

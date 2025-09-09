@@ -45,6 +45,7 @@ void MapData::CreateMap(MapType _mapType)
     {
     case Village:
         USERMANAGER->ResetKey();
+        
         VillageMapSet();
         VillageObjectSet();
         break;
