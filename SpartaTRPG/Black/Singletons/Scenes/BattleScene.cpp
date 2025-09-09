@@ -481,7 +481,12 @@ void BattleScene::Update(float _deltaTime)
 	}
 	break;
 	case Victory:
-
+	{
+		if (enemy->GatIsBoss())
+		{
+			//todo
+		}
+	}
 	case Defeat:
 	case Draw:
 	{

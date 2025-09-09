@@ -39,4 +39,25 @@ void SpawnEnemyByLevel(EnemyInfoBase& enemy, int playerLevel)
 	enemy.SetName(ENEMY_NAME_BY_LEVEL[lv - 1]);
 }
 
+void SpawnEnemyBoss(EnemyInfoBase& _enemy, int _playerlevel)
+{
+	if (_playerlevel >=10 ) {
+
+		
+		_enemy.Init(300, 300, 50, 50, 50, 50, 15, 0);
+		_enemy.SetName("튜터");
+	}
+	else
+	{
+		
+		_enemy.Init(300, 300, 50, 50, 50, 50, 15, 0);
+		_enemy.SetName("매니저");
+	}
+
+	_enemy.SetIsBoss(true);
+
+
+	
+}
+
 
