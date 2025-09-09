@@ -5,21 +5,24 @@
 enum class ItemType
 {
     Cost = 0,
-	Eequipment = 1,
-	Card = 2,
-	Potion = 3,
+    Eequipment = 1,
+    Card = 2,
+    Potion = 3,
     MAX = 4,
 };
 
 enum class ItemValueType
 {
     Cost = 0,
-	CardUID_MOVE = 1,
-    CardUID_ATTACK = 2,
-    StatAdd_HP = 3, //장비
-    StatAdd_MP = 4, // 카드
-	HPHeal = 5,// 포션
-	MPHeal = 6,
+    CardUID_MOVE = 1,
+    CardUID_SHIELD = 2,
+    CardUID_HEAL = 3,
+    CardUID_ATTACK = 4,
+    StatAdd_ATTACK = 5, //장비
+    StatAdd_HP = 6, //장비
+    StatAdd_MP = 7, // 카드
+    HPHeal = 8,// 포션
+    MPHeal = 9,
 };
 
 class Item
@@ -31,16 +34,17 @@ public:
     int UsingItem(int usingCount = 1);
 private:
     const int itemUID; // 00 ItemType 00 TiemValueType 00 ItemID
-	int value;
+    int value;
 
-	int count;
+    int count;
     void SetItemValue(int _itemUID);
 
-public: 
+public:
     std::string GetName();
     int GetItemCount();
 
     int GetItemUID() { return itemUID; }
+    int GetValue() { return value; }
 
     static constexpr ItemType GetItemType(int _itemUID) noexcept
     {
@@ -63,5 +67,8 @@ public:
     {
         return static_cast<int>(ItemType::Card) * 10000 + _cardUID;
     }
+    static constexpr int GetCardIDX(int _itemUID)
+    {
+        return _itemUID % 1000;
+    }
 };
-

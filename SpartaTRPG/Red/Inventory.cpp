@@ -45,7 +45,8 @@ int Inventory::UsingItem(int _itemUID, int _count)
 	}
 
 	int ret = findItem->second.UsingItem(_count);
-	if (ret <= 0) {
+	if (ret <= 0 &&
+		(findItem->second.GetName() != "°ñµå")) {
 		itemPartition->second.erase(findItem);             
 		ret = 0;
 	}

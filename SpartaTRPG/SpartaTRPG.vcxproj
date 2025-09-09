@@ -151,6 +151,10 @@
     <ClCompile Include="Black\Singletons\Scenes\EndingScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\GameScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\MinigameScene.cpp" />
+    <ClCompile Include="Black\Singletons\Scenes\ShopScene.cpp" />
+    <ClCompile Include="Black\Singletons\Scenes\ShopSceneBaseHud.cpp" />
+    <ClCompile Include="Black\Singletons\Scenes\ShopSceneItemHud.cpp" />
+    <ClCompile Include="Black\Singletons\Scenes\ShopSceneNPC.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\TitleScene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -215,6 +219,10 @@
     <ClInclude Include="Black\Singletons\Scenes\EndingScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\GameScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\MinigameScene.h" />
+    <ClInclude Include="Black\Singletons\Scenes\ShopScene.h" />
+    <ClInclude Include="Black\Singletons\Scenes\ShopSceneBaseHud.h" />
+    <ClInclude Include="Black\Singletons\Scenes\ShopSceneItemHud.h" />
+    <ClInclude Include="Black\Singletons\Scenes\ShopSceneNPC.h" />
     <ClInclude Include="Black\Singletons\Scenes\TitleScene.h" />
     <ClInclude Include="Black\Singletons\SingletonMacro.h" />
     <ClInclude Include="Black\Singletons\SoundManager.h" />
