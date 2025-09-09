@@ -90,6 +90,7 @@ void MinigameScene::Update(float deltaTime)
         if (playerRows >= 0 && playerCols >= 0) {
             if (map->m_map.at(playerRows, playerCols) == '*') {
                 ResetPlayerPos();
+                SOUNDMANAGER->PlaySfx(Text("Explosion.wav"));
             }
             else if(map->m_map.at(playerRows,playerCols)=='G') {
                 vector<string>* initString = new vector<string>();
@@ -122,6 +123,8 @@ int MinigameScene::Init()
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> dist(0, 100);
+
+    deathNum = -1;
 
     playerDefPosX = __DEFAULT_PLAYER_X__;
     playerDefPosY = __DEFAULT_PLAYER_Y__ + __INTERVAL_Y_ * __MAP_SIZE__ / 2;
@@ -175,7 +178,9 @@ void MinigameScene::Render()
 
     }
     
-
+    SCENEMANAGER->RenderToBackbuffer(__DEFAULT_PLAYER_X__, +__DEFAULT_PLAYER_Y__ - 2*__INTERVAL_Y_, 1, 1, "Á×Àº È½¼ö:", 1);
+    string stDeathNum = to_string(deathNum);
+    SCENEMANAGER->RenderToBackbuffer(__DEFAULT_PLAYER_X__ + 10, +__DEFAULT_PLAYER_Y__ - 2 * __INTERVAL_Y_, 1, 1, stDeathNum, 1);
    /* for (int r = 0; r < map->m_map.rows; ++r) {
         for (int c = 0; c < map->m_map.cols; ++c) {
             std::string charToString(1, map->m_map.at(r, c));
@@ -188,6 +193,7 @@ void MinigameScene::Render()
 
 void MinigameScene::ResetPlayerPos()
 {
+    deathNum++;
     playerRows = -1;
     playerCols = __MAP_SIZE__ / 2;
     player->SetPos(playerDefPosX, playerDefPosY);

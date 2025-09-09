@@ -34,6 +34,8 @@ private:
 	int playerRows;
 	int playerCols;
 
+	int deathNum;
+
 
 
 public:
