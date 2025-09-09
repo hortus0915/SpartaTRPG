@@ -6,6 +6,7 @@
 using namespace std;
 
 #include "../Singletons/SingletonMacro.h"
+#include "../../Red/RandomItem.h"
 #include "../../Red/Item.h"
 
 #define MAPPOPUP_WIDTH 81
@@ -13,6 +14,8 @@ using namespace std;
 
 #define POPUPSTRING_MAXWIDTH 77
 #define POPUPSTRING_MAXHEIGHT 15
+
+#define MAXSTAGE 4
 
 using namespace std;
 
@@ -24,23 +27,29 @@ class UserManager
 
 private:
 	int stage = 0;
-	int isStageKey = 0;
+	int stageKey = 0;
 
 	Inventory* inventory = nullptr;
+	Item* equipItem = nullptr;
+	RandomItem random;
+
+
 public:
 	void Init();
-
 	void GetKey();
+	void ResetKey();
 	bool CheckHasKey();
 
 	void SetNextStage();
 
-	void AddItem(int itemUID);
+	void AddItem(int itemUID, int _count = 1);
 	Item* GetItemInfo(int itemUID);
 	Item* GetItemInfo_fromIndex(ItemType itemType ,int index); 
 	std::map<int, Item>* GetItemPartition(ItemType _itemType);
+	Item* GetRandomItem(RandomItemType randomType);
+
+	void EquipItem(Item* _equipItem);
 
 	int UsingItem(int itemUID, int count);
-
 	inline int GetStage() { return stage; }
 };

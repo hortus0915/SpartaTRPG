@@ -139,9 +139,11 @@
     <ClCompile Include="Black\Singletons\Effect.cpp" />
     <ClCompile Include="Black\Singletons\EffectManager.cpp" />
     <ClCompile Include="Black\Singletons\Effects\EffectExplosion.cpp" />
+    <ClCompile Include="Black\Singletons\Effects\EffectShining.cpp" />
     <ClCompile Include="Black\Singletons\Effects\EffectSlash.cpp" />
     <ClCompile Include="Black\Singletons\Effects\EffectTail.cpp" />
     <ClCompile Include="Black\Singletons\KeyManager.cpp" />
+    <ClCompile Include="Black\Singletons\LogManager.cpp" />
     <ClCompile Include="Black\Singletons\PopupManager.cpp" />
     <ClCompile Include="Black\Singletons\SceneInterface.cpp" />
     <ClCompile Include="Black\Singletons\SceneManager.cpp" />
@@ -150,9 +152,17 @@
     <ClCompile Include="Black\Singletons\Scenes\BattleSceneHud.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\DungeonScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\EndingScene.cpp" />
+    <ClCompile Include="Black\Singletons\Scenes\EndScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\GameScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\MinigameScene.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Black\Singletons\Scenes\QuizScene.cpp" />
+=======
+    <ClCompile Include="Black\Singletons\Scenes\ShopScene.cpp" />
+    <ClCompile Include="Black\Singletons\Scenes\ShopSceneBaseHud.cpp" />
+    <ClCompile Include="Black\Singletons\Scenes\ShopSceneItemHud.cpp" />
+    <ClCompile Include="Black\Singletons\Scenes\ShopSceneNPC.cpp" />
+>>>>>>> 45ac7e3f8d5d7afe0e21ccee3186c8ea6ba959a0
     <ClCompile Include="Black\Singletons\Scenes\TitleScene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -174,6 +184,7 @@
     <ClCompile Include="Red\MapCreateTileInfo.cpp" />
     <ClCompile Include="Red\MapData.cpp" />
     <ClCompile Include="Red\Popup.cpp" />
+    <ClCompile Include="Red\RandomItem.cpp" />
     <ClCompile Include="Red\ResultPopup.cpp" />
     <ClCompile Include="Red\SelectPopup.cpp" />
     <ClCompile Include="Red\ShopPopup.cpp" />
@@ -204,10 +215,12 @@
     <ClInclude Include="Black\Singletons\Effect.h" />
     <ClInclude Include="Black\Singletons\EffectManager.h" />
     <ClInclude Include="Black\Singletons\Effects\EffectExplosion.h" />
+    <ClInclude Include="Black\Singletons\Effects\EffectShining.h" />
     <ClInclude Include="Black\Singletons\Effects\EffectSlash.h" />
     <ClInclude Include="Black\Singletons\Effects\EffectTail.h" />
     <ClInclude Include="Black\Singletons\EffectType.h" />
     <ClInclude Include="Black\Singletons\KeyManager.h" />
+    <ClInclude Include="Black\Singletons\LogManager.h" />
     <ClInclude Include="Black\Singletons\PopupManager.h" />
     <ClInclude Include="Black\Singletons\SceneInterface.h" />
     <ClInclude Include="Black\Singletons\SceneManager.h" />
@@ -217,9 +230,17 @@
     <ClInclude Include="Black\Singletons\Scenes\BattleSceneHud.h" />
     <ClInclude Include="Black\Singletons\Scenes\DungeonScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\EndingScene.h" />
+    <ClInclude Include="Black\Singletons\Scenes\EndScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\GameScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\MinigameScene.h" />
+<<<<<<< HEAD
     <ClInclude Include="Black\Singletons\Scenes\QuizScene.h" />
+=======
+    <ClInclude Include="Black\Singletons\Scenes\ShopScene.h" />
+    <ClInclude Include="Black\Singletons\Scenes\ShopSceneBaseHud.h" />
+    <ClInclude Include="Black\Singletons\Scenes\ShopSceneItemHud.h" />
+    <ClInclude Include="Black\Singletons\Scenes\ShopSceneNPC.h" />
+>>>>>>> 45ac7e3f8d5d7afe0e21ccee3186c8ea6ba959a0
     <ClInclude Include="Black\Singletons\Scenes\TitleScene.h" />
     <ClInclude Include="Black\Singletons\SingletonMacro.h" />
     <ClInclude Include="Black\Singletons\SoundManager.h" />
@@ -238,6 +259,7 @@
     <ClInclude Include="Red\MapData.h" />
     <ClInclude Include="Red\Popup.h" />
     <ClInclude Include="Red\PopupType.h" />
+    <ClInclude Include="Red\RandomItem.h" />
     <ClInclude Include="Red\ResultPopup.h" />
     <ClInclude Include="Red\SelectPopup.h" />
     <ClInclude Include="Red\ShopPopup.h" />

@@ -60,7 +60,7 @@ public:
         activePopup->SetCustomStringPadding(_leftPadding, _rightPadding, _upPadding, _downPadding);
         activePopup->SetCustonStrings(_customString);
 
-        if constexpr (Method != nullptr) {
+        if (Method != nullptr) {
             if (obj) {
                 activePopup->SetPopupActiveCallback(
                     +[](int v, void* u) { (static_cast<T*>(u)->*Method)(v); },

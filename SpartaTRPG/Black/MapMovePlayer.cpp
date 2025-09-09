@@ -3,43 +3,127 @@
 #include "Singletons/CommonManagers.h"
 #include "../Red/SelectPopup.h"
 #include "../Red/MapData.h"
+#include "Singletons/Scenes/BattleScene.h"
+#include "Singletons/EffectType.h"
 
 
 MapMovePlayer::MapMovePlayer(string _sn, MapData* _mapData) : iMapMovable(_sn, _mapData)
 {
-	runSoundDuration = RUNSOUNDENDDURATION;
-	testInven = new Inventory();
+	runResetSoundDuration = RUNSOUNDENDDURATION;
+	runPlayDuration = 0;
+	range_Of_Sight = 0;
+	mapMove = 1;
+	monsterEffect = nullptr;
+	activeCheck = false;
+	randomType = RandomItemType::None;
+	moveToShop = false;
+	moveToMiniGame = false;
 }
 
 void MapMovePlayer::Init(Color _characterColor, Color _bgColor)
 {
 	__super::Init(_characterColor, _bgColor);
+	if (randomType != RandomItemType::None)
+	{
+		auto addedItem = USERMANAGER->GetRandomItem(randomType);
+		USERMANAGER->AddItem(addedItem->GetItemUID(), addedItem->GetItemCount());
+	}
 }
 
 void MapMovePlayer::Update(float deltaTime)
 {
-	if(POPUPMANAGER->CheckPopupActive() == false)
-		MapInput(deltaTime);
-
-	if (!activeCheck)
+	if (monsterEffect != nullptr)
 	{
-		CheckActive();
-		activeCheck = true;
+		if (monsterEffect->IsRunning())
+		{
+			SOUNDMANAGER->StopAmbient(Text("RunSound.wav"));
+			mapMove = -1;
+		}
 	}
 
-	if (runSoundDuration < RUNSOUNDENDDURATION)
+	if (mapMove > 0)
 	{
-		runSoundDuration += deltaTime;
+		range_Of_Sight += deltaTime * 50;
+		
+		if (range_Of_Sight > RANGE_OF_SIGHT)
+		{
+			range_Of_Sight = RANGE_OF_SIGHT;
+			mapMove = 0;
+		}
+		MapImageSet();
 	}
-	else
+	if (mapMove < 0)
 	{
-		SOUNDMANAGER->StopAmbient(Text("RunSound.wav"));
+		range_Of_Sight -= deltaTime * 50;
+
+		if (range_Of_Sight < 0)
+		{
+			range_Of_Sight = 0;
+			mapMove = 1;
+			if (monsterEffect != nullptr)
+			{
+				monsterEffect = nullptr;
+				mapData->ObjectReset(posX, posY);
+				auto battle = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "BattleScene");
+				SCENEMANAGER->ChangeChild("BattleScene");
+				SCENEMANAGER->CurrentSceneInit();
+				return;
+			}
+			else if(moveToShop)
+			{
+				moveToShop = false;
+				auto shop = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "ShopScene");
+				SCENEMANAGER->ChangeChild("ShopScene");
+				SCENEMANAGER->CurrentSceneInit();
+			}
+			else if (moveToMiniGame)
+			{
+				moveToMiniGame = false;
+				auto shop = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "MinigameScene");
+				SCENEMANAGER->ChangeChild("MinigameScene");
+				SCENEMANAGER->CurrentSceneInit();
+			}
+		}
+		MapImageSet();
+	}
+
+	if (mapMove == 0 && monsterEffect == nullptr)
+	{
+		if (POPUPMANAGER->CheckPopupActive() == false)
+			MapInput(deltaTime);
+
+		if (!activeCheck)
+		{
+			CheckActive();
+			activeCheck = true;
+		}
+
+		if (runResetSoundDuration == 0)
+		{
+			if (runPlayDuration > RUNSOUNDENDDURATIONMAX)
+			{
+				runPlayDuration = 0;
+				SOUNDMANAGER->StopAmbient(Text("RunSound.wav"));
+				SOUNDMANAGER->PlayAmbient(Text("RunSound.wav"));
+			}
+			runPlayDuration += deltaTime;
+		}
+
+		if (runResetSoundDuration < RUNSOUNDENDDURATION)
+		{
+			runResetSoundDuration += deltaTime;
+		}
+		else
+		{
+			SOUNDMANAGER->StopAmbient(Text("RunSound.wav"));
+		}
 	}
 }
 
 void MapMovePlayer::Render()
 {
 	__super::Render();
+	TileDescrtiptionRender();
 }
 
 void MapMovePlayer::Release()
@@ -84,6 +168,7 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 	{
 	case Exit:
 	{
+		mapMove = -1;
 		mapData->CreateMap(MapType::Dungeon);
 		break;
 	}
@@ -102,38 +187,32 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 			5,
 			0
 		);
-		//아이템 획득
+
+		auto addedItem = USERMANAGER->GetRandomItem(RandomItemType::Box);
+		USERMANAGER->AddItem(addedItem->GetItemUID(), addedItem->GetItemCount());
+
 		mapData->ObjectReset(posX, posY);
 		break;
 	}
 	case Key:
 	{
-		mapData->GetDungeonKey();
-		vector<string>* initString = new vector<string>();
-		initString->push_back("열쇠를 획득하였다!");
-
-		POPUPMANAGER->InitPopup<MapMovePlayer, nullptr>(
-			PopupType::RESULTPOPUP,
-			nullptr,
-			initString,
-			15,
-			0,
-			5,
-			0
-		);
 		mapData->ObjectReset(posX, posY);
+		SOUNDMANAGER->StopAmbient(Text("RunSound.wav"));
+		moveToMiniGame = true;
+		mapMove = -1;
 		break;
 	}
 	case DungeonIn:
 	{
+		mapMove = -1;
+		activeCheck = true;
 		mapData->CreateMap(MapType::Dungeon);
 		break;
 	}
 	case Monster:
 	case MonsterActiveRange:
 	{
-		//전투 씬으로 이동
-		mapData->ObjectReset(posX, posY);
+		//mapData->ObjectReset(posX, posY);
 		break;
 	}
 	default:
@@ -149,26 +228,21 @@ void MapMovePlayer::CheckActive()
 	{
 	case Empty:
 	case Wall:
-	case Monster:
-	case MonsterActiveRange:
+	case WallH:
+	case WallV:
 		POPUPMANAGER->PopupActiveOff();
 		break;
+	case Monster:
+	case MonsterActiveRange:
+	{
+		auto monsterPosition = mapData->GetTileFromPosition(posX, posY);
+		monsterEffect = EFFECTMANAGER->StartEffect(Shining, monsterPosition.first - posX + (MAX_SCREEN_WIDTH / 2) - 2, monsterPosition.second - posY + (MAX_SCREEN_HEIGTH / 2) - 2);
+		break;
+	}
 	case Box:
 	case BoxActive:
 	{
 		vector<string>* initString = new vector<string>();
-		initString->push_back("박스를 열겠습니까?");
-		initString->push_back("박스를 열겠습니까?");
-		initString->push_back("박스를 열겠습니까?");
-		initString->push_back("박스를 열겠습니까?");
-		initString->push_back("박스를 열겠습니까?");
-		initString->push_back("박스를 열겠습니까?");
-		initString->push_back("박스를 열겠습니까?");
-		initString->push_back("박스를 열겠습니까?");
-		initString->push_back("박스를 열겠습니까?");
-		initString->push_back("박스를 열겠습니까?");
-		initString->push_back("박스를 열겠습니까?");
-		initString->push_back("박스를 열겠습니까?");
 		initString->push_back("박스를 열겠습니까?");
 
 		POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::ObjectSelectedActive>(
@@ -178,7 +252,7 @@ void MapMovePlayer::CheckActive()
 			15,
 			0,
 			5,
-			0
+			1
 		);
 	}
 	break;
@@ -186,7 +260,8 @@ void MapMovePlayer::CheckActive()
 	{
 		vector<string>* initString = new vector<string>();
 		initString->push_back("열쇠를 발견했다!");
-		initString->push_back("열쇠를 줍겠습니까?");
+		initString->push_back("");
+		initString->push_back("열쇠를 줍기위해 미니게임을 도전하시겠습니까?");
 
 		POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::ObjectSelectedActive>(
 			PopupType::SELECTPOPUP,
@@ -195,7 +270,7 @@ void MapMovePlayer::CheckActive()
 			15,
 			0,
 			5,
-			0
+			1
 		);
 	}
 	break;
@@ -205,7 +280,6 @@ void MapMovePlayer::CheckActive()
 		initString->push_back("던전 입구");
 		initString->push_back("");
 		initString->push_back("던전에 입장하시겠습니까?");
-
 		POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::ObjectSelectedActive>(
 			PopupType::SELECTPOPUP,
 			this,
@@ -213,19 +287,25 @@ void MapMovePlayer::CheckActive()
 			15,
 			0,
 			5,
-			0
+			1
 		);
 	}
 	break;
 	case Shop:
 	case ShopActiveRange:
+	{
+		SOUNDMANAGER->StopAmbient(Text("RunSound.wav")); 
+		moveToShop = true;
+		mapMove = -1;
 		break;
+	}
 	case Exit:
 	{
-		if (mapData->CheckDungeonKey())
+		if (USERMANAGER->CheckHasKey())
 		{
 			vector<string>* initString = new vector<string>();
 			initString->push_back("다음 던전으로 통하는 입구를 발견했다!");
+			initString->push_back("");
 			initString->push_back("다음 던전에 입장하시겠습니까?");
 
 			POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::ObjectSelectedActive>(
@@ -235,7 +315,7 @@ void MapMovePlayer::CheckActive()
 				15,
 				0,
 				5,
-				0
+				1
 			);
 		}
 		else
@@ -258,9 +338,96 @@ void MapMovePlayer::CheckActive()
 	}
 }
 
-void MapMovePlayer::ObjectSelectedActive(int selectValue)
+void MapMovePlayer::MapImageSet()
 {
-	if (selectValue == 0)
+	tileDescriptions.clear();
+	int harfWidth = MAX_SCREEN_WIDTH / 2;
+	int harfHeight = MAX_SCREEN_HEIGTH / 2;
+	int nowRange_Of_Sight = range_Of_Sight;
+
+	for (int i = 0; i < harfHeight; ++i)
+	{
+		int mapY = posY + i;
+		for (int j = 0; j < harfWidth; ++j)
+		{
+			if (i == 0 && j == 0)
+			{
+				image[harfHeight + i][harfWidth + j] = 'O';
+				continue;
+			}
+			if (SetWall(harfWidth, harfHeight, j, i, harfHeight + i, harfWidth + j)) continue;
+
+			int mapX = posX + j;
+			if (i * i * 4 + j * j < nowRange_Of_Sight * nowRange_Of_Sight)
+			{
+				auto initData = mapData->GetMapData(mapX, mapY);
+				CheckTileDescription(initData);
+				image[harfHeight + i][harfWidth + j] = initData;
+			}
+			else
+			{
+				image[harfHeight + i][harfWidth + j] = '.';
+			}
+		}
+		for (int j = 1; j < harfWidth; ++j)
+		{
+			if (SetWall(harfWidth, harfHeight, j, i, harfHeight + i, harfWidth - j)) continue;
+
+			int mapX = posX - j;
+			if (i * i * 4 + j * j < nowRange_Of_Sight * nowRange_Of_Sight)
+			{
+				auto initData = mapData->GetMapData(mapX, mapY);
+				CheckTileDescription(initData);
+				image[harfHeight + i][harfWidth - j] = initData;
+			}
+			else
+			{
+				image[harfHeight + i][harfWidth - j] = '.';
+			}
+		}
+	}
+	for (int i = 1; i < harfHeight; ++i)
+	{
+		int mapY = posY - i;
+		for (int j = 0; j < harfWidth; ++j)
+		{
+			if (SetWall(harfWidth, harfHeight, j, i, harfHeight - i, harfWidth + j)) continue;
+
+			int mapX = posX + j;
+			if (i * i * 4 + j * j < nowRange_Of_Sight * nowRange_Of_Sight)
+			{
+				auto initData = mapData->GetMapData(mapX, mapY);
+				CheckTileDescription(initData);
+				image[harfHeight - i][harfWidth + j] = initData;
+			}
+			else
+			{
+				image[harfHeight - i][harfWidth + j] = '.';
+			}
+		}
+		for (int j = 1; j < harfWidth; ++j)
+		{
+			if (SetWall(harfWidth, harfHeight, j, i, harfHeight - i, harfWidth - j)) continue;
+
+			int mapX = posX - j;
+			if (i * i * 4 + j * j < nowRange_Of_Sight * nowRange_Of_Sight)
+			{
+				auto initData = mapData->GetMapData(mapX, mapY);
+				CheckTileDescription(initData);
+				image[harfHeight - i][harfWidth - j] = initData;
+			}
+			else
+			{
+				image[harfHeight - i][harfWidth - j] = '.';
+			}
+		}
+	}
+	isNewRender = true;
+}
+
+void MapMovePlayer::ObjectSelectedActive(int _selectValue)
+{
+	if (_selectValue == 0)
 	{
 		ObjectActive(mapData->GetMapInfo(posX, posY));
 		MapImageSet();
@@ -269,10 +436,32 @@ void MapMovePlayer::ObjectSelectedActive(int selectValue)
 
 void MapMovePlayer::CheckRunSoundPlay()
 {
-	if (runSoundDuration >= RUNSOUNDENDDURATION)
+	if (runResetSoundDuration >= RUNSOUNDENDDURATION)
 	{
 		SOUNDMANAGER->PlayAmbient(Text("RunSound.wav"));
 	}
-	runSoundDuration = 0;
+	runResetSoundDuration = 0;
 	activeCheck = false;
+}
+
+void MapMovePlayer::TileDescrtiptionRender()
+{
+	int offsetY = 0;
+
+	for (auto tileDescription : tileDescriptions)
+	{
+		offsetY++;
+		SCENEMANAGER->RenderToBackbuffer(1, MAX_SCREEN_HEIGTH + offsetY, tileDescription.second.size(), 1, tileDescription.second);
+	}
+}
+
+void MapMovePlayer::CheckTileDescription(char _data)
+{
+	if (_data == ' ')
+		return;
+
+	if (tileDescriptions.find(_data) == tileDescriptions.end())
+	{
+		tileDescriptions.emplace(_data, mapData->GetTileDescription(_data));
+	}
 }

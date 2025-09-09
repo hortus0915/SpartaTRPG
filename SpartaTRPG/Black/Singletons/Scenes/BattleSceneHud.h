@@ -10,7 +10,7 @@ using namespace std;
 class PlayerInfo;
 class EnemyInfoBase;
 
-class BattleSceneHud : public IRenderable
+class BattleSceneHud : public IUpdatable, public IRenderable
 {
 private:
 	int posX;
@@ -34,14 +34,17 @@ private:
 	static string lowerOpen;
 	static string lowerClose;
 
+	bool previewPlayer_ = false;
+
 public:
-	BattleSceneHud(string _sn) : IRenderable(_sn), posX(0), posY(0) { }
+	BattleSceneHud(string _sn) : IUpdatable(_sn), IRenderable(_sn), posX(0), posY(0) { }
 
 	int Init(PlayerInfo* _player, EnemyInfoBase* _enemy, int _posX, int _posY);
 	void Release();
 
-	void UpdateUI();
+	void Update(float _deltaTime);
 	void BgColorSetting(const float& ratio, Color& targetBg);
+	inline void SetPreviewPlayer(bool v) { previewPlayer_ = v; }
 
 	// IRenderable을(를) 통해 상속됨
 	void Render() override;

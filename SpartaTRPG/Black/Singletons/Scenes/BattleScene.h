@@ -8,6 +8,7 @@
 
 #include <set>
 #include <sstream>
+#include <vector>
 
 class PlayerInfo;
 class EnemyInfoBase;
@@ -21,7 +22,17 @@ enum BattleSequence
 	None,
 	CardSelect,
 	CardUse,
+	Victory,   
+	Defeat,    
+	Draw,     
 	BattleEnd
+	
+};
+
+enum class SubPhase
+{
+	First,
+	Second
 };
 
 #define BOARD_HEIGHT 13
@@ -31,8 +42,8 @@ enum BattleSequence
 class BattleScene : public iScene
 {
 private:
-	PlayerInfo*		player;
-	EnemyInfoBase*	enemy;
+	PlayerInfo* player;
+	EnemyInfoBase* enemy;
 
 	Board::Pos pPos;
 	Board::Pos mPos;
@@ -46,6 +57,12 @@ private:
 	set<int> pdeck;
 	set<int> mdeck;
 
+	int cardSelectCount;
+	int currentSelectCount;
+	vector<const Card*> playerSelectedCard;
+	vector<int> playerSelectedIdx;
+	vector<const Card*> enemySelectedCard;
+
 	BattleSystem sys;
 	BattleSystem::Side P;
 	BattleSystem::Side M;
@@ -53,35 +70,51 @@ private:
 	const Card* chosen;
 	const Card* mChosen;
 
+	bool pShieldUp = false;
+	bool mShieldUp = false;
+
 	int damage;
 	bool isGameOver;
 	int playerCardIdx;
+	int currentActionCount;
 	int cardsCountInRow;
 
 	string board[BOARD_HEIGHT];
-	string cardSelect[3];
+	string* cardSelect;
+	int		cardsNum;
 	string playerImage[3];
 	string enemyImage[3];
 	string sequenceStr;
+	string lastActionStr;
 	stringstream sStream;
 
 	BattleSceneHud* battleUi;
-	BattleSceneCardHud* cardUi;
+	BattleSceneCardHud* cardUi[3];
 	BlinkCursor* cursor;
 
 	float playerCardUseDuration;
 	float playerCardUseCurrentTime;
-	float enemyCardUseDuration;
-	float enemyCardUseCurrentTime;
 	bool pActionDone;
 	bool mActionDone;
 	float playerAttackDamage;
+	float playerAttackRealDamage;
 	float enemyAttackDamage;
+	float enemyAttackRealDamage;
 
 	BattleSequence currentSequence;
 
+	SubPhase subPhase = SubPhase::First;
+	bool playerFirstThisSubturn = true;
+
+	float actionStartGap = 1.0f;  
+	float actionStartTimer = 0.0f;
+	bool  waitingToStartAction = true;  
+	bool  isFirstActionThisRound = false; 
+
+
+
 public:
-	BattleScene(string _sceneName) : iScene(_sceneName) {}
+	BattleScene(string _sceneName) : iScene(_sceneName), cardSelect(nullptr) {}
 
 	// iScene을(를) 통해 상속됨
 	int Init() override;
@@ -90,6 +123,11 @@ public:
 	void Render() override;
 
 	void CalcRealPos(const Board::Pos& pos, Board::Pos& realPos);
+	void SortCards(vector<const Card*>& selected);
+
+	void CreateEffect(const int& cardId, const vector<Board::Pos>& pos, const Board::Pos& originPos);
+
+	void DoAction(BattleSystem::Side& _actor, BattleSystem::Side& _target, std::string& _outStr);
 
 	inline void SetBattlers(PlayerInfo* _player, EnemyInfoBase* _enemy) { player = _player; enemy = _enemy; }
 };

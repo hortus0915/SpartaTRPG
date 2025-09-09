@@ -8,7 +8,7 @@ private:
     std::map<ItemType, std::map<int, Item>> allItems;
 
 public:
-    Item* AddItem(int _itemUID);
+    Item* AddItem(int _itemUID, int _count = 1);
     Item* GetItem(int _itemUID);
     int UsingItem(int _itemUID, int _count);
     std::map<int, Item>* GetItemPartition(ItemType _itemType);

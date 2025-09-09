@@ -7,6 +7,7 @@
 #include "Scenes/QuizScene.h"
 #include "Scenes/TitleScene.h"
 #include "Scenes/EndingScene.h"
+#include "Scenes/ShopScene.h"
 
 
 #include "../TestScene.h"

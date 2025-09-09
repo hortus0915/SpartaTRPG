@@ -15,7 +15,7 @@ private:
 	float startDamage;
 	float startCounter;
 
-	int level;
+	int level=1;
 
 public:
 	//	PlayerInfo() : iCharacter(), level(1) {}
@@ -23,6 +23,8 @@ public:
 	virtual void Init(float _hp, float _sp, float _baseDamage, float _criPer, float _criDmg, float _dod, float _counter, int _exp) override;
 
 	virtual void GainExp(int _exp);
+
+	int GetLevel() const { return level; }
 
 protected:
 	virtual void LevelUp();

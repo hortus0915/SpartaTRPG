@@ -9,7 +9,7 @@
 #include "Singletons/EffectType.h"
 
 #include "Singletons/Scenes.h"
-#include "DevBlack.h"
+//#include "DevBlack.h"
 
 bool MainGame::isGameRun = true;
 
@@ -39,7 +39,9 @@ void MainGame::Init()
 
 	TIMEMANAGER->Init();
 	SCENEMANAGER->Init(this);
+	USERMANAGER->Init();
 	POPUPMANAGER->Init(this);
+	LOGMANAGER->Init();
 
 	stringstream stream;
 	string mode;
@@ -65,9 +67,14 @@ void MainGame::Init()
 	SCENEMANAGER->AddScene("GameScene",  new GameScene ("GameScene"));
 	SCENEMANAGER->AddChild("GameScene", "DungeonScene", new DungeonScene("DungeonScene"));
 	SCENEMANAGER->AddChild("GameScene", "BattleScene",  new BattleScene ("BattleScene"));
+<<<<<<< HEAD
 	SCENEMANAGER->AddChild("GameScene", "MinigameScene",new MinigameScene("MinigameScene"));
 	SCENEMANAGER->AddChild("GameScene", "QuizScene", new QuizScene("QuizScene"));
 
+=======
+	SCENEMANAGER->AddChild("GameScene", "MinigameScene", new MinigameScene("MinigameScene"));
+	SCENEMANAGER->AddChild("GameScene", "ShopScene", new ShopScene("ShopScene"));
+>>>>>>> 45ac7e3f8d5d7afe0e21ccee3186c8ea6ba959a0
 
 #ifndef DEV_BLACK
 
@@ -76,7 +83,7 @@ void MainGame::Init()
 #else
 
 	SCENEMANAGER->ChangeScene("GameScene");
-	SCENEMANAGER->ChangeChild("BattleScene");
+	SCENEMANAGER->ChangeChild("ShopScene");
 	SCENEMANAGER->CurrentSceneInit();
 
 #endif // !DEV)BLACK
@@ -89,6 +96,7 @@ void MainGame::Update(float _deltaTime)
 	SCENEMANAGER->Update(_deltaTime);
 	POPUPMANAGER->Update(_deltaTime);
 	EFFECTMANAGER->Update(_deltaTime);
+	LOGMANAGER->Update(_deltaTime);
 }
 
 void MainGame::Release()

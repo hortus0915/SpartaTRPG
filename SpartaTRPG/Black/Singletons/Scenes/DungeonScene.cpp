@@ -3,9 +3,11 @@
 #include "../../../Red/MapData.h"
 #include "../../MapMovePlayer.h"
 #include "../CommonManagers.h"
+#include "../../../Blue/Card/CardDB.h"
 
 DungeonScene::DungeonScene(string _sceneName) : iScene(_sceneName)
 {
+	CardDB::InitDefaults();
 	map = new MapData();
 	player = new MapMovePlayer(sceneName, map);
 	AddUpdatable(player);
@@ -15,7 +17,6 @@ DungeonScene::DungeonScene(string _sceneName) : iScene(_sceneName)
 int DungeonScene::Init()
 {
 	player->Init(WHITE, BLACK);
-
 	return 0;
 }
 

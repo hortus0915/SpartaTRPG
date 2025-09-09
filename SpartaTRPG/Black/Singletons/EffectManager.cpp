@@ -181,6 +181,18 @@ Effect* EffectManager::CreateEffectInstance(string _effectName)
 
 		newEffect->AddAfterEffect(info);
 	}
+	else if (_effectName == Tail_Shining)
+	{
+		newEffect = new EffectTail(1, 1, 0.5f);
+
+		AfterEffectInfo info(-3, -3, -3, -3, Shining);
+
+		newEffect->AddAfterEffect(info);
+	}
+	else if (_effectName == Shining)
+	{
+		newEffect = new EffectShining(7, 7, 0.2f);
+	}
 
 	return newEffect;
 }

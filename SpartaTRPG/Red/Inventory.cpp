@@ -1,13 +1,13 @@
 #include "Inventory.h"
 
-Item* Inventory::AddItem(int _itemUID)
+Item* Inventory::AddItem(int _itemUID, int _count)
 {
 	auto& itemPartition = allItems[Item::GetItemType(_itemUID)];
 	auto ret = itemPartition.try_emplace(_itemUID, _itemUID);
 
 	if (!ret.second)
 	{
-		ret.first->second.AddItem();
+		ret.first->second.AddItem(_count);
 	}
 
 	return &(ret.first->second);
@@ -45,7 +45,8 @@ int Inventory::UsingItem(int _itemUID, int _count)
 	}
 
 	int ret = findItem->second.UsingItem(_count);
-	if (ret <= 0) {
+	if (ret <= 0 &&
+		(findItem->second.GetName() != "°ñµå")) {
 		itemPartition->second.erase(findItem);             
 		ret = 0;
 	}

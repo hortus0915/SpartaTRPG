@@ -3,6 +3,7 @@
 #include <vector>
 #include "TileType.h"
 #include <set>
+#include <string>
 
 #define MAP_WIDTH			5
 #define MAP_HEIGHT			5
@@ -28,8 +29,6 @@ class MapData
 private:
 	TileInfo** mapInfo;
 	int GetIndex(int x, int y);
-	int dungeonLevel;
-	bool dungeonKey = false;
 	MapType mapType = MapType::Dungeon;
 	std::map<TileType,std::set<TileInfo*>> objectInfo;
 
@@ -47,6 +46,7 @@ private:
 
 	int GetObjectCount(TileType _tileType);
 
+
 public:
 	MapData();
 	~MapData();
@@ -54,15 +54,15 @@ public:
 	void Release();
 
 	void CreateMap(MapType _mapType);
-	char GetMapData(int posX, int posY);
-	TileType GetMapInfo(int posX, int posY);
+	char GetMapData(int _posX, int _posY);
+	char GetMapData(TileType _tileType);
+	TileType GetMapInfo(int _posX, int _posY);
 
-	void ObjectReset(int posX, int posY);
-	std::pair<int, int> GetTileFromPosition(int posX, int posY);
+	void ObjectReset(int _posX, int _posY);
+	std::pair<int, int> GetTileFromPosition(int _posX, int _posY);
 
+	std::string GetTileDescription(char _tile);
 	const int GetMapWidth(MapType _mapType = MapType::NoneSelect);
 	const int GetMapHeight(MapType _mapType = MapType::NoneSelect);
-	inline void GetDungeonKey() { dungeonKey = true; }
-	inline bool CheckDungeonKey() { return dungeonKey; }
 };
 

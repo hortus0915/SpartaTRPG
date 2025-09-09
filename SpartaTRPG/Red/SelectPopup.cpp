@@ -21,6 +21,7 @@ void SelectPopup::Render()
 {
 	__super::Render();
 	SelectRender();
+	RenderingCustomString();
 }
 
 void SelectPopup::SelectRender()
@@ -35,8 +36,6 @@ void SelectPopup::SelectRender()
 		SCENEMANAGER->RenderToBackbuffer((MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) + 13, (MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) + MAPPOPUP_HEIGHT - 7, 3, 1, temp, GREEN, GREEN);
 	else
 		SCENEMANAGER->RenderToBackbuffer((MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) + 45, (MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) + MAPPOPUP_HEIGHT - 7, 3, 1, temp, RED, RED);
-
-	RenderingCustomString();
 }
 
 void SelectPopup::Init()
