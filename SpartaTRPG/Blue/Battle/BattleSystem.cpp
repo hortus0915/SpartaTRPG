@@ -138,7 +138,7 @@ int BattleSystem::HealToCharacter(Side& _self, stringstream& sStream)
 	 
 	//test print
 	if (healAmount > 0) sStream << " 체력 + " << healAmount;
-	if (ManaAmount < 0) sStream << " 마나 + " << ManaAmount;
+	if (ManaAmount < 0) sStream << " 마나 + " << -ManaAmount;
 	std::cout << "\n";
 
 

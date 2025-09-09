@@ -17,6 +17,7 @@ void PlayerInfo::Init(float _hp, float _sp, float _baseDamage, float _criPer, fl
 	startCriDod = dodge;
 	startCounter = counter;
 
+	name = "스파레인저";
 	exp = 0;
 }
 
