@@ -20,6 +20,7 @@ using namespace std;
 using namespace std;
 
 class Inventory;
+class PlayerInfo;
 
 class UserManager
 {
@@ -32,6 +33,8 @@ private:
 	Inventory* inventory = nullptr;
 	Item* equipItem = nullptr;
 	RandomItem random;
+
+	PlayerInfo* player;
 
 
 public:
@@ -49,7 +52,10 @@ public:
 	Item* GetRandomItem(RandomItemType randomType);
 
 	void EquipItem(Item* _equipItem);
+	Item* GetEquipItem() const { return equipItem; }
 
 	int UsingItem(int itemUID, int count);
 	inline int GetStage() { return stage; }
+
+	inline PlayerInfo* GetPlayer() const { return player; }
 };

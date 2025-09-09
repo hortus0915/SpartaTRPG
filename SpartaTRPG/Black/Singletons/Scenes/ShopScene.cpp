@@ -273,7 +273,10 @@ int ShopScene::Init()
 
 void ShopScene::Update(float _deltaTime)
 {
+	if (POPUPMANAGER->CheckPopupActive()) return;
+
 	__super::Update(_deltaTime);
+
 
 	if (currentContentPage == ItemType::Eequipment)
 		title = "Àåºñ";
@@ -287,7 +290,7 @@ void ShopScene::Update(float _deltaTime)
 	if (KEYMANAGER->IsOnceKeyDown('Q'))
 	{
 		currentItemIdx = 0;
-		currentContentPage = (ItemType)(((int)currentContentPage -1 + (int)ItemType::MAX) % (int)ItemType::MAX);
+		currentContentPage = (ItemType)(((int)currentContentPage - 1 + (int)ItemType::MAX) % (int)ItemType::MAX);
 		if ((int)currentContentPage <= 0) currentContentPage = (ItemType)((int)ItemType::MAX - 1);
 	}
 	if (KEYMANAGER->IsOnceKeyDown('E'))
@@ -360,7 +363,8 @@ void ShopScene::Update(float _deltaTime)
 		++iter;
 	selectedItemUI->SetItem(&iter->second, GetCost(iter->second.GetItemUID()));
 
-	if (KEYMANAGER->IsOnceKeyDown(VK_RETURN))
+	if (KEYMANAGER->IsOnceKeyDown(VK_RETURN) &&
+		!POPUPMANAGER->CheckPopupActive())
 	{
 		if (BuyItem(iter->second))
 		{
@@ -369,7 +373,9 @@ void ShopScene::Update(float _deltaTime)
 		}
 	}
 
-	if (KEYMANAGER->IsOnceKeyDown(VK_BACK))
+	if ((KEYMANAGER->IsOnceKeyDown(VK_ESCAPE) ||
+		KEYMANAGER->IsOnceKeyDown(VK_BACK)) &&
+		!POPUPMANAGER->CheckPopupActive())
 	{
 		SCENEMANAGER->ChangeChild("DungeonScene");
 	}
@@ -380,8 +386,8 @@ void ShopScene::Update(float _deltaTime)
 void ShopScene::Release()
 {
 	SAFE_RELEASE_DELETE(baseUi)
-	SAFE_RELEASE_DELETE(selectedItemUI)
-	SAFE_DELETE_ARR(contents)
+		SAFE_RELEASE_DELETE(selectedItemUI)
+		SAFE_DELETE_ARR(contents)
 }
 
 void ShopScene::Render()
@@ -436,7 +442,7 @@ bool ShopScene::IsCanBuyItem(Item _item)
 int ShopScene::GetGold()
 {
 	int uid = Item::GetItemUID(ItemType::Cost, ItemValueType::Cost, 1);
-	return USERMANAGER->GetItemInfo(uid)->GetValue();
+	return USERMANAGER->GetItemInfo(uid)->GetItemCount();
 }
 
 int ShopScene::GetCost(int _itemUID)

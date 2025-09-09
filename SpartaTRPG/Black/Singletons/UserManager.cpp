@@ -5,6 +5,8 @@
 #include "../../Red/Inventory.h"
 #include "CommonManagers.h"
 
+#include "../../Black/PlayerInfo.h"
+
 UserManager* UserManager::instance = nullptr;
 
 void UserManager::Init()
@@ -39,6 +41,12 @@ void UserManager::Init()
 	inventory->AddItem(20412);
 	inventory->AddItem(20413);
 	inventory->AddItem(20414);
+
+	if (!player)
+	{
+		player = new PlayerInfo;
+		player->Init(100, 100, 10, 10, 1.5f, 50, 50, 0);
+	}
 }
 
 void UserManager::GetKey()
@@ -112,6 +120,8 @@ void UserManager::EquipItem(Item* _equipItem)
 		return;
 
 	equipItem = _equipItem;
+
+	player->SetEquipDamage(equipItem->GetValue());
 }
 
 std::map<int, Item>* UserManager::GetItemPartition(ItemType _itemType)
@@ -133,5 +143,7 @@ void UserManager::Release()
 {
 	if (inventory)
 		SAFE_DELETE(inventory);
+
+	SAFE_DELETE(player);
 }
 
