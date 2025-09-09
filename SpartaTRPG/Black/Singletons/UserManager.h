@@ -6,6 +6,7 @@
 using namespace std;
 
 #include "../Singletons/SingletonMacro.h"
+#include "../../Red/RandomItem.h"
 #include "../../Red/Item.h"
 
 #define MAPPOPUP_WIDTH 81
@@ -27,6 +28,8 @@ private:
 	int stageKey = 0;
 
 	Inventory* inventory = nullptr;
+	Item* equipItem = nullptr;
+	RandomItem random;
 public:
 	void Init();
 	void GetKey();
@@ -39,6 +42,9 @@ public:
 	Item* GetItemInfo(int itemUID);
 	Item* GetItemInfo_fromIndex(ItemType itemType ,int index); 
 	std::map<int, Item>* GetItemPartition(ItemType _itemType);
+	Item* GetRandomItem(RandomItemType randomType);
+
+	void EquipItem(Item* _equipItem);
 
 	int UsingItem(int itemUID, int count);
 	inline int GetStage() { return stage; }

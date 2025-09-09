@@ -2,20 +2,26 @@
 #include "iMapMovable.h"
 #include "../Red/TileInfo.h"
 #include "../Red/Inventory.h"
+#include "../Red/RandomItem.h"
 
 #define RUNSOUNDENDDURATION 0.3f
 
 class SelectPopup;
+class Effect;
 
 class MapMovePlayer : public iMapMovable
 {
 private:
-	bool activeCheck = false;
+	bool activeCheck;
 	float runSoundDuration;
 	float range_Of_Sight;
-	Inventory* testInven;
 
 	int mapMove;
+	Effect* monsterEffect;
+
+	RandomItemType randomType;
+
+	std::map<char, string> tileDescriptions;
 
 public:
 	MapMovePlayer(string _sn, MapData* _mapData);
@@ -32,8 +38,11 @@ public:
 	void ObjectActive(TileType _tileType);
 	void CheckActive();
 	virtual void MapImageSet() override;
-	void ObjectSelectedActive(int selectValue);
+	void ObjectSelectedActive(int _selectValue);
 
 	void CheckRunSoundPlay();
+
+	void TileDescrtiptionRender();
+	void CheckTileDescription(char _data);
 };
 

@@ -4,6 +4,7 @@
 #include "../Red/SelectPopup.h"
 #include "../Red/MapData.h"
 #include "Singletons/Scenes/BattleScene.h"
+#include "Singletons/EffectType.h"
 
 
 MapMovePlayer::MapMovePlayer(string _sn, MapData* _mapData) : iMapMovable(_sn, _mapData)
@@ -11,16 +12,32 @@ MapMovePlayer::MapMovePlayer(string _sn, MapData* _mapData) : iMapMovable(_sn, _
 	runSoundDuration = RUNSOUNDENDDURATION;
 	range_Of_Sight = 0;
 	mapMove = 1;
-	testInven = new Inventory();
+	monsterEffect = nullptr;
+	activeCheck = false;
+	randomType = RandomItemType::None;
 }
 
 void MapMovePlayer::Init(Color _characterColor, Color _bgColor)
 {
 	__super::Init(_characterColor, _bgColor);
+	if (randomType != RandomItemType::None)
+	{
+		auto addedItem = USERMANAGER->GetRandomItem(randomType);
+		USERMANAGER->AddItem(addedItem->GetItemUID(), addedItem->GetItemCount());
+	}
 }
 
 void MapMovePlayer::Update(float deltaTime)
 {
+	if (monsterEffect != nullptr)
+	{
+		if (monsterEffect->IsRunning())
+		{
+			SOUNDMANAGER->StopAmbient(Text("RunSound.wav"));
+			mapMove = -1;
+		}
+	}
+
 	if (mapMove > 0)
 	{
 		range_Of_Sight += deltaTime * 50;
@@ -40,11 +57,24 @@ void MapMovePlayer::Update(float deltaTime)
 		{
 			range_Of_Sight = 0;
 			mapMove = 1;
+			if (monsterEffect != nullptr)
+			{
+				monsterEffect = nullptr;
+				mapData->ObjectReset(posX, posY);
+				auto battle = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "BattleScene");
+				if (battle)
+				{
+					//battle->SetBattlers(USERMANAGER->GetPlayer(), USERMANAGER->SetMonster());
+				}
+				SCENEMANAGER->ChangeChild("BattleScene");
+				SCENEMANAGER->CurrentSceneInit();
+				return;
+			}
 		}
 		MapImageSet();
 	}
 
-	if (mapMove == 0)
+	if (mapMove == 0 && monsterEffect == nullptr)
 	{
 		if (POPUPMANAGER->CheckPopupActive() == false)
 			MapInput(deltaTime);
@@ -69,6 +99,7 @@ void MapMovePlayer::Update(float deltaTime)
 void MapMovePlayer::Render()
 {
 	__super::Render();
+	TileDescrtiptionRender();
 }
 
 void MapMovePlayer::Release()
@@ -132,7 +163,10 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 			5,
 			0
 		);
-		//¾ÆÀÌÅÛ È¹µæ
+
+		auto addedItem = USERMANAGER->GetRandomItem(RandomItemType::Box);
+		USERMANAGER->AddItem(addedItem->GetItemUID(), addedItem->GetItemCount());
+
 		mapData->ObjectReset(posX, posY);
 		break;
 	}
@@ -158,6 +192,7 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 	case DungeonIn:
 	{
 		mapMove = -1;
+		activeCheck = true;
 		mapData->CreateMap(MapType::Dungeon);
 		break;
 	}
@@ -181,19 +216,15 @@ void MapMovePlayer::CheckActive()
 	{
 	case Empty:
 	case Wall:
+	case WallH:
+	case WallV:
 		POPUPMANAGER->PopupActiveOff();
 		break;
 	case Monster:
 	case MonsterActiveRange:
 	{
-		//auto battle = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "BattleScene");
-		//if (battle)
-		//{
-		//	//battle->SetBattlers(USERMANAGER->GetPlayer(), USERMANAGER->SetMonster());
-		//}
-		//SCENEMANAGER->ChangeChild("BattleScene");
-		//SCENEMANAGER->CurrentSceneInit();
-
+		auto monsterPosition = mapData->GetTileFromPosition(posX, posY);
+		monsterEffect = EFFECTMANAGER->StartEffect(Explosion, monsterPosition.first - posX + (MAX_SCREEN_WIDTH / 2) - 2, monsterPosition.second - posY + (MAX_SCREEN_HEIGTH / 2) - 2);
 		break;
 	}
 	case Box:
@@ -292,9 +323,9 @@ void MapMovePlayer::CheckActive()
 
 void MapMovePlayer::MapImageSet()
 {
+	tileDescriptions.clear();
 	int harfWidth = MAX_SCREEN_WIDTH / 2;
 	int harfHeight = MAX_SCREEN_HEIGTH / 2;
-
 	int nowRange_Of_Sight = range_Of_Sight;
 
 	for (int i = 0; i < harfHeight; ++i)
@@ -307,13 +338,14 @@ void MapMovePlayer::MapImageSet()
 				image[harfHeight + i][harfWidth + j] = 'O';
 				continue;
 			}
-
 			if (SetWall(harfWidth, harfHeight, j, i, harfHeight + i, harfWidth + j)) continue;
 
 			int mapX = posX + j;
 			if (i * i * 4 + j * j < nowRange_Of_Sight * nowRange_Of_Sight)
 			{
-				image[harfHeight + i][harfWidth + j] = mapData->GetMapData(mapX, mapY);
+				auto initData = mapData->GetMapData(mapX, mapY);
+				CheckTileDescription(initData);
+				image[harfHeight + i][harfWidth + j] = initData;
 			}
 			else
 			{
@@ -327,7 +359,9 @@ void MapMovePlayer::MapImageSet()
 			int mapX = posX - j;
 			if (i * i * 4 + j * j < nowRange_Of_Sight * nowRange_Of_Sight)
 			{
-				image[harfHeight + i][harfWidth - j] = mapData->GetMapData(mapX, mapY);
+				auto initData = mapData->GetMapData(mapX, mapY);
+				CheckTileDescription(initData);
+				image[harfHeight + i][harfWidth - j] = initData;
 			}
 			else
 			{
@@ -345,7 +379,9 @@ void MapMovePlayer::MapImageSet()
 			int mapX = posX + j;
 			if (i * i * 4 + j * j < nowRange_Of_Sight * nowRange_Of_Sight)
 			{
-				image[harfHeight - i][harfWidth + j] = mapData->GetMapData(mapX, mapY);
+				auto initData = mapData->GetMapData(mapX, mapY);
+				CheckTileDescription(initData);
+				image[harfHeight - i][harfWidth + j] = initData;
 			}
 			else
 			{
@@ -359,7 +395,9 @@ void MapMovePlayer::MapImageSet()
 			int mapX = posX - j;
 			if (i * i * 4 + j * j < nowRange_Of_Sight * nowRange_Of_Sight)
 			{
-				image[harfHeight - i][harfWidth - j] = mapData->GetMapData(mapX, mapY);
+				auto initData = mapData->GetMapData(mapX, mapY);
+				CheckTileDescription(initData);
+				image[harfHeight - i][harfWidth - j] = initData;
 			}
 			else
 			{
@@ -370,9 +408,9 @@ void MapMovePlayer::MapImageSet()
 	isNewRender = true;
 }
 
-void MapMovePlayer::ObjectSelectedActive(int selectValue)
+void MapMovePlayer::ObjectSelectedActive(int _selectValue)
 {
-	if (selectValue == 0)
+	if (_selectValue == 0)
 	{
 		ObjectActive(mapData->GetMapInfo(posX, posY));
 		MapImageSet();
@@ -387,4 +425,26 @@ void MapMovePlayer::CheckRunSoundPlay()
 	}
 	runSoundDuration = 0;
 	activeCheck = false;
+}
+
+void MapMovePlayer::TileDescrtiptionRender()
+{
+	int offsetY = 0;
+
+	for (auto tileDescription : tileDescriptions)
+	{
+		offsetY++;
+		SCENEMANAGER->RenderToBackbuffer(1, MAX_SCREEN_HEIGTH + offsetY, tileDescription.second.size(), 1, tileDescription.second);
+	}
+}
+
+void MapMovePlayer::CheckTileDescription(char _data)
+{
+	if (_data == ' ')
+		return;
+
+	if (tileDescriptions.find(_data) == tileDescriptions.end())
+	{
+		tileDescriptions.emplace(_data, mapData->GetTileDescription(_data));
+	}
 }

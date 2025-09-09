@@ -172,6 +172,7 @@
     <ClCompile Include="Red\MapCreateTileInfo.cpp" />
     <ClCompile Include="Red\MapData.cpp" />
     <ClCompile Include="Red\Popup.cpp" />
+    <ClCompile Include="Red\RandomItem.cpp" />
     <ClCompile Include="Red\ResultPopup.cpp" />
     <ClCompile Include="Red\SelectPopup.cpp" />
     <ClCompile Include="Red\ShopPopup.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="Red\MapData.h" />
     <ClInclude Include="Red\Popup.h" />
     <ClInclude Include="Red\PopupType.h" />
+    <ClInclude Include="Red\RandomItem.h" />
     <ClInclude Include="Red\ResultPopup.h" />
     <ClInclude Include="Red\SelectPopup.h" />
     <ClInclude Include="Red\ShopPopup.h" />

@@ -3,7 +3,7 @@
 #include "BasicInterfaces.h"
 #include "TextColors.h"
 
-#define RANGE_OF_SIGHT 30
+#define RANGE_OF_SIGHT 40
 
 class MapData;
 

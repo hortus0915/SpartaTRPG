@@ -10,6 +10,7 @@ class InventoryPopup : public Popup
 private:
 	ItemType itemType;
 	int itemIndex;
+	Item* selectItem;
 
 	const int maxPartitionIndex = static_cast<int>(ItemType::MAX);
 
@@ -23,6 +24,11 @@ public:
 
 	virtual void SetCustomStringPadding(int _leftPadding = 0, int _rightPadding = 0, int _upPadding = 0, int _downPadding = 0) override;
 	void SetItemType(ItemType _itemType);
-	void ShowItemDetail(int _itemUID);
+	void ShowItemDetail();
+
+	void EquipItem(int _selectValue);
+	void UsingPotion(int _selectValue);
+	void RenderCardInfo(vector<string>* _customString);
+
 };
 

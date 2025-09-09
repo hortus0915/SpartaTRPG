@@ -241,19 +241,39 @@ void MapData::DungeonMapSet()
 
     delete[] boardTemp;
     boardTemp = nullptr;
-
     for (int oy = 0; oy < GetMapHeight(); ++oy)
     {
-        int by = (oy % (MAP_CHUNKHEIGHT + 1) == 0) ? 2 * (oy / (MAP_CHUNKHEIGHT + 1)) : 2 * (oy / (MAP_CHUNKHEIGHT + 1)) + 1;
-        if (by < 0) by = 0; if (by >= MAP_HEIGHT * 2 + 1) by = MAP_HEIGHT * 2 + 1 - 1;
+        int by = (oy % (MAP_CHUNKHEIGHT + 1) == 0)
+            ? 2 * (oy / (MAP_CHUNKHEIGHT + 1))
+            : 2 * (oy / (MAP_CHUNKHEIGHT + 1)) + 1;
+        if (by < 0) by = 0;
+        if (by >= MAP_HEIGHT * 2 + 1) by = MAP_HEIGHT * 2;
 
         for (int ox = 0; ox < GetMapWidth(); ++ox)
         {
-            int bx = (ox % (MAP_CHUNKWIDTH + 1) == 0) ? 2 * (ox / (MAP_CHUNKWIDTH + 1)) : 2 * (ox / (MAP_CHUNKWIDTH + 1)) + 1;
-            if (bx < 0) bx = 0; if (bx >= MAP_WIDTH * 2 + 1) bx = MAP_WIDTH * 2;
+            int bx = (ox % (MAP_CHUNKWIDTH + 1) == 0)
+                ? 2 * (ox / (MAP_CHUNKWIDTH + 1))
+                : 2 * (ox / (MAP_CHUNKWIDTH + 1)) + 1;
+            if (bx < 0) bx = 0;
+            if (bx >= MAP_WIDTH * 2 + 1) bx = MAP_WIDTH * 2;
 
-            bool open = boardTempArray[bx][by];
-            mapInfo[ox][oy].SetTileType(open ? TileType::Empty : TileType::Wall, ox, oy);
+            const bool open = boardTempArray[bx][by];
+            TileType t;
+
+            if (open) {
+                t = TileType::Empty;
+            }
+            else {
+                const bool evenX = (bx % 2 == 0);
+                const bool evenY = (by % 2 == 0);
+
+                if (!evenX && evenY)        t = TileType::WallH;   
+                else if (evenX && !evenY)   t = TileType::WallV;  
+                else if (evenX && evenY)    t = TileType::Wall;  
+                else                        t = TileType::Wall;    
+            }
+
+            mapInfo[ox][oy].SetTileType(t, ox, oy);
         }
     }
 }
@@ -307,32 +327,53 @@ void MapData::ObjectSet(TileType _tileType, int _fromIndexX, int _fromIndexY, in
 
     if (range != 0)
     {
-        for (int i = 0; i <= range; i++)
+        for (int i = 0; i <= range * 2; i++)
         {
+            bool wallV = false;
             for (int j = 0; j <= range; j++)
             {
-                if (TileSet((TileType)((int)_tileType * 100), _fromIndexX + i, _fromIndexY + j, _fromIndexX, _fromIndexY) < 0)
+                auto wallCheck = TileSet((TileType)((int)_tileType * 100), _fromIndexX + i, _fromIndexY + j, _fromIndexX, _fromIndexY);
+                if (wallCheck < 0)
+                {
+                    if (wallCheck == -2) wallV = true;
                     break;
+                }
             }
+            if (wallV) break;
             for (int j = -1; j >= -range; j--)
             {
-                if (TileSet((TileType)((int)_tileType * 100), _fromIndexX + i, _fromIndexY + j, _fromIndexX, _fromIndexY) < 0)
+                auto wallCheck = TileSet((TileType)((int)_tileType * 100), _fromIndexX + i, _fromIndexY + j, _fromIndexX, _fromIndexY);
+                if (wallCheck < 0)
+                {
+                    if (wallCheck == -2) wallV = true;
                     break;
+                }
             }
+            if (wallV) break;
         }
 
-        for (int i = -1; i >= -range; i--)
+        for (int i = -1; i >= -range * 2; i--)
         {
+            bool wallV = false;
             for (int j = 0; j <= range; j++)
             {
-                if (TileSet((TileType)((int)_tileType * 100), _fromIndexX + i, _fromIndexY + j, _fromIndexX, _fromIndexY) < 0)
+                auto wallCheck = TileSet((TileType)((int)_tileType * 100), _fromIndexX + i, _fromIndexY + j, _fromIndexX, _fromIndexY);
+                if (wallCheck < 0)
+                {
+                    if (wallCheck == -2) wallV = true;
                     break;
+                }
             }
             for (int j = -1; j >= -range; j--)
             {
-                if (TileSet((TileType)((int)_tileType * 100), _fromIndexX + i, _fromIndexY + j, _fromIndexX, _fromIndexY) < 0)
+                auto wallCheck = TileSet((TileType)((int)_tileType * 100), _fromIndexX + i, _fromIndexY + j, _fromIndexX, _fromIndexY);
+                if (wallCheck < 0)
+                {
+                    if (wallCheck == -2) wallV = true;
                     break;
+                }
             }
+            if (wallV) break;
         }
     }
     TileSet(_tileType, _fromIndexX, _fromIndexY, _fromIndexX, _fromIndexY);
@@ -364,8 +405,10 @@ void MapData::ObjectRandomSet(TileType _tileType, int _count)
 int MapData::TileSet(TileType _tileType, int _posX, int _posY, int _fromIndexX, int _fromIndexY)
 {
     auto tileType = GetMapInfo(_posX, _posY);
-    if (tileType == TileType::Wall)
+    if (tileType == TileType::Wall || tileType == TileType::WallH)
         return -1;
+    else if (tileType == TileType::WallV)
+        return -2;
     else if (_tileType != 0 && tileType % 100 != 0)
         return 1;
     else
@@ -381,7 +424,7 @@ int MapData::GetRange(TileType _tileType)
     case Shop:
         return 1;
     case Monster:
-        return 5;
+        return 4;
     default:
         return 0;
     }
@@ -405,25 +448,77 @@ int MapData::GetObjectCount(TileType _tileType)
     return 0;
 }
 
-char MapData::GetMapData(int posX, int posY)
+std::string MapData::GetTileDescription(char _tile)
 {
-    if (posX < 0 || posX > GetMapWidth() - 1 || posY < 0 || posY > GetMapHeight() - 1)
+    switch (_tile)
+    {
+    case '#':
+        return "# : 벽";
+    case 'B':
+        return "B : 랜덤한 아이템이 있는 박스";
+    case 'H':
+        return "H : 다음 던전으로 가는 통로";
+    case 'M':
+        return "M : 몬스터";
+    case 'K':
+        return "K : 다음 던전으로 가는 통로를 여는 열쇠";
+    default:
+        return "";
+    }
+}
+
+char MapData::GetMapData(int _posX, int _posY)
+{
+    if (_posX < 0 || _posX > GetMapWidth() - 1 || _posY < 0 || _posY > GetMapHeight() - 1)
         return ' ';
 
-    switch (mapInfo[posX][posY].GetTileType())
+    switch (mapInfo[_posX][_posY].GetTileType())
     {
     case TileType::Empty:
     case TileType::BoxActive:
     case TileType::MonsterActiveRange:
+    case TileType::ShopActiveRange:
         return ' ';
     case TileType::Wall:
+    case TileType::WallH:
+    case TileType::WallV:
         return '#';
     case TileType::Box:
         return 'B';
     case TileType::Exit:
         return 'H';
     case TileType::Monster:
-        return '@';
+        return 'M';
+    case TileType::Key:
+        return 'K';
+    case TileType::DungeonIn:
+        return 'D';
+    case TileType::Shop:
+        return 'S';
+    default:
+        return '.';
+    }
+}
+
+char MapData::GetMapData(TileType _tileType)
+{
+    switch (_tileType)
+    {
+    case TileType::Empty:
+    case TileType::BoxActive:
+        return ' ';
+    case TileType::MonsterActiveRange:
+        return '1';
+    case TileType::Wall:
+    case TileType::WallH:
+    case TileType::WallV:
+        return '#';
+    case TileType::Box:
+        return 'B';
+    case TileType::Exit:
+        return 'H';
+    case TileType::Monster:
+        return 'M';
     case TileType::Key:
         return 'K';
     case TileType::DungeonIn:
@@ -435,12 +530,12 @@ char MapData::GetMapData(int posX, int posY)
     }
 }
 
-TileType MapData::GetMapInfo(int posX, int posY)
+TileType MapData::GetMapInfo(int _posX, int _posY)
 {
-    if (posX < 0 || posX > GetMapWidth() - 1 || posY < 0 || posY > GetMapHeight() - 1)
+    if (_posX < 0 || _posX > GetMapWidth() - 1 || _posY < 0 || _posY > GetMapHeight() - 1)
         return TileType::Wall;
 
-    auto nowTile = mapInfo[posX][posY];
+    auto nowTile = mapInfo[_posX][_posY];
 
     if (nowTile.GetTileType() != TileType::Empty && (int)nowTile.GetTileType() % 100 == 0)
     {
@@ -448,15 +543,15 @@ TileType MapData::GetMapInfo(int posX, int posY)
             return TileType::Empty;
     }
 
-    return mapInfo[posX][posY].GetTileType();
+    return mapInfo[_posX][_posY].GetTileType();
 }
 
-void MapData::ObjectReset(int posX, int posY)
+void MapData::ObjectReset(int _posX, int _posY)
 {
-    if (posX < 0 || posX > GetMapWidth() - 1 || posY < 0 || posY > GetMapHeight() - 1)
+    if (_posX < 0 || _posX > GetMapWidth() - 1 || _posY < 0 || _posY > GetMapHeight() - 1)
         return;
 
-    auto nowTile = mapInfo[posX][posY];
+    auto nowTile = mapInfo[_posX][_posY];
     auto fromTile = &(mapInfo[nowTile.GetFromIndexX()][nowTile.GetFromIndexY()]);
     auto& objects = objectInfo.find(fromTile->GetTileType())->second;
     objects.erase(fromTile);
@@ -465,14 +560,14 @@ void MapData::ObjectReset(int posX, int posY)
     DungeonObjectLoad();
 }
 
-std::pair<int, int> MapData::GetTileFromPosition(int posX, int posY)
+std::pair<int, int> MapData::GetTileFromPosition(int _posX, int _posY)
 {
     std::pair<int, int> ret = std::pair<int, int>();
 
-    if (posX < 0 || posX > GetMapWidth() - 1 || posY < 0 || posY > GetMapHeight() - 1)
+    if (_posX < 0 || _posX > GetMapWidth() - 1 || _posY < 0 || _posY > GetMapHeight() - 1)
         return ret;
 
-    auto nowTile = mapInfo[posX][posY];
+    auto nowTile = mapInfo[_posX][_posY];
     ret.first = nowTile.GetFromIndexX();
     ret.second = nowTile.GetFromIndexY();
 

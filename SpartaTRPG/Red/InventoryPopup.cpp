@@ -1,5 +1,7 @@
 #include "InventoryPopup.h"
 #include "../Black/Singletons/CommonManagers.h"
+#include "../Blue/Card/CardData.h"
+#include "../Blue/Card/CardDB.h"
 
 void InventoryPopup::Update(float deltaTime)
 {
@@ -12,8 +14,7 @@ void InventoryPopup::Update(float deltaTime)
 	{
 		if (isActive)
 		{
-			POPUPMANAGER->PopupActiveOff();
-			InvokeActive(selectValue);
+			ShowItemDetail();
 		}
 	}
 
@@ -25,7 +26,7 @@ void InventoryPopup::Update(float deltaTime)
 
 	if (KEYMANAGER->IsStayKeyDown(VK_DOWN))
 	{
-		if (itemIndex < printLine && printLine * customStringPageIndex + itemIndex - 1 < customString->size())
+		if (itemIndex < printLine && printLine * customStringPageIndex + itemIndex < customString->size() - 1)
 			itemIndex++;
 	}
 
@@ -51,7 +52,6 @@ void InventoryPopup::Update(float deltaTime)
 	{
 		if (itemIndex != 1)
 		{
-			itemIndex = 1;
 			SetItemType(ItemType::Cost);
 		}
 	}
@@ -60,7 +60,6 @@ void InventoryPopup::Update(float deltaTime)
 	{
 		if (itemIndex != 2)
 		{
-			itemIndex = 2;
 			SetItemType(ItemType::Eequipment);
 		}
 	}
@@ -69,7 +68,13 @@ void InventoryPopup::Update(float deltaTime)
 	{
 		if (itemIndex != 3)
 		{
-			itemIndex = 3;
+			SetItemType(ItemType::Card);
+		}
+	}
+	if (KEYMANAGER->IsStayKeyDown(VK_NUMPAD4))
+	{
+		if (itemIndex != 4)
+		{
 			SetItemType(ItemType::Potion);
 		}
 	}
@@ -84,16 +89,22 @@ void InventoryPopup::Render()
 		(MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) / 2 + 1,
 		CATEGORYLENGTH * 3 + 1,
 		1,
-		"1.cost             2.equipment    3.Potion");
+		"1.cost       2.equipment    3.card       4.Potion");
 	auto temp = customString;
 	RenderingCustomString();
-
+	if (itemIndex >= 0)
+	{
+		SCENEMANAGER->RenderToBackbuffer(
+			(MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) / 2 + leftPadding - 3,
+			(MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) / 2 + itemIndex + upPadding,
+			1,
+			1,
+			">");
+	}
 	SCENEMANAGER->RenderToBackbuffer(
-		(MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) / 2 + leftPadding - 3,
-		(MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) / 2 + itemIndex + upPadding,
-		1,
-		1,
-		">");
+		(MAX_SCREEN_WIDTH - MAPPOPUP_WIDTH) / 2 + CATEGORYLENGTH * (static_cast<int>(itemType) + 1),
+		(MAX_SCREEN_HEIGTH - MAPPOPUP_HEIGHT) / 2 + 1
+		, CATEGORYLENGTH, 1, "            ", GREEN, GREEN);
 }
 
 void InventoryPopup::Init()
@@ -124,9 +135,286 @@ void InventoryPopup::SetItemType(ItemType _itemType)
 		std::snprintf(buf, sizeof(buf), "아이템 이름 : %s , 수량 : %d", item.second.GetName().c_str(), item.second.GetItemCount());
 		customString->push_back(buf);
 	}
+
+	if (customString->size() != 0)
+		itemIndex = 0;
+	else
+		itemIndex = -1;
 }
 
-void InventoryPopup::ShowItemDetail(int _itemUID)
+void InventoryPopup::ShowItemDetail()
 {
-	auto selectItem = USERMANAGER->GetItemInfo_fromIndex(itemType, printLine * customStringPageIndex + itemIndex);
+	selectItem = USERMANAGER->GetItemInfo_fromIndex(itemType, printLine * customStringPageIndex + itemIndex);
+
+	if (selectItem)
+	{
+		switch (Item::GetItemType(selectItem->GetItemUID()))
+		{
+		case ItemType::Cost:
+		{
+			vector<string>* initString = new vector<string>();
+			initString->push_back("상점에서 사용되는 재화");
+			initString->push_back("");
+			char buf[128];
+			std::snprintf(buf, sizeof(buf), "%s을(를) %d개 갖고 있다", selectItem->GetName().c_str(), selectItem->GetItemCount());
+			initString->push_back(buf);
+
+			POPUPMANAGER->InitPopup<InventoryPopup, nullptr>(
+				PopupType::RESULTPOPUP,
+				nullptr,
+				initString,
+				15,
+				0,
+				5,
+				0
+			);
+			selectItem = nullptr;
+			break;
+		}
+		case ItemType::Eequipment:
+		{
+			vector<string>* initString = new vector<string>();
+			initString->push_back("장비 아이템");
+			initString->push_back("");
+			char buf[128];
+			std::snprintf(buf, sizeof(buf), "%s을(를) %d개 갖고 있다", selectItem->GetName().c_str(), selectItem->GetItemCount());
+			initString->push_back(buf);
+			initString->push_back("");
+			initString->push_back("장착 하시겠습니까?");
+
+			POPUPMANAGER->InitPopup<InventoryPopup, &InventoryPopup::EquipItem>(
+				PopupType::SELECTPOPUP,
+				this,
+				initString,
+				15,
+				0,
+				5,
+				0
+			);
+			break;
+		}
+		case ItemType::Card:
+		{
+			vector<string>* initString = new vector<string>();
+			char buf[128];
+			std::snprintf(buf, sizeof(buf), "%s을(를) 장착했습니다.", selectItem->GetName().c_str());
+			initString->push_back(buf);
+
+
+			POPUPMANAGER->InitPopup<InventoryPopup, nullptr>(
+				PopupType::RESULTPOPUP,
+				nullptr,
+				initString,
+				15,
+				0,
+				2,
+				0
+			);
+			selectItem = nullptr;
+			break;
+		}
+
+		case ItemType::Potion:
+			vector<string>* initString = new vector<string>();
+			initString->push_back("포션");
+			initString->push_back("");
+			char buf[128];
+			std::snprintf(buf, sizeof(buf), "%s을(를) %d개 갖고 있다", selectItem->GetName().c_str(), selectItem->GetItemCount());
+			initString->push_back(buf);
+			initString->push_back("");
+			initString->push_back("사용 하시겠습니까?");
+
+			POPUPMANAGER->InitPopup<InventoryPopup, &InventoryPopup::EquipItem>(
+				PopupType::SELECTPOPUP,
+				this,
+				initString,
+				15,
+				0,
+				5,
+				0
+			);
+		default:
+			break;
+		}
+	}
+}
+
+void InventoryPopup::EquipItem(int _selectValue)
+{
+	if (_selectValue == 0)
+	{
+		USERMANAGER->EquipItem(selectItem);
+
+		vector<string>* initString = new vector<string>();
+		initString->push_back("전투에서 사용되는 카드");
+		initString->push_back(" ");
+		RenderCardInfo(initString);
+		initString->push_back("");
+		char buf[128];
+		std::snprintf(buf, sizeof(buf), "%d개 갖고 있다", selectItem->GetItemCount());
+		initString->push_back(buf);
+
+		POPUPMANAGER->InitPopup<InventoryPopup, nullptr>(
+			PopupType::RESULTPOPUP,
+			nullptr,
+			initString,
+			15,
+			0,
+			2,
+			0
+		);
+	}
+
+	selectItem = nullptr;
+}
+
+void InventoryPopup::UsingPotion(int _selectValue)
+{
+	if (_selectValue == 0 && selectItem != nullptr && Item::GetItemType(selectItem->GetItemUID()) == ItemType::Potion)
+	{
+		if (USERMANAGER->UsingItem(selectItem->GetItemUID(), 1) >= 0)
+		{
+			vector<string>* initString = new vector<string>();
+			initString->push_back("포션을 사용했습니다.");
+
+			POPUPMANAGER->InitPopup<InventoryPopup, nullptr>(
+				PopupType::RESULTPOPUP,
+				nullptr,
+				initString,
+				15,
+				0,
+				2,
+				0
+			);
+		}
+		else
+		{
+			vector<string>* initString = new vector<string>();
+			initString->push_back("아이템을 사용하지 못했습니다.");
+
+			POPUPMANAGER->InitPopup<InventoryPopup, nullptr>(
+				PopupType::RESULTPOPUP,
+				nullptr,
+				initString,
+				15,
+				0,
+				2,
+				0
+			);
+		}
+	}
+
+	selectItem = nullptr;
+}
+
+void InventoryPopup::RenderCardInfo(vector<string>* _customString)
+{
+	int selectItemUID = selectItem->GetItemUID();
+	if (selectItem &&  Item::GetItemType(selectItem->GetItemUID()) == ItemType::Card)
+	{
+		auto currentCard = CardDB::Get(selectItemUID % 10000);
+
+		switch (currentCard->GetType())
+		{
+		case MOVE:
+		{
+			const char* arrows[9] =
+			{
+				 "↖","↑","↗",
+				 "←"," ","→",
+				 "↙","↓","↘"
+			};
+
+			int dirIdx = 4;
+			for (int i = 0; i < 9; ++i) {
+				if (currentCard->GetRange() & (1u << i)) { dirIdx = i; break; }
+			}
+			customString->push_back(currentCard->GetName());
+			char buf[128];
+			std::snprintf(buf, sizeof(buf), "코스트 : %d", currentCard->GetStaminaCost());
+			customString->push_back(buf);
+			customString->push_back("타입 : 이동");
+			std::snprintf(buf, sizeof(buf), "%c %d 칸", arrows[dirIdx], (int)currentCard->GetDamageRate());
+			customString->push_back(buf);
+
+		}
+		break;
+
+		case ATTACK:
+		{
+			customString->push_back(currentCard->GetName());
+
+			char buf[128];
+			std::snprintf(buf, sizeof(buf), "코스트 : %d", currentCard->GetStaminaCost());
+			customString->push_back(buf);
+			customString->push_back("타입 : 공격");
+
+			std::snprintf(buf, sizeof(buf), "공격배율 : %f", currentCard->GetDamageRate());
+			customString->push_back(buf);
+			customString->push_back("");
+			customString->push_back("공격범위");
+
+			string attackRange[9];
+			for (int i = 0; i < 9; i++)
+			{
+				if (currentCard->GetRange() & (1u << i))
+					attackRange[i] = "[X]";
+				else
+					attackRange[i] = "[ ]";
+			}
+
+			for (int i = 0; i < 3; ++i)
+			{
+				string temp = attackRange[0 + i * 3] + attackRange[1 + i * 3] + attackRange[2 + i * 3];
+				customString->push_back(temp);
+			}
+		}
+		break;
+
+		case SHIELD:
+		{
+			customString->push_back(currentCard->GetName());
+
+			char buf[128];
+			std::snprintf(buf, sizeof(buf), "코스트 : %d", currentCard->GetStaminaCost());
+			customString->push_back(buf);
+			customString->push_back("타입 : 방어");
+			customString->push_back("");
+			std::snprintf(buf, sizeof(buf), "방어 : %d", (int)(currentCard->GetDamageRate() * 100));
+			customString->push_back(buf);
+		}
+		break;
+
+		case HEAL:
+		{
+			int count = 5;
+			customString->push_back(currentCard->GetName());
+
+			char buf[128];
+			std::snprintf(buf, sizeof(buf), "코스트 : %d", currentCard->GetStaminaCost());
+			customString->push_back(buf);
+			customString->push_back("타입 : 힐");
+			customString->push_back("");
+
+			bool hpHeal = (currentCard->GetDamageRate() > 0.0f);
+			bool spHeal = (currentCard->GetStaminaCost() < 0);
+			if (hpHeal)
+			{
+				customString->push_back("");
+				std::snprintf(buf, sizeof(buf), "체력 : %d", (int)currentCard->GetDamageRate());
+				customString->push_back(buf);
+				--count;
+			}
+			if (spHeal)
+			{
+				customString->push_back("");
+				std::snprintf(buf, sizeof(buf), "마나 : %d", (int)currentCard->GetStaminaCost());
+				customString->push_back(buf);
+				--count;
+			}
+
+		}
+		break;
+		}
+	}
 }

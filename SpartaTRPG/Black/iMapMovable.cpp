@@ -8,9 +8,9 @@
 
 bool iMapMovable::SetWall(int harfX, int harfY, int j, int i, int posY, int posX)
 {
-	if (i == harfY - 1 || j == harfX - 1)
+	if (i == harfY - 1 || j == harfX - 1 || i == 1 - harfY || j == 1 - harfX)
 	{
-		image[posY][posX] = '.';
+		image[posY][posX] = 'A';
 		return true;
 	}
 	return false;
@@ -92,7 +92,7 @@ bool iMapMovable::IsCanMove(int _targetX, int _targetY)
 
 	auto mapInfo = mapData->GetMapInfo(_targetX, _targetY);
 
-	if (mapInfo == TileType::Wall || mapInfo == TileType::Box || mapInfo == TileType::Shop)
+	if (mapInfo == TileType::Wall || mapInfo == TileType::WallV || mapInfo == TileType::WallH || mapInfo == TileType::Box || mapInfo == TileType::Shop)
 		return false;
 
 	return true;
