@@ -15,6 +15,8 @@ private:
 	float startDamage;
 	float startCounter;
 
+	float equipDamage;
+
 	int level=1;
 
 public:
@@ -25,6 +27,11 @@ public:
 	virtual void GainExp(int _exp);
 
 	int GetLevel() const { return level; }
+
+	void SetEquipDamage(const float _d) { equipDamage = _d; }
+	float GetEquipDamage() const { return equipDamage; }
+
+	inline float GetBaseDamage() const override { return baseDamage + equipDamage; }
 
 protected:
 	virtual void LevelUp();
