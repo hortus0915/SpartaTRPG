@@ -4,3 +4,5 @@
 class EnemyInfoBase : public iCharacter
 {
 };
+
+void SpawnEnemyByLevel(EnemyInfoBase& enemy, int playerLevel);
