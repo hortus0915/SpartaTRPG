@@ -671,7 +671,10 @@ void BattleScene::DoAction(BattleSystem::Side& _actor, BattleSystem::Side& _targ
 		if (_actor.chr == player) pShieldUp = true;
 		else                      mShieldUp = true;
 
-		_outStr += (_actor.chr == player ? "플레이어 " : "적 ") + _actor.card->GetName();
+		string actorName = _actor.chr->GetName();
+		if (actorName.empty()) actorName = (_actor.chr == player ? "플레이어" : "적");
+
+		_outStr += actorName + _actor.card->GetName();
 	} break;
 
 	case MOVE:
@@ -707,7 +710,9 @@ void BattleScene::DoAction(BattleSystem::Side& _actor, BattleSystem::Side& _targ
 
 		}
 
-		_outStr += (_actor.chr == player ? "플레이어 " : "적 ") + _actor.card->GetName();
+		string actorName = _actor.chr->GetName();
+		if (actorName.empty()) actorName = (_actor.chr == player ? "플레이어" : "적");
+		_outStr += actorName + " : " + _actor.card->GetName();
 	} break;
 
 	case HEAL:
@@ -720,7 +725,11 @@ void BattleScene::DoAction(BattleSystem::Side& _actor, BattleSystem::Side& _targ
 			if (_actor.chr == player) pActionDone = true;
 			else                      mActionDone = true;
 		}
-		_outStr += sStream.str();
+		string actorName = _actor.chr->GetName();
+		if (actorName.empty()) actorName = (_actor.chr == player ? "플레이어" : "적");
+
+		_outStr += actorName + " : " + _actor.card->GetName() + " " + sStream.str();
+	
 	} break;
 
 	case ATTACK:
@@ -768,8 +777,10 @@ void BattleScene::DoAction(BattleSystem::Side& _actor, BattleSystem::Side& _targ
 
 			CreateEffect(_actor.card->GetIdx(), effectPos, (_actor.chr == player ? pRealPos : mRealPos));
 
+			string actorName = _actor.chr->GetName();
+			if (actorName.empty()) actorName = (_actor.chr == player ? "플레이어" : "적");
 
-			_outStr += (_actor.chr == player ? "플레이어 " : "적 ") + _actor.card->GetName() + " 공격!(";
+			_outStr += actorName + _actor.card->GetName() + " 공격!(";
 
 			if (isMiss) {
 				_outStr += "빗나감)";

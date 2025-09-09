@@ -82,7 +82,7 @@ void BattleSceneHud::Render()
 	string title = "";
 
 	sStream.str("");
-	sStream << "Player : ";
+	sStream << player->GetName() << " : ";
 	title = sStream.str();
 	SCENEMANAGER->RenderToBackbuffer(posX, posY + offsetY, title.size(), 1, title);
 
@@ -137,7 +137,7 @@ void BattleSceneHud::Render()
 
 
 	sStream.str("");
-	sStream << "Enemy : ";
+	sStream << enemy->GetName()<<" : ";
 	title = sStream.str();
 	SCENEMANAGER->RenderToBackbuffer(posX, posY + offsetY, title.size(), 1, title);
 

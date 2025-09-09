@@ -28,6 +28,8 @@ protected:
 
 	set<int> deck;
 
+	string name="게임 개발자";
+
 
 public:
 	iCharacter();
@@ -57,6 +59,7 @@ public:
 	inline float GetCounter() const { return counter; }
 	inline int   GetExp()    const { return exp; }
 	inline set<int> GetDeck() const { return deck; }
+	inline string GetName() const { return name; }
 
 	inline void SetMaxHP(const float& _hp) { maxHP = _hp; }
 	inline void SetCurHP(const float& _hp) { currentHP = _hp; }
@@ -68,6 +71,7 @@ public:
 	inline void SetDodge(const float& _dod) { dodge = _dod; }
 	inline void SetCounter(const float& _counter) { counter = _counter; }
 	inline void SetExp(const int& _exp) { exp = _exp; }
+	inline void SetName(const string& _name) { name = _name; }
 
 	 bool TryApplyVSPCost(const int& _vSPCost);
 
