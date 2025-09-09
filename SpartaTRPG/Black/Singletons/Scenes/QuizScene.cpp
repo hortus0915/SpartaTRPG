@@ -76,6 +76,7 @@ void QuizScene::Update(float deltaTime)
                     0
                 );
                 USERMANAGER->GetKey();
+                USERMANAGER->GetRandomItem(RandomItemType::MiniGame);
                 is_end = true;
             }
             else

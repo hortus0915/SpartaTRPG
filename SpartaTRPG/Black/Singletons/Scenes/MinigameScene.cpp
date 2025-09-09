@@ -16,6 +16,10 @@ void MinigameScene::Update(float deltaTime)
 {
     __super::Update(deltaTime);
 
+    if (!POPUPMANAGER->CheckPopupActive() && is_end) {
+        SCENEMANAGER->ChangeChild("DungeonScene");
+
+    }
 
     if (elapsedTime < duration)
     {
@@ -101,13 +105,10 @@ void MinigameScene::Update(float deltaTime)
                     0
                 );
                 USERMANAGER->GetKey();
-                
+                USERMANAGER->GetRandomItem(RandomItemType::MiniGame);
                 is_end = true;
                 ResetPlayerPos();
-                if (!POPUPMANAGER->CheckPopupActive() && is_end) {
-                    //SCENEMANAGER->ChangeChild("DungeonScene");
-                    
-                }
+                
             }
         }
     
@@ -118,14 +119,18 @@ void MinigameScene::Update(float deltaTime)
 
 int MinigameScene::Init()
 {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dist(0, 100);
+
     playerDefPosX = __DEFAULT_PLAYER_X__;
     playerDefPosY = __DEFAULT_PLAYER_Y__ + __INTERVAL_Y_ * __MAP_SIZE__ / 2;
     if (!map) {
-        map = new MinigameMap(__MAP_SIZE__, 12222u,500);
+        map = new MinigameMap(__MAP_SIZE__, dist(gen), 500);
     }
     else {
         SAFE_DELETE(map);
-        map = new MinigameMap(__MAP_SIZE__, 12345u, 500);
+        map = new MinigameMap(__MAP_SIZE__, dist(gen), 500);
     }
     map->generate();
 
@@ -137,6 +142,20 @@ int MinigameScene::Init()
         player = new MinigamePlayer("MinigameScene");
     }
     ResetPlayerPos();
+
+    vector<string>* initString = new vector<string>();
+    initString->push_back("맵 군데군데 숨겨진 지뢰를 피해서");
+    initString->push_back("오른쪽 끝으로 탈출하세요.");
+
+    POPUPMANAGER->InitPopup<MinigameScene, nullptr>(
+        PopupType::RESULTPOPUP,
+        nullptr,
+        initString,
+        15,
+        0,
+        5,
+        0
+    );
     return 0;
 }
 
