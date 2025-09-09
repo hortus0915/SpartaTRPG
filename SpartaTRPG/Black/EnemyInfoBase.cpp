@@ -39,4 +39,13 @@ void SpawnEnemyByLevel(EnemyInfoBase& enemy, int playerLevel)
 	enemy.SetName(ENEMY_NAME_BY_LEVEL[lv - 1]);
 }
 
+void SpawnEnemyBoss(EnemyInfoBase& enemy)
+{
+	enemy.SetIsBoss(true);
+	enemy.Init(300, 300, 50	, 50, 50, 50, 15, 0);
+
+
+	enemy.SetName("º¸½º");
+}
+
 
