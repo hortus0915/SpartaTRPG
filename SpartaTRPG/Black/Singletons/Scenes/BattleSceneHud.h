@@ -34,6 +34,8 @@ private:
 	static string lowerOpen;
 	static string lowerClose;
 
+	bool previewPlayer_ = false;
+
 public:
 	BattleSceneHud(string _sn) : IUpdatable(_sn), IRenderable(_sn), posX(0), posY(0) { }
 
@@ -42,6 +44,7 @@ public:
 
 	void Update(float _deltaTime);
 	void BgColorSetting(const float& ratio, Color& targetBg);
+	inline void SetPreviewPlayer(bool v) { previewPlayer_ = v; }
 
 	// IRenderable을(를) 통해 상속됨
 	void Render() override;

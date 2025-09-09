@@ -40,7 +40,8 @@ void BattleSceneHud::Update(float _deltaTime)
 	playerHP.append(((int)(ratio / 10)) * count, ' ');
 	BgColorSetting(ratio / 100.0f, playerHPBgColor);
 	
-	ratio = player->GetCurSP() / player->GetMaxSP() * 100.0f;
+	float pCurForUi = previewPlayer_ ? player->vSPCost : player->GetCurSP();
+	ratio = pCurForUi / player->GetMaxSP() * 100.0f;
 	playerSP = "";
 	playerSP.append(((int)(ratio / 10)) * count, ' ');
 
@@ -95,7 +96,12 @@ void BattleSceneHud::Render()
 	++offsetY;
 
 	sStream.str("");
-	sStream << "SP : " << player->GetCurSP() << " / " << player->GetMaxSP();
+	if (previewPlayer_) {
+		sStream << "SP : " << player->vSPCost << " / " << player->GetMaxSP();
+	}
+	else {
+		sStream << "SP : " << player->GetCurSP() << " / " << player->GetMaxSP();
+	}
 	title = sStream.str();
 	SCENEMANAGER->RenderToBackbuffer(posX, posY + offsetY, title.size(), 1, title);
 
