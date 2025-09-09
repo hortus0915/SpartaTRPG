@@ -52,7 +52,7 @@ public:
 	inline float GetCurHP()	 const { return currentHP; }
 	inline float GetMaxSP()	 const { return maxSP; }
 	inline float GetCurSP()	 const { return currentSP; }
-	inline float GetBaseDamage() const { return baseDamage; }
+	inline virtual float GetBaseDamage() const { return baseDamage; }
 	inline float GetCriPer() const { return criPer; }
 	inline float GetCriDmg() const { return criDmg; }
 	inline float GetDodge()	 const { return dodge; }
