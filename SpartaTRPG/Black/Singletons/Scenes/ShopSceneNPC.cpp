@@ -89,6 +89,8 @@ void ShopSceneNPC::Update(float _deltaTime)
 			{
 				delightCurrentTime = 0.0f;
 				delightDuration = GetFloatRange(2.0f, 4.0f);
+
+				currentState = Idle;
 			}
 		}
 		break;
@@ -108,4 +110,15 @@ void ShopSceneNPC::Render()
 	SCENEMANAGER->RenderToBackbuffer(posX + 6 , posY + 4, eye[1].size(), 1, eye[1], WHITE, BLACK);
 	SCENEMANAGER->RenderToBackbuffer(posX + 12, posY + 3, eye[0].size(), 1, eye[0], WHITE, BLACK);
 	SCENEMANAGER->RenderToBackbuffer(posX + 12, posY + 4, eye[1].size(), 1, eye[1], WHITE, BLACK);
+}
+
+void ShopSceneNPC::DelightTrigger()
+{
+	currentState = Delight;
+	delightDuration = 3.0f;
+	delightCurrentTime = 0.0f;
+
+	vector<string>* temp = new vector<string>();
+	temp->push_back("감사합니다~");
+	POPUPMANAGER->InitPopup<ShopSceneNPC, nullptr>(PopupType::NPCDIALOGUEPOPUP, nullptr, temp, 1, 0, 2, 0, posX, posY - 7, image[0].size(), 5);
 }
