@@ -12,4 +12,4 @@ public:
 };
 
 void SpawnEnemyByLevel(EnemyInfoBase& enemy, int playerLevel);
-void SpawnEnemyBoss(EnemyInfoBase& enemy);
+void SpawnEnemyBoss(EnemyInfoBase& enemy,int playerLevel);
