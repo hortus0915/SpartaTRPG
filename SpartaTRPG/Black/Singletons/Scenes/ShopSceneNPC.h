@@ -36,7 +36,7 @@ public:
 	// IRenderable을(를) 통해 상속됨
 	void Render() override;
 
-	inline void DelightTrigger() { currentState = Delight; delightDuration = 3.0f; delightCurrentTime = 0.0f;}
+	void DelightTrigger();
 
 };
 

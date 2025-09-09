@@ -363,12 +363,18 @@ void ShopScene::Update(float _deltaTime)
 		++iter;
 	selectedItemUI->SetItem(&iter->second, GetCost(iter->second.GetItemUID()));
 
+	if (isDialogueOpen)
+	{
+		baseUi->DelightTrigger();
+		isDialogueOpen = false;
+	}
+
 	if (KEYMANAGER->IsOnceKeyDown(VK_RETURN) &&
 		!POPUPMANAGER->CheckPopupActive())
 	{
 		if (BuyItem(iter->second))
 		{
-			baseUi->DelightTrigger();
+			isDialogueOpen = true;
 
 		}
 	}
@@ -442,7 +448,7 @@ bool ShopScene::IsCanBuyItem(Item _item)
 int ShopScene::GetGold()
 {
 	int uid = Item::GetItemUID(ItemType::Cost, ItemValueType::Cost, 1);
-	return USERMANAGER->GetItemInfo(uid)->GetItemCount();
+	return 1000;
 }
 
 int ShopScene::GetCost(int _itemUID)
