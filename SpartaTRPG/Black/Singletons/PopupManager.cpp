@@ -26,6 +26,7 @@ void PopupManager::Init(MainGame* _mg)
 	mPopupList.insert(make_pair(PopupType::SELECTPOPUP, new SelectPopup()));
 	mPopupList.insert(make_pair(PopupType::SHOPPOPUP, new ShopPopup()));
 	mPopupList.insert(make_pair(PopupType::INVENTORYPOPUP, new InventoryPopup()));
+	mPopupList.insert(make_pair(PopupType::NPCDIALOGUEPOPUP, new NPCDialoguePopup()));
 }
 
 void PopupManager::Render()

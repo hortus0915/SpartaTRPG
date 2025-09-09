@@ -9,6 +9,8 @@ using namespace std;
 #include "../../Red/PopupType.h"
 #include "../../Red/Popup.h"
 
+#include "../../Red/NPCDialoguePopup.h"
+
 #define MAPPOPUP_WIDTH 81
 #define MAPPOPUP_HEIGHT 17
 
@@ -46,7 +48,9 @@ public:
         T* obj,
         std::vector<std::string>* _customString = nullptr,
         int _leftPadding = 0, int _rightPadding = 0,
-        int _upPadding = 0, int _downPadding = 0)
+        int _upPadding = 0, int _downPadding = 0,
+        int posX = 0, int posY = 0,
+        int width = 0, int height = 0)
     {
         PopupActiveOff();
 
@@ -55,6 +59,11 @@ public:
             return nullptr;
 
         activePopup = it->second;
+
+        if (_popupType == PopupType::NPCDIALOGUEPOPUP)
+        {
+            ((NPCDialoguePopup*)activePopup)->SetPosWH(posX, posY, width, height);
+        }
 
         activePopup->Init();
         activePopup->SetCustomStringPadding(_leftPadding, _rightPadding, _upPadding, _downPadding);
