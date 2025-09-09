@@ -15,6 +15,7 @@ void PlayerInfo::Init(float _hp, float _sp, float _baseDamage, float _criPer, fl
 	startCriPer = criPer;
 	startCriDmg = criDmg;
 	startCriDod = dodge;
+	startCounter = counter;
 
 	exp = 0;
 }

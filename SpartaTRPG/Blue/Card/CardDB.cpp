@@ -66,7 +66,7 @@ namespace CardDB
 
 		// ===== 회복 (301~) =====  
 		AddCard(Card(301, "응급 처치", HEAL, 0, 20.0f, 20));
-		AddCard(Card(302, "기합", HEAL, 0, 0.0f, -20));
+		AddCard(Card(302, "기합", HEAL, 0, 0.0f, -30));
 		AddCard(Card(303, "보급", HEAL, 0, 15.0f, -20));
 		AddCard(Card(304, "회복", HEAL, 0, 50.0f, 50));
 

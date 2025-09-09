@@ -22,7 +22,17 @@ enum BattleSequence
 	None,
 	CardSelect,
 	CardUse,
+	Victory,   
+	Defeat,    
+	Draw,     
 	BattleEnd
+	
+};
+
+enum class SubPhase
+{
+	First,
+	Second
 };
 
 #define BOARD_HEIGHT 13
@@ -32,8 +42,8 @@ enum BattleSequence
 class BattleScene : public iScene
 {
 private:
-	PlayerInfo*		player;
-	EnemyInfoBase*	enemy;
+	PlayerInfo* player;
+	EnemyInfoBase* enemy;
 
 	Board::Pos pPos;
 	Board::Pos mPos;
@@ -60,6 +70,9 @@ private:
 	const Card* chosen;
 	const Card* mChosen;
 
+	bool pShieldUp = false;
+	bool mShieldUp = false;
+
 	int damage;
 	bool isGameOver;
 	int playerCardIdx;
@@ -72,6 +85,7 @@ private:
 	string playerImage[3];
 	string enemyImage[3];
 	string sequenceStr;
+	string lastActionStr;
 	stringstream sStream;
 
 	BattleSceneHud* battleUi;
@@ -89,6 +103,16 @@ private:
 
 	BattleSequence currentSequence;
 
+	SubPhase subPhase = SubPhase::First;
+	bool playerFirstThisSubturn = true;
+
+	float actionStartGap = 1.0f;  
+	float actionStartTimer = 0.0f;
+	bool  waitingToStartAction = true;  
+	bool  isFirstActionThisRound = false; 
+
+
+
 public:
 	BattleScene(string _sceneName) : iScene(_sceneName), cardSelect(nullptr) {}
 
@@ -102,6 +126,8 @@ public:
 	void SortCards(vector<const Card*>& selected);
 
 	void CreateEffect(const int& cardId, const vector<Board::Pos>& pos, const Board::Pos& originPos);
+
+	void DoAction(BattleSystem::Side& _actor, BattleSystem::Side& _target, std::string& _outStr);
 
 	inline void SetBattlers(PlayerInfo* _player, EnemyInfoBase* _enemy) { player = _player; enemy = _enemy; }
 };
