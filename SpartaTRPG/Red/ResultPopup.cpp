@@ -11,3 +11,10 @@ void ResultPopup::Init()
 {
 	__super::Init();
 }
+
+void ResultPopup::LateInit()
+{
+	if (active_cb_ != nullptr)
+		mustActive = true;
+	selectValue = 0;
+}

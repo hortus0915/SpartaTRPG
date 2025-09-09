@@ -13,6 +13,9 @@
 #define VILLAGE_WIDTH 61
 #define VILLAGE_HEIGHT 15
 
+#define BOSS_WIDTH 61
+#define BOSS_HEIGHT 71
+
 class TileInfo;
 
 enum MapType
@@ -20,6 +23,7 @@ enum MapType
 	NoneSelect,
 	Village,
 	Dungeon,
+	BossRoom,
 };
 
 class TileObjectInfo;
@@ -37,13 +41,14 @@ private:
 	void DungeonObjectCreate();
 	void DungeonObjectLoad();
 	void VillageObjectSet();
+	void BossMapSet();
+	void BossObejctCreate();
 
 	void ObjectSet(TileType _tileType, int _fromIndexX, int _fromIndexY, int range = -1);
 	void ObjectRandomSet(TileType _tileType, int _count);
 	int TileSet(TileType _tileType, int _posX, int _posY, int _fromIndexX, int _fromIndexY);
 
 	int GetRange(TileType _tileType);
-
 	int GetObjectCount(TileType _tileType);
 
 

@@ -84,7 +84,7 @@ public:
             // Method 생략 = 콜백 없음
             activePopup->SetPopupActiveCallback(nullptr, nullptr);
         }
-
+        activePopup->LateInit();
         activePopup->SetActive();
         return activePopup;
     }
