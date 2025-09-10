@@ -434,7 +434,7 @@ bool ShopScene::BuyItem(Item _item)
 	int targetItemUID = _item.GetItemUID();
 
 	USERMANAGER->UsingItem(uid, cost);
-	USERMANAGER->AddItem(targetItemUID);
+	USERMANAGER->AddItem(targetItemUID,1,false);
 
 	return true;
 }

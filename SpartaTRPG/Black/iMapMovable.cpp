@@ -47,8 +47,8 @@ void iMapMovable::Init(Color _characterColor, Color _bgColor)
 				image[i][j] = ' ';
 			image[i][MAX_SCREEN_WIDTH] = '\0';
 		}
-
 		mapData->CreateMap(MapType::Village);
+		SetPos(1, VILLAGE_HEIGHT / 2);
 	}
 
 	MapImageSet();

@@ -15,7 +15,7 @@ using namespace std;
 #define POPUPSTRING_MAXWIDTH 77
 #define POPUPSTRING_MAXHEIGHT 15
 
-#define MAXSTAGE 4
+#define MAXSTAGE 3
 
 using namespace std;
 
@@ -45,16 +45,16 @@ public:
 
 	void SetNextStage();
 
-	void AddItem(int itemUID, int _count = 1);
+	void AddItem(int itemUID, int _count, bool _showAddPopup);
 	Item* GetItemInfo(int itemUID);
-	Item* GetItemInfo_fromIndex(ItemType itemType ,int index); 
+	Item* GetItemInfo_fromIndex(ItemType _itemType ,int _index); 
 	std::map<int, Item>* GetItemPartition(ItemType _itemType);
-	Item* GetRandomItem(RandomItemType randomType);
+	Item* GetRandomItem(RandomItemType _randomType);
 
 	void EquipItem(Item* _equipItem);
 	Item* GetEquipItem() const { return equipItem; }
 
-	int UsingItem(int itemUID, int count);
+	int UsingItem(int _itemUID, int _count);
 	inline int GetStage() { return stage; }
 
 	inline PlayerInfo* GetPlayer() const { return player; }

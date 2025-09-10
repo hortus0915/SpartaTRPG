@@ -78,6 +78,35 @@ void InventoryPopup::Update(float deltaTime)
 			SetItemType(ItemType::Potion);
 		}
 	}
+
+	if (KEYMANAGER->IsOnceKeyDown('1'))
+	{
+		if (itemIndex != 1)
+		{
+			SetItemType(ItemType::Cost);
+		}
+	}
+	if (KEYMANAGER->IsOnceKeyDown('2'))
+	{
+		if (itemIndex != 2)
+		{
+			SetItemType(ItemType::Eequipment);
+		}
+	}
+	if (KEYMANAGER->IsOnceKeyDown('3'))
+	{
+		if (itemIndex != 3)
+		{
+			SetItemType(ItemType::Card);
+		}
+	}
+	if (KEYMANAGER->IsOnceKeyDown('4'))
+	{
+		if (itemIndex != 4)
+		{
+			SetItemType(ItemType::Potion);
+		}
+	}
 }
 
 void InventoryPopup::Render()
@@ -131,9 +160,18 @@ void InventoryPopup::SetItemType(ItemType _itemType)
 
 	for (auto item : *partition)
 	{
-		char buf[128];
-		std::snprintf(buf, sizeof(buf), "아이템 이름 : %s , 수량 : %d", item.second.GetName().c_str(), item.second.GetItemCount());
-		customString->push_back(buf);
+		if (_itemType == ItemType::Eequipment && (USERMANAGER->GetEquipItem() == nullptr || item.second.GetItemUID() == USERMANAGER->GetEquipItem()->GetItemUID()))
+		{
+			char buf[128];
+			std::snprintf(buf, sizeof(buf), "아이템 이름 : %s , 수량 : %d - 장착", item.second.GetName().c_str(), item.second.GetItemCount());
+			customString->push_back(buf);
+		}
+		else
+		{
+			char buf[128];
+			std::snprintf(buf, sizeof(buf), "아이템 이름 : %s , 수량 : %d", item.second.GetName().c_str(), item.second.GetItemCount());
+			customString->push_back(buf);
+		}
 	}
 
 	if (customString->size() != 0)

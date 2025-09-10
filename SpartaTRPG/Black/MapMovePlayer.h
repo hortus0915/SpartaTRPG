@@ -51,6 +51,7 @@ public:
 	void CheckRunSoundPlay();
 
 	void TileDescrtiptionRender();
+	void PlayerInfoRender();
 	void CheckTileDescription(char _data);
 
 	void SetVictory();

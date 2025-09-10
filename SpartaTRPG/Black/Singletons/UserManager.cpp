@@ -69,27 +69,30 @@ void UserManager::SetNextStage()
 	stageKey = 0;
 }
 
-void UserManager::AddItem(int _itemUID, int _count)
+void UserManager::AddItem(int _itemUID, int _count, bool _showAddPopup)
 {
 	if (inventory)
 	{
 		auto addedItem = inventory->AddItem(_itemUID, _count);
 		if (addedItem)
 		{
-			vector<string>* initString = new vector<string>();
 			char buf[128];
 			std::snprintf(buf, sizeof(buf), "%sÀ»(¸¦) %d°³ È¹µæÇß´Ù!", addedItem->GetName().c_str(), addedItem->GetItemCount());
-			initString->push_back(buf);
 			LOGMANAGER->AddLog(buf);
-			POPUPMANAGER->InitPopup<UserManager, nullptr>(
-				PopupType::RESULTPOPUP,
-				nullptr,
-				initString,
-				15,
-				0,
-				5,
-				0
-			);
+			if (_showAddPopup)
+			{
+				vector<string>* initString = new vector<string>();
+				initString->push_back(buf);
+				POPUPMANAGER->InitPopup<UserManager, nullptr>(
+					PopupType::RESULTPOPUP,
+					nullptr,
+					initString,
+					15,
+					0,
+					5,
+					0
+				);
+			}
 		}
 	}
 }

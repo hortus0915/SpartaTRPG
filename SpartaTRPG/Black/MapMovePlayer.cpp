@@ -55,13 +55,14 @@ void MapMovePlayer::Init(Color _characterColor, Color _bgColor)
 		initString->push_back("");
 		initString->push_back("탭키를 눌러 인벤토리를 열 수 있습니다.");
 		initString->push_back("");
+		initString->push_back("");
 		initString->push_back("그럼, 행운을 빕니다. 키보드를 잡고, 모험을 시작하세요!");
 
 		POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::TutorialPopup>(
 			PopupType::RESULTPOPUP,
 			this,
 			initString,
-			15,
+			5,
 			0,
 			2,
 			0
@@ -71,12 +72,42 @@ void MapMovePlayer::Init(Color _characterColor, Color _bgColor)
 	if (randomType != RandomItemType::None)
 	{
 		auto addedItem = USERMANAGER->GetRandomItem(randomType);
-		USERMANAGER->AddItem(addedItem->GetItemUID(), addedItem->GetItemCount());
+		USERMANAGER->AddItem(addedItem->GetItemUID(), addedItem->GetItemCount(),true);
 	}
 }
 
 void MapMovePlayer::Update(float deltaTime)
 {
+	if (mapData->CheckKey() == false)
+	{
+		//TODO -> GameOverScene으로 이동
+		vector<string>* initString = new vector<string>();
+		initString->push_back("던전에 입장하셨습니다.");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("'#' 벽은 이동할 수 없습니다.");
+		initString->push_back("'I' 아이템이 들어있는 박스입니다. 대박을 노리세요!");
+		initString->push_back("'K' 다음 층으로 갈 수 있게하는 열쇠입니다.");
+		initString->push_back("해당 아이템의 획득을 위해서는 가벼운 게임을 진행해야합니다.");
+		initString->push_back("'H' 다음 층으로 이동할 수 있는 통로입니다.");
+		initString->push_back("열쇠를 찾아서 다음층으로 이동하세요!");
+		initString->push_back("'M' 맵에 있는 몬스터 입니다.");
+		initString->push_back("가까이 다가가면 전투가 벌어집니다.");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("던전의 가장 위에 매우 위험한 보스가 숨어 있습니다. 준비 없이 맞서지 마세요.");
+
+		POPUPMANAGER->InitPopup<MapMovePlayer>(
+			PopupType::RESULTPOPUP,
+			nullptr,
+			initString,
+			5,
+			0,
+			2,
+			0
+		);
+	}
+
 	if (monsterEffect != nullptr)
 	{
 		if (monsterEffect->IsRunning())
@@ -134,9 +165,10 @@ void MapMovePlayer::Update(float deltaTime)
 		if (range_Of_Sight < 0)
 		{
 			range_Of_Sight = 0;
-			mapMove = 0;
+			mapMove = 1;
 			if (isFirstDungeon)
 			{
+				mapMove = 0;
 				isFirstDungeon = false;
 				vector<string>* initString = new vector<string>();
 				initString->push_back("너무 어두워서 아무것도 보이지 않는다");
@@ -183,7 +215,6 @@ void MapMovePlayer::Update(float deltaTime)
 				else
 				{
 					mapMove = 0;
-
 					vector<string>* initString = new vector<string>();
 					initString->push_back("상점에 도착하셨군요");
 					initString->push_back("");
@@ -252,6 +283,7 @@ void MapMovePlayer::Update(float deltaTime)
 void MapMovePlayer::Render()
 {
 	__super::Render();
+	PlayerInfoRender();
 	TileDescrtiptionRender();
 }
 
@@ -297,24 +329,16 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 	{
 	case Exit:
 	{
-		if (!isFirstDungeon)
+		if (USERMANAGER->GetStage() == MAXSTAGE - 1)
 		{
-			if (USERMANAGER->GetStage() == MAXSTAGE - 1)
-			{
-				posX = BOSS_WIDTH / 2;
-				posY = BOSS_HEIGHT - 4;
-				mapMove = -1;
-				mapData->CreateMap(MapType::BossRoom);
-			}
-			else
-			{
-				mapMove = -1;
-				mapData->CreateMap(MapType::Dungeon);
-			}
+			mapMove = -1;
+			mapData->CreateMap(MapType::BossRoom);
+			SetPos(BOSS_WIDTH / 2, BOSS_HEIGHT - 4);
 		}
 		else
 		{
 			mapMove = -1;
+			mapData->CreateMap(MapType::Dungeon);
 		}
 		break;
 	}
@@ -335,7 +359,7 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 		);
 
 		auto addedItem = USERMANAGER->GetRandomItem(RandomItemType::Box);
-		USERMANAGER->AddItem(addedItem->GetItemUID(), addedItem->GetItemCount());
+		USERMANAGER->AddItem(addedItem->GetItemUID(), addedItem->GetItemCount(), true);
 
 		mapData->ObjectReset(posX, posY);
 		break;
@@ -593,13 +617,20 @@ void MapMovePlayer::CheckRunSoundPlay()
 
 void MapMovePlayer::TileDescrtiptionRender()
 {
-	int offsetY = 0;
+	int offsetY = 1;
 
 	for (auto tileDescription : tileDescriptions)
 	{
 		offsetY++;
 		SCENEMANAGER->RenderToBackbuffer(1, MAX_SCREEN_HEIGTH + offsetY, tileDescription.second.size(), 1, tileDescription.second);
 	}
+}
+
+void MapMovePlayer::PlayerInfoRender()
+{
+	char buf[128];
+	std::snprintf(buf, sizeof(buf), "플레이어  HP : "); //TODO HP출력하는거
+	SCENEMANAGER->RenderToBackbuffer(1, MAX_SCREEN_HEIGTH, MAX_SCREEN_WIDTH, 1, buf);
 }
 
 void MapMovePlayer::CheckTileDescription(char _data)
@@ -616,14 +647,13 @@ void MapMovePlayer::CheckTileDescription(char _data)
 void MapMovePlayer::SetVictory()
 {
 	auto addItem = USERMANAGER->GetRandomItem(RandomItemType::Monster);
-	USERMANAGER->AddItem(addItem->GetItemUID(), addItem->GetItemCount());
+	USERMANAGER->AddItem(addItem->GetItemUID(), addItem->GetItemCount(), true);
 }
 
 void MapMovePlayer::SetDefeat()
 {
-	posX = 1;
-	posY = 1;
 	mapData->CreateMap(MapType::Village);
+	SetPos(1, VILLAGE_HEIGHT / 2);
 }
 
 void MapMovePlayer::TutorialPopup(int _select)
