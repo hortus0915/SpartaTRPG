@@ -76,6 +76,19 @@ int BattleScene::Init()
 		SCENEMANAGER->RenderToBackbuffer(0, MAX_SCREEN_HEIGTH, message.size(), 1, message);
 		MainGame::Quit();
 	}
+
+	currentSelectCount = 0;
+	currentActionCount = 0;
+	pActionDone = mActionDone = false;
+	pShieldUp = mShieldUp = false;
+
+	for (int i = 0; i < cardSelectCount; ++i) {
+		playerSelectedIdx[i] = -1;
+		playerSelectedCard[i] = nullptr;   
+		enemySelectedCard[i] = nullptr;   
+		if (cardUi[i]) cardUi[i]->SetCard(nullptr);
+	}
+
 #else
 
 	player = new PlayerInfo;
@@ -83,6 +96,7 @@ int BattleScene::Init()
 
 	player->Init(100, 100, 10, 10, 1.5f, 50, 50, 0);
 	enemy->Init(10, 100, 10, 10, 1.3f, 10, 50, 0);
+
 
 #endif
 
@@ -377,8 +391,10 @@ void BattleScene::Update(float _deltaTime)
 			static int lastIdx = -1;
 			if (lastIdx != currentActionCount) {
 
-				chosen = playerSelectedCard[currentActionCount]; P.card = chosen;
-				mChosen = enemySelectedCard[currentActionCount]; M.card = mChosen;
+				chosen = playerSelectedCard[currentActionCount]; 
+				P.card = chosen;
+				mChosen = enemySelectedCard[currentActionCount];
+				M.card = mChosen;
 
 				playerFirstThisSubturn = (P.card->GetType() <= M.card->GetType());
 				subPhase = SubPhase::First;
