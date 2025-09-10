@@ -14,7 +14,7 @@ void UserManager::Init()
 	if (!player)
 	{
 		player = new PlayerInfo;
-		player->Init(100, 100, 10, 10, 1.5f, 50, 50, 0);
+		player->Init(100, 100, 10, 10, 1.5f, 10, 10, 0);
 	}
 
 	stage = 0;
