@@ -12,13 +12,9 @@ void Popup::Update(float deltaTime)
 	{
 		if (KEYMANAGER->IsStayKeyDown(VK_BACK) || KEYMANAGER->IsStayKeyDown(VK_ESCAPE))
 		{
-<<<<<<< HEAD
-<<<<<<< HEAD
 			//POPUPMANAGER->PopupActiveOff();
 			InvokeActive(selectValue);
-=======
-=======
->>>>>>> aa50c45721db4dea3a189719cc0148c1b542f3c0
+
 			POPUPMANAGER->PopupActiveOff();
 			if (mustActive)
 			{
@@ -42,10 +38,6 @@ void Popup::Update(float deltaTime)
 		{
 			if (hasCustonStringMore && (customStringPageIndex + 1) * printLine < customString->size())
 				customStringPageIndex++;
-<<<<<<< HEAD
->>>>>>> 848b1c083d5a1649459628e3566cfbc7aaa1d5b9
-=======
->>>>>>> aa50c45721db4dea3a189719cc0148c1b542f3c0
 		}
 	}
 }
