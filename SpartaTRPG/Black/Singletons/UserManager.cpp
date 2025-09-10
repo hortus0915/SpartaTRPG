@@ -11,6 +11,12 @@ UserManager* UserManager::instance = nullptr;
 
 void UserManager::Init()
 {
+	if (!player)
+	{
+		player = new PlayerInfo;
+		player->Init(100, 100, 10, 10, 1.5f, 50, 50, 0);
+	}
+
 	stage = 0;
 	stageKey = 0;
 	random.Init();
@@ -39,12 +45,6 @@ void UserManager::Init()
 	inventory->AddItem(20412);
 	//inventory->AddItem(20413);
 	//inventory->AddItem(20414);
-
-	if (!player)
-	{
-		player = new PlayerInfo;
-		player->Init(100, 100, 10, 10, 1.5f, 50, 50, 0);
-	}
 }
 
 void UserManager::GetKey()
