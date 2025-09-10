@@ -17,4 +17,5 @@ enum TileType
 	DungeonIn = 9,//던전 입장
 	BOSS = 10,//보스
 	BOSSActive = 1000,//보스 조우 범위
+	PINK = 11,
 };

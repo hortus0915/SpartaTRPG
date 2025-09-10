@@ -382,6 +382,26 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 		//mapData->ObjectReset(posX, posY);
 		break;
 	}
+	case PINK:
+	{
+		vector<string>* initString = new vector<string>();
+		initString->push_back("탈주닌자 핑크 : 에휴, 이래서 내가 나간 거지.");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("한숨을 내쉬며 1000G를 쥐어주었다.....");
+		USERMANAGER->AddItem(Item::GetItemUID(ItemType::Cost,ItemValueType::Cost, 1),1000, false);
+
+		POPUPMANAGER->InitPopup<MapMovePlayer, nullptr>(
+			PopupType::RESULTPOPUP,
+			nullptr,
+			initString,
+			15,
+			0,
+			5,
+			0
+		);
+		mapData->ObjectReset(posX, posY);
+	}
 	default:
 		break;
 	}
@@ -518,6 +538,26 @@ void MapMovePlayer::CheckActive()
 				0
 			);
 		}
+	}
+	case PINK:
+	{
+		vector<string>* initString = new vector<string>();
+		initString->push_back("탈주닌자 핑크와 조우했다");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("탈주닌자 핑크 : 게임 개발이나 한다면서… 이런 것도 못 해?");
+		POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::ObjectSelectedActive>(
+			PopupType::RESULTPOPUP,
+			this,
+			initString,
+			15,
+			0,
+			2,
+			1
+		);
 	}
 	break;
 	}

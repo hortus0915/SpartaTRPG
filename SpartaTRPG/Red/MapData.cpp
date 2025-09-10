@@ -294,6 +294,7 @@ void MapData::DungeonObjectCreate()
     ObjectRandomSet(TileType::Box, GetObjectCount(TileType::Box));
     ObjectRandomSet(TileType::Key, GetObjectCount(TileType::Key));
     ObjectRandomSet(TileType::Exit, GetObjectCount(TileType::Exit));
+    ObjectRandomSet(TileType::PINK, GetObjectCount(TileType::PINK));
 }
 
 void MapData::DungeonObjectLoad()
@@ -471,6 +472,8 @@ int MapData::GetObjectCount(TileType _tileType)
         return 3;
     case Monster:
         return USERMANAGER->GetStage() + 5;
+    case PINK:
+        return 1;
     default:
         return 0;
     }
@@ -497,6 +500,8 @@ std::string MapData::GetTileDescription(char _tile)
         return "D : 던전 입장";
     case 'B':
         return "B : 무시무시한 보스";
+    case 'P':
+        return "P : ???????";
     default:
         return "";
     }
@@ -533,6 +538,8 @@ char MapData::GetMapData(int _posX, int _posY)
         return 'S';
     case TileType::BOSS:
         return 'B';
+    case TileType::PINK:
+        return 'P';
     default:
         return '.';
     }
@@ -566,6 +573,8 @@ char MapData::GetMapData(TileType _tileType)
         return 'S';
     case TileType::BOSS:
         return 'B';
+    case TileType::PINK:
+        return 'P';
     default:
         return ' ';
     }
