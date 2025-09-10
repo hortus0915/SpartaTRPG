@@ -66,7 +66,7 @@ void BattleScene::ShowBattleTutorialOnce()
 
 int BattleScene::Init()
 {
-	ShowBattleTutorialOnce();
+	
 	SOUNDMANAGER->ChangeBGM(Text("BattleSceneBGM.mp3"), 100);
 
 #ifndef DEV_BLACK
@@ -100,7 +100,7 @@ int BattleScene::Init()
 	board[11]= "*       *       *       *       *";
 	board[12]= "* * * * * * * * * * * * * * * * *";
 
-	currentSequence = sTutorialShown ? tutorial : (BattleSequence)(None + 2);
+	currentSequence = !sTutorialShown ? tutorial : (BattleSequence)(None + 2);
 
 	cardSelectCount = 3;
 	playerSelectedCard.resize(cardSelectCount);
@@ -203,6 +203,8 @@ void BattleScene::Update(float _deltaTime)
 	{
 	case tutorial:
 	{
+		ShowBattleTutorialOnce();
+
 		if (KEYMANAGER->IsOnceKeyDown(VK_RETURN))
 		{
 			currentSequence = CardSelect;
@@ -746,7 +748,7 @@ void BattleScene::DoAction(BattleSystem::Side& _actor, BattleSystem::Side& _targ
 		string actorName = _actor.chr->GetName();
 		if (actorName.empty()) actorName = (_actor.chr == player ? "플레이어" : "적");
 
-		_outStr += actorName + _actor.card->GetName();
+		_outStr += actorName + " : " + _actor.card->GetName();
 	} break;
 
 	case MOVE:
