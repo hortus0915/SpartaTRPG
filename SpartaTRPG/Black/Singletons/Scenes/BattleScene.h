@@ -115,6 +115,8 @@ private:
 
 	static bool sTutorialShown;
 	void ShowBattleTutorialOnce();
+
+	bool isBossStroryPopup = false;
 public:
 	BattleScene(string _sceneName) : iScene(_sceneName), cardSelect(nullptr) {}
 

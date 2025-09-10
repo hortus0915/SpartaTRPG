@@ -21,6 +21,7 @@ protected:
 	bool mustActive;
 
 	float waitTime;
+	bool vectorReset;
 
 	int selectValue;
 
@@ -57,5 +58,6 @@ public:
 	void SetCustonStrings(vector<string>* _customString);
 	virtual void SetCustomStringPadding(int _leftPadding = 0, int _rightPadding = 0, int _upPadding = 0, int _downPadding = 0);
 	void VariableInit();
+	void SetVectorReset(bool _vectorReset);
 };
 

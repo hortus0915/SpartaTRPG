@@ -97,12 +97,6 @@ void MapMovePlayer::Init(Color _characterColor, Color _bgColor)
 
 void MapMovePlayer::Update(float deltaTime)
 {
-	if (mapData->CheckKey() == false)
-	{
-		//TODO -> GameOverScene으로 이동
-		SCENEMANAGER->ChangeScene("GameOverScene");
-		SCENEMANAGER->CurrentSceneInit();
-	}
 
 	if (monsterEffect != nullptr)
 	{
@@ -207,7 +201,7 @@ void MapMovePlayer::Update(float deltaTime)
 				moveToShop = false;
 				if (!isFirstShop)
 				{
-					auto shop = (ShopScene*)SCENEMANAGER->FindChild("GameScene", "ShopScene");
+					//auto shop = (ShopScene*)SCENEMANAGER->FindChild("GameScene", "ShopScene");
 					SCENEMANAGER->ChangeChild("ShopScene");
 					SCENEMANAGER->CurrentSceneInit();
 				}
@@ -238,20 +232,21 @@ void MapMovePlayer::Update(float deltaTime)
 			else if (moveToMiniGame)
 			{
 				moveToMiniGame = false;
-
+				mapData->ObjectReset(posX, posY);
 				auto temp = GetIntRange(0, 9);
-				if (temp < 8)
+				if (USERMANAGER->GetStage() % 2 == 0)
 				{
-					auto minigameScene = (MinigameScene*)SCENEMANAGER->FindChild("GameScene", "MinigameScene");
-					SCENEMANAGER->ChangeChild("MinigameScene");
+					//auto minigameScene = (MinigameScene*)SCENEMANAGER->FindChild("GameScene", "QuizScene");
+					SCENEMANAGER->ChangeChild("QuizScene");
 					SCENEMANAGER->CurrentSceneInit();
 				}
 				else
 				{
-					auto minigameScene = (MinigameScene*)SCENEMANAGER->FindChild("GameScene", "QuizScene");
-					SCENEMANAGER->ChangeChild("QuizScene");
+					//auto minigameScene = (MinigameScene*)SCENEMANAGER->FindChild("GameScene", "MinigameScene");
+					SCENEMANAGER->ChangeChild("MinigameScene");
 					SCENEMANAGER->CurrentSceneInit();
 				}
+				return;
 			}
 		}
 		MapImageSet();
@@ -287,6 +282,14 @@ void MapMovePlayer::Update(float deltaTime)
 		{
 			SOUNDMANAGER->StopAmbient(Text("RunSound.wav"));
 		}
+	}
+
+	if (mapData->CheckKey() == false && USERMANAGER->CheckHasKey() == false)
+	{
+		//TODO -> GameOverScene으로 이동
+		SCENEMANAGER->ChangeScene("GameOverScene");
+		SCENEMANAGER->CurrentSceneInit();
+		return;
 	}
 }
 
@@ -469,7 +472,6 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 	}
 	case Key:
 	{
-		mapData->ObjectReset(posX, posY);
 		SOUNDMANAGER->StopAmbient(Text("RunSound.wav"));
 		moveToMiniGame = true;
 		mapMove = -1;
@@ -822,7 +824,7 @@ void MapMovePlayer::PlayerInfoRender()
 {
 	auto playerInfo = USERMANAGER->GetPlayer();
 	char buf[128];
-	std::snprintf(buf, sizeof(buf), "%s  HP %d / %d    LV : %d", playerInfo->GetName(), playerInfo->GetCurHP(), playerInfo->GetMaxHP(), playerInfo->GetLevel()); //TODO HP출력하는거
+	std::snprintf(buf, sizeof(buf), "%s  HP %d / %d    LV : %d", playerInfo->GetName(), (int)playerInfo->GetCurHP(), (int)playerInfo->GetMaxHP(), playerInfo->GetLevel()); //TODO HP출력하는거
 	SCENEMANAGER->RenderToBackbuffer(1, MAX_SCREEN_HEIGTH, MAX_SCREEN_WIDTH, 1, buf);
 }
 
@@ -877,7 +879,7 @@ void MapMovePlayer::ShopTutorialPopup(int _select)
 {
 	mapMove = 1;
 	isFirstShop = false;
-	auto shop = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "ShopScene");
+	//auto shop = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "ShopScene");
 	SCENEMANAGER->ChangeChild("ShopScene");
 	SCENEMANAGER->CurrentSceneInit();
 }

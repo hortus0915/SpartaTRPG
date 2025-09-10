@@ -534,8 +534,9 @@ void BattleScene::Update(float _deltaTime)
 	break;
 	case Victory:
 	{
-		if (enemy->GatIsBoss())
+		if (enemy->GatIsBoss() && isBossStroryPopup == false)
 		{
+			isBossStroryPopup = true;
 			vector<string>* temp = new vector<string>();
 			temp->push_back("보스가 쓰러지고, 거대한 방은 고요 속에 잠겼다.");
 			temp->push_back("긴 전투의 흔적만이 이곳에 남아 있었다.");
@@ -575,9 +576,10 @@ void BattleScene::Update(float _deltaTime)
 	case Defeat:
 	case Draw:
 	{
-		if (enemy->GatIsBoss())
+		if (enemy->GatIsBoss() && isBossStroryPopup == false)
 		{
-			LOGMANAGER->AddLog("게임 클리어");
+			isBossStroryPopup = true;
+			LOGMANAGER->AddLog("플레이어 사망");
 			vector<string>* temp = new vector<string>();
 			temp->push_back("보스의 일격에 쓰러지고 말았다...");
 			temp->push_back("차갑고 무거운 기운이 온몸을 짓눌렀다.");
@@ -622,12 +624,14 @@ void BattleScene::Update(float _deltaTime)
 
 void BattleScene::GameEnd(int _selected)
 {
+	isBossStroryPopup = false;
 	SCENEMANAGER->ChangeScene("EndScene");
 	SCENEMANAGER->CurrentSceneInit();
 }
 
 void BattleScene::BossFail(int _selected)
 {
+	isBossStroryPopup = false;
 	LOGMANAGER->AddLog("플레이어 사망");
 	sequenceStr = lastActionStr;
 	auto dungeon = (DungeonScene*)SCENEMANAGER->FindChild("GameScene", "DungeonScene");

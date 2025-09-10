@@ -50,10 +50,9 @@ public:
         int _leftPadding = 0, int _rightPadding = 0,
         int _upPadding = 0, int _downPadding = 0,
         int posX = 0, int posY = 0,
-        int width = 0, int height = 0)
+        int width = 0, int height = 0, bool _vectorReset = true)
     {
         PopupActiveOff();
-
         auto it = mPopupList.find(_popupType);
         if (it == mPopupList.end() || it->second == nullptr)
             return nullptr;
@@ -68,6 +67,7 @@ public:
         activePopup->Init();
         activePopup->SetCustomStringPadding(_leftPadding, _rightPadding, _upPadding, _downPadding);
         activePopup->SetCustonStrings(_customString);
+        activePopup->SetVectorReset(_vectorReset);
 
         if (Method != nullptr) {
             if (obj) {
