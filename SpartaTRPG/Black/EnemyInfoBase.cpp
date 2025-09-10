@@ -24,10 +24,10 @@ static std::set<int> BuildEnemyDeckByLevel(int lv)
 		};
 
 	// 공통 기본: 상/하/좌/우 이동 + 방어 + 스태미나 회복 + 공격 3
-	add(101); add(102); add(103); add(104);   // 이동(상/하/좌/우)
-	add(201);                                  // 방어(기본 가드)
-	add(302);                                  // 스태미나 회복
-	add(401); add(403); add(404);              // 공격 3종
+	//add(101); add(102); add(103); add(104);   // 이동(상/하/좌/우)
+	//add(201);                                  // 방어(기본 가드)
+	//add(302);                                  // 스태미나 회복
+	add(401); add(411); add(408);              // 공격 3종
 
 	// 레벨별 확장
 	if (lv >= 2) { add(402); add(105); add(106); }                         // 회전베기, 대각 이동(↖↗)
@@ -46,11 +46,11 @@ static std::set<int> BuildEnemyDeckByLevel(int lv)
 void SpawnEnemyByLevel(EnemyInfoBase& _enemy, int _playerLevel)
 {
 
-	int lv = Clamp(_playerLevel, 1, 10);
+	int lv = Clamp(1, 10, _playerLevel);
 	int steps = lv - 1;
 
 	float hp = 70.0f + steps * 20.0f;
-	float sp = 60.0f + steps * 10.0f;
+	float sp = 600.0f + steps * 10.0f;
 	float atk = 8.0f + steps * 3.0f;
 
 

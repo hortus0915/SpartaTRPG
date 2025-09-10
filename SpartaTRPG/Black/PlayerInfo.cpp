@@ -57,4 +57,6 @@ void PlayerInfo::CalcStatus()
 	criDmg += startCriDmg * 0.05f;
 	dodge  += startCriDod * 0.05f;
 	counter += startCounter * 0.05f;
+
+	currentHP = maxHP;
 }

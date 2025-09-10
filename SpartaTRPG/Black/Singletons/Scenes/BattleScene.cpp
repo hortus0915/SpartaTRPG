@@ -128,6 +128,7 @@ int BattleScene::Init()
 	int uiOffsetX = 3;
 	battleUi->Init(player, enemy, board[0].size() + uiOffsetX, 0);
 
+	player->SetCurSP(player->GetMaxSP());
 	CardDB::InitDefaults();
 
 	pPos = { 0, 1 };
