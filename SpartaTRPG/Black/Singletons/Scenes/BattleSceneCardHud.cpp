@@ -95,7 +95,7 @@ void BattleSceneCardHud::Render()
 			int shownDamage = (int)std::round(playerAtk * currentCard->GetDamageRate());
 
 			sStream.str("");
-			sStream << "공격력 : " << playerAtk << " 배율 : x" <<currentCard->GetDamageRate() << " 총 : " << shownDamage;
+			sStream << "공격력 : " << shownDamage;
 			DESC = sStream.str();
 			SCENEMANAGER->RenderToBackbuffer(posX, posY + offsetY, DESC.size(), 1, DESC);
 			++offsetY;
