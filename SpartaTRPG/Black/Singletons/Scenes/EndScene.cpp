@@ -6,6 +6,7 @@
 #include "../../BlinkCursor.h"
 
 #include "../EffectType.h"
+#include "../../Image.h"
 
 
 //  OOOOOOO     OOOOO      O   O    OOOOOOOOO 
@@ -117,12 +118,97 @@ int EndScene::Init()
     screen[23] = "*                                                                                                  *";
     screen[24] = "****************************************************************************************************";
 
-    if (!cursor)
-        cursor = new BlinkCursor("EndScene");
-
-    cursor->SetPos(7, cursorIndex * 2 + 17);
 
     SOUNDMANAGER->PlayBGM(Text("EndSceneBGM.mp3"), 100);
+
+
+    HWND hWnd = GetConsoleWindow();
+    RECT rc;
+    GetClientRect(hWnd, &rc);
+    int screenWidth = rc.right - rc.left;
+    int screenHeight = rc.bottom - rc.top;
+
+    pic = new Image;
+    pic->Init(TEXT("Image.bmp"), screenWidth / 2 - 293 / 2 - 71, screenHeight / 2 - 231 / 2 - 170);
+
+    isDelayStart = false;
+    delayTime = 2.0f;
+    delayCurrentTime = 0.0f;
+    isShowImage = false;
+
+
+
+    black.resize(4);
+    black[0] = new Image;
+    black[0]->Init(TEXT("black_0.bmp"), screenWidth - 50 - 52, 250);
+    black[1] = new Image;
+    black[1]->Init(TEXT("black_1.bmp"), screenWidth - 50 - 52, 250);
+    black[2] = new Image;
+    black[2]->Init(TEXT("black_2.bmp"), screenWidth - 50 - 52, 250);
+    black[3] = new Image;
+    black[3]->Init(TEXT("black_3.bmp"), screenWidth - 50 - 52, 250);
+
+    red.resize(4);
+    red[0] = new Image;
+    red[0]->Init(TEXT("red_0.bmp"), screenWidth - 50 - 52, 50);
+    red[1] = new Image;
+    red[1]->Init(TEXT("red_1.bmp"), screenWidth - 50 - 52, 50);
+    red[2] = new Image;
+    red[2]->Init(TEXT("red_2.bmp"), screenWidth - 50 - 52, 50);
+    red[3] = new Image;
+    red[3]->Init(TEXT("red_3.bmp"), screenWidth - 50 - 52, 50);
+
+    blue.resize(4);
+    blue[0] = new Image;
+    blue[0]->Init(TEXT("blue_0.bmp"), 50, 50);
+    blue[1] = new Image;
+    blue[1]->Init(TEXT("blue_1.bmp"), 50, 50);
+    blue[2] = new Image;
+    blue[2]->Init(TEXT("blue_2.bmp"), 50, 50);
+    blue[3] = new Image;
+    blue[3]->Init(TEXT("blue_3.bmp"), 50, 50);
+
+    yellow.resize(4);
+    yellow[0] = new Image;
+    yellow[0]->Init(TEXT("yellow_0.bmp"), 50, 250);
+    yellow[1] = new Image;
+    yellow[1]->Init(TEXT("yellow_1.bmp"), 50, 250);
+    yellow[2] = new Image;
+    yellow[2]->Init(TEXT("yellow_2.bmp"), 50, 250);
+    yellow[3] = new Image;
+    yellow[3]->Init(TEXT("yellow_3.bmp"), 50, 250);
+
+
+
+
+    animFrameDelayCount = 5;
+    animFrameCount = 0;
+    currentAnimIndex = 0;
+
+    pinkPosX = GetIntRange(100, 500);
+    pinkPosY = GetIntRange(300, 500);
+    pinkTeleportDelayCount = 100;
+    pinkTeleportCount = 0;
+    currentPinkIndex = 0;
+
+    pink.resize(8);
+    pink[0] = new Image;
+    pink[0]->Init(TEXT("pink_0.bmp"), pinkPosX, pinkPosY);
+    pink[1] = new Image;
+    pink[1]->Init(TEXT("pink_1.bmp"), pinkPosX, pinkPosY);
+    pink[2] = new Image;
+    pink[2]->Init(TEXT("pink_2.bmp"), pinkPosX, pinkPosY);
+    pink[3] = new Image;
+    pink[3]->Init(TEXT("pink_3.bmp"), pinkPosX, pinkPosY);
+    pink[4] = new Image;
+    pink[4]->Init(TEXT("pink_4.bmp"), pinkPosX, pinkPosY);
+    pink[5] = new Image;
+    pink[5]->Init(TEXT("pink_5.bmp"), pinkPosX, pinkPosY);
+    pink[6] = new Image;
+    pink[6]->Init(TEXT("pink_6.bmp"), pinkPosX, pinkPosY);
+    pink[7] = new Image;
+    pink[7]->Init(TEXT("pink_7.bmp"), pinkPosX, pinkPosY);
+
 
     return 0;
 }
@@ -142,7 +228,7 @@ void EndScene::Update(float deltaTime)
         }
     }
 
-    if (elapsedTime < duration)
+    if (elapsedTime < duration && !isDelayStart)
     {
         elapsedTime += deltaTime;
         if (KEYMANAGER->IsOnceKeyDown(VK_SPACE) ||
@@ -150,6 +236,7 @@ void EndScene::Update(float deltaTime)
             KEYMANAGER->IsOnceKeyDown(VK_RETURN))
         {
             elapsedTime = duration;
+            isDelayStart = true;
         }
 
 #pragma region Animation ³ë°¡´Ù
@@ -634,34 +721,84 @@ void EndScene::Update(float deltaTime)
             screen[24] = "****************************************************************************************************";
         }
 
+        if (elapsedTime >= duration)
+        {
+            isDelayStart = true;
+        }
+
 #pragma endregion
     }
-    else
+    
+    if (isDelayStart && !isShowImage)
     {
-        if (KEYMANAGER->IsOnceKeyDown(VK_RETURN))
+        delayCurrentTime += deltaTime;
+        if (delayCurrentTime >= delayTime)
         {
-            MainGame::Quit();
+            SCENEMANAGER->GetMainGame()->ClearBuffer();
+            isShowImage = true;
+            SCENEMANAGER->GetMainGame()->BufferFlip();
         }
     }
+
+    if (isShowImage)
+    {
+        ++animFrameCount;
+        if (animFrameCount % animFrameDelayCount == 0)
+        {
+            animFrameCount = 0;
+
+            currentAnimIndex = (currentAnimIndex + 1) % black.size();
+            currentPinkIndex = (currentPinkIndex + 1) % pink.size();
+        }
+
+        ++pinkTeleportCount;
+        if (pinkTeleportCount % pinkTeleportDelayCount == 0)
+        {
+            SCENEMANAGER->GetMainGame()->ClearBuffer();
+
+            pinkPosX = GetIntRange(100, 500);
+            pinkPosY = GetIntRange(300, 500);
+
+            for (int i = 0; i < pink.size(); ++i)
+                pink[i]->SetPos(pinkPosX, pinkPosY);
+
+            SCENEMANAGER->GetMainGame()->BufferFlip();
+        }
+
+        if (KEYMANAGER->IsOnceKeyDown(VK_RETURN))
+        {
+            if (KEYMANAGER->IsOnceKeyDown(VK_RETURN))
+            {
+                MainGame::Quit();
+            }
+        }
+    }
+
+
+
 }
 
 void EndScene::Release()
 {
-    SAFE_DELETE(cursor);
 }
 
 void EndScene::Render()
 {
     __super::Render();
 
-    for (int i = 0; i < MAX_SCREEN_HEIGTH; ++i)
-        SCENEMANAGER->RenderToBackbuffer(0, i, screen[i].size(), 1, screen[i]);
-
-    if (elapsedTime >= duration)
+    if (!isShowImage)
     {
-        if (cursor)
-        {
-            cursor->Render();
-        }
+        for (int i = 0; i < MAX_SCREEN_HEIGTH; ++i)
+            SCENEMANAGER->RenderToBackbuffer(0, i, screen[i].size(), 1, screen[i]);
+    }
+    else
+    {
+        pic->Render();
+
+        black[currentAnimIndex]->Render();
+        red[currentAnimIndex]->Render();
+        blue[currentAnimIndex]->Render();
+        yellow[currentAnimIndex]->Render();
+        pink[currentPinkIndex]->Render();
     }
 }
