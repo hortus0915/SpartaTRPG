@@ -503,6 +503,7 @@ void BattleScene::Update(float _deltaTime)
 			SCENEMANAGER->CurrentSceneInit();
 		}
 	}
+	break;
 	case Defeat:
 	case Draw:
 	{
