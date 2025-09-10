@@ -75,7 +75,7 @@ void MainGame::Init()
 
 #ifndef DEV_BLACK
 
-	SCENEMANAGER->ChangeScene("GameOverScene");
+	SCENEMANAGER->ChangeScene("TitleScene");
 
 #else
 
