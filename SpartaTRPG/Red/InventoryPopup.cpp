@@ -160,7 +160,7 @@ void InventoryPopup::SetItemType(ItemType _itemType)
 
 	for (auto item : *partition)
 	{
-		if (_itemType == ItemType::Eequipment && (USERMANAGER->GetEquipItem() == nullptr || item.second.GetItemUID() == USERMANAGER->GetEquipItem()->GetItemUID()))
+		if (_itemType == ItemType::Eequipment && USERMANAGER->GetEquipItem() != nullptr && item.second.GetItemUID() == USERMANAGER->GetEquipItem()->GetItemUID())
 		{
 			char buf[128];
 			std::snprintf(buf, sizeof(buf), "아이템 이름 : %s , 수량 : %d - 장착", item.second.GetName().c_str(), item.second.GetItemCount());
