@@ -12,13 +12,15 @@
 #define __OPT_X__ 2
 #define __CURSOR_DIFF__ 2
 
-#define __TOTAL_X__ 10
-#define __TOTAL_Y__ -10
+#define __TOTAL_X__ -5
+#define __TOTAL_Y__ -18
 class BlinkCursor;
 
 
 class QuizScene : public iScene {
 private:
+	string screen[MAX_SCREEN_HEIGTH];
+
 	Quiz question;
 	float duration;
 	float elapsedTime;
