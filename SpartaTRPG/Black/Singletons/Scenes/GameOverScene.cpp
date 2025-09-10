@@ -116,12 +116,30 @@ int GameOverScene::Init()
 	delayCurrentTime = 0.0f;
 	isShowImage = false;
 
+
+	anim.resize(4);
+	anim[0] = new Image;
+	anim[0]->Init(TEXT("frame_0.bmp"), 50, 50);
+	anim[1] = new Image;
+	anim[1]->Init(TEXT("frame_1.bmp"), 50, 50);
+	anim[2] = new Image;
+	anim[2]->Init(TEXT("frame_2.bmp"), 50, 50);
+	anim[3] = new Image;
+	anim[3]->Init(TEXT("frame_3.bmp"), 50, 50);
+
+	animFrameDelayCount = 5;
+	animFrameCount = 0;
+	currentAnimIndex = 0;
+
 	return 0;
 }
 
 void GameOverScene::Release()
 {
 	SAFE_RELEASE_DELETE(pic);
+
+	for (int i = 0; i < anim.size(); ++i)
+		SAFE_DELETE(anim[i]);
 }
 
 void GameOverScene::Update(float _deltaTime)
@@ -158,6 +176,16 @@ void GameOverScene::Update(float _deltaTime)
 			isShowImage = true;
 		}
 	}
+
+	if (isShowImage)
+	{
+		++animFrameCount;
+		if (animFrameCount % animFrameDelayCount == 0)
+		{
+			animFrameCount = 0;
+			currentAnimIndex = (currentAnimIndex + 1) % anim.size();
+		}
+	}
 }
 
 void GameOverScene::Render()
@@ -174,5 +202,7 @@ void GameOverScene::Render()
 	else
 	{
 		pic->Render();
+
+		anim[currentAnimIndex]->Render();
 	}
 }
