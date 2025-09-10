@@ -86,31 +86,8 @@ void MapMovePlayer::Update(float deltaTime)
 	if (mapData->CheckKey() == false)
 	{
 		//TODO -> GameOverScene으로 이동
-		vector<string>* initString = new vector<string>();
-		initString->push_back("던전에 입장하셨습니다.");
-		initString->push_back("");
-		initString->push_back("");
-		initString->push_back("'#' 벽은 이동할 수 없습니다.");
-		initString->push_back("'I' 아이템이 들어있는 박스입니다. 대박을 노리세요!");
-		initString->push_back("'K' 다음 층으로 갈 수 있게하는 열쇠입니다.");
-		initString->push_back("해당 아이템의 획득을 위해서는 가벼운 게임을 진행해야합니다.");
-		initString->push_back("'H' 다음 층으로 이동할 수 있는 통로입니다.");
-		initString->push_back("열쇠를 찾아서 다음층으로 이동하세요!");
-		initString->push_back("'M' 맵에 있는 몬스터 입니다.");
-		initString->push_back("가까이 다가가면 전투가 벌어집니다.");
-		initString->push_back("");
-		initString->push_back("");
-		initString->push_back("던전의 가장 위에 매우 위험한 보스가 숨어 있습니다. 준비 없이 맞서지 마세요.");
-
-		POPUPMANAGER->InitPopup<MapMovePlayer>(
-			PopupType::RESULTPOPUP,
-			nullptr,
-			initString,
-			5,
-			0,
-			2,
-			0
-		);
+		SCENEMANAGER->ChangeScene("GameOverScene");
+		SCENEMANAGER->CurrentSceneInit();
 	}
 
 	if (monsterEffect != nullptr)

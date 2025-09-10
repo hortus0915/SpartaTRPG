@@ -638,32 +638,9 @@ void EndScene::Update(float deltaTime)
     }
     else
     {
-        if (KEYMANAGER->IsOnceKeyDown(VK_UP) ||
-            KEYMANAGER->IsOnceKeyDown(VK_DOWN))
-        {
-            cursorIndex = (cursorIndex + 1) % 2;
-
-            if (cursor)
-            {
-                SOUNDMANAGER->PlaySfx(Text("CursorMove.wav"));
-                cursor->SetPos(7, cursorIndex * 2 + 17);
-            }
-        }
-
         if (KEYMANAGER->IsOnceKeyDown(VK_RETURN))
         {
-            if (cursorIndex == 0)
-            {
-                SOUNDMANAGER->PlaySfx(Text("GameStartSfx.wav"));
-
-                SCENEMANAGER->ChangeScene("GameScene");
-                SCENEMANAGER->ChangeChild("DungeonScene");
-                SCENEMANAGER->CurrentSceneInit();
-            }
-            else if (cursorIndex == 1)
-            {
-                MainGame::Quit();
-            }
+            MainGame::Quit();
         }
     }
 }
