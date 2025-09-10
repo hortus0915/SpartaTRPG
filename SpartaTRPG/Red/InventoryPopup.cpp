@@ -2,6 +2,7 @@
 #include "../Black/Singletons/CommonManagers.h"
 #include "../Blue/Card/CardData.h"
 #include "../Blue/Card/CardDB.h"
+#include "../Black/PlayerInfo.h"
 
 void InventoryPopup::Update(float deltaTime)
 {
@@ -314,6 +315,7 @@ void InventoryPopup::UsingPotion(int _selectValue)
 	{
 		if (USERMANAGER->UsingItem(selectItem->GetItemUID(), 1) >= 0)
 		{
+			USERMANAGER->GetPlayer()->AddHP(selectItem->GetValue());
 			vector<string>* initString = new vector<string>();
 			initString->push_back("포션을 사용했습니다.");
 

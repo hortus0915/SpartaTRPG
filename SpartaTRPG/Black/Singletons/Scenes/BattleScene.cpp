@@ -537,10 +537,30 @@ void BattleScene::Update(float _deltaTime)
 		if (enemy->GatIsBoss())
 		{
 			vector<string>* temp = new vector<string>();
-			temp->push_back("좋은 승부였다.");
-			temp->push_back("코딩 고수가되었습니다!");
+			temp->push_back("보스가 쓰러지고, 거대한 방은 고요 속에 잠겼다.");
+			temp->push_back("긴 전투의 흔적만이 이곳에 남아 있었다.");
+			temp->push_back("");
+			temp->push_back("");
+			temp->push_back("플레이어의 이름은 이제 전설이 되었다.");
+			temp->push_back("그동안 조롱하던 탈주닌자 핑크조차, 고개를 숙이며 그 용기를 인정했다.");
+			temp->push_back("");
+			temp->push_back("세상은 다시 평화를 되찾았다.");
+			temp->push_back("무너졌던 마을은 활기를 되찾고, 길 위에는 다시 노랫소리가 울려 퍼졌다.");
+			temp->push_back("");
+			temp->push_back("");
+			temp->push_back("이 승리는 혼자가 아닌, 함께였기에 가능했다. ");
+			temp->push_back("곁을 지켜준 동료가 있었고, 그 믿음이 마지막 디버깅의 힘이 되었다.");
+			temp->push_back("");
+			temp->push_back("");
+			temp->push_back("그리고 이제...");
+			temp->push_back("모험은 끝났지만, 진짜 여정은 시작된다");
+			temp->push_back("더 깊은 도전, 더 큰 세계, 그리고 ‘언리얼’이라는 새로운 전투가 기다린다.");
+			temp->push_back("");
+			temp->push_back("");
+			temp->push_back("지금까지의 시간은 모두 준비였다. ");
+			temp->push_back("이제는 진짜 언리얼 무대를 향해 나아가라. ");
 			lastActionStr = sequenceStr;
-			currentSequence = Draw;
+
 			POPUPMANAGER->InitPopup<BattleScene, &BattleScene::GameEnd>(PopupType::RESULTPOPUP, this, temp, 8, 0, 4, 0);
 		}
 		else
@@ -555,11 +575,42 @@ void BattleScene::Update(float _deltaTime)
 	case Defeat:
 	case Draw:
 	{
-		sequenceStr = lastActionStr;
-		auto dungeon = (DungeonScene*)SCENEMANAGER->FindChild("GameScene", "DungeonScene");
-		SCENEMANAGER->ChangeChild("DungeonScene");
-		dungeon->SetDefeat();
-		SCENEMANAGER->CurrentSceneInit();
+		if (enemy->GatIsBoss())
+		{
+			LOGMANAGER->AddLog("게임 클리어");
+			vector<string>* temp = new vector<string>();
+			temp->push_back("보스의 일격에 쓰러지고 말았다...");
+			temp->push_back("차갑고 무거운 기운이 온몸을 짓눌렀다.");
+			temp->push_back("");
+			temp->push_back("");
+			temp->push_back("보스: 하찮구나... 아직 나와 맞설 힘조차 없구나.");
+			temp->push_back("더 강해져서 돌아와라. 그렇지 않다면, 이 문턱조차 넘지 못하리라.");
+			temp->push_back("");
+			temp->push_back("");
+			temp->push_back("어디선가 나타난 핑크가 쓰러진 레인져를 부축해준다");
+			temp->push_back("");
+			temp->push_back("");
+			temp->push_back("탈주닌자 핑크: …봐라. 이게 현실이다.");
+			temp->push_back("하지만 쓰러졌다고 끝난 건 아니다.");
+			temp->push_back("언젠가 반드시 다시 일어서라. 그게 진짜 레인저다.");
+			temp->push_back("");
+			temp->push_back("");
+			temp->push_back("");
+			temp->push_back("시스템: 보스전에서 패배했습니다.");
+			temp->push_back("시스템: 마을로 귀환합니다.");
+			lastActionStr = sequenceStr;
+			POPUPMANAGER->InitPopup<BattleScene, &BattleScene::BossFail>(PopupType::RESULTPOPUP, this, temp, 8, 0, 4, 0);
+		}
+		else
+		{
+			LOGMANAGER->AddLog("플레이어 사망");
+
+			sequenceStr = lastActionStr;
+			auto dungeon = (DungeonScene*)SCENEMANAGER->FindChild("GameScene", "DungeonScene");
+			SCENEMANAGER->ChangeChild("DungeonScene");
+			dungeon->SetDefeat();
+			SCENEMANAGER->CurrentSceneInit();
+		}
 	}
 	break;
 	case BattleEnd:
@@ -572,6 +623,16 @@ void BattleScene::Update(float _deltaTime)
 void BattleScene::GameEnd(int _selected)
 {
 	SCENEMANAGER->ChangeScene("EndScene");
+	SCENEMANAGER->CurrentSceneInit();
+}
+
+void BattleScene::BossFail(int _selected)
+{
+	LOGMANAGER->AddLog("플레이어 사망");
+	sequenceStr = lastActionStr;
+	auto dungeon = (DungeonScene*)SCENEMANAGER->FindChild("GameScene", "DungeonScene");
+	SCENEMANAGER->ChangeChild("DungeonScene");
+	dungeon->SetDefeat();
 	SCENEMANAGER->CurrentSceneInit();
 }
 

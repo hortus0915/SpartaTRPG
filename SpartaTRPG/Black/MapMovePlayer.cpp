@@ -372,6 +372,18 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 				initString->push_back("");
 				initString->push_back("");
 				initString->push_back("");
+				initString->push_back("됐어. 이제 곤듀랑 맞설 수는 있겠지.");
+				initString->push_back("하지만 잊지 마라. 이건 내가 준 힘이 아니라,");
+				initString->push_back("네가 여기까지 버텨왔기에 받아들일 수 있었던 거다.");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("가라. 마지막은 네가 증명해라.");
+				initString->push_back("네가 진짜 레인저인지, 아니면 나처럼 탈주자가 될지");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
 				initString->push_back("보스방 입장");
 
 				POPUPMANAGER->InitPopup<MapMovePlayer>(
@@ -389,6 +401,31 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 				boss = new EnemyInfoBase;
 				SpawnEnemyBoss(*boss, USERMANAGER->GetPlayer()->GetLevel());
 				vector<string>* initString = new vector<string>();
+				initString->push_back("보스방에 진입하려 합니다...");
+				initString->push_back("문 너머에서 묘한 기운이 흘러나옵니다.");
+				initString->push_back("서늘한 공기 속에서 손끝이 저절로 떨려온다.");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("블루: 이런 기분, 꼭 시험장 들어가기 직전 같다...");
+				initString->push_back("괜히 배도 고픈데, 지금은 라면 먹을 상황도 아니고.");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("이정우 튜터님 : 여기까지 오다니 대단해!");
+				initString->push_back(" 너희라면 해낼 수 있을거야!");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("자, 이제 나아가라.");
+				initString->push_back("겁을 이겨내는 순간, 너의 코드가 진짜 힘을 보여줄 것이다.");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
 				initString->push_back("보스방 입장");
 				POPUPMANAGER->InitPopup<MapMovePlayer>(
 					PopupType::RESULTPOPUP,     
@@ -502,8 +539,37 @@ void MapMovePlayer::CheckActive()
 	{
 		mapMove = -1;
 		vector<string>* initString = new vector<string>();
-		initString->push_back("보스와의 전투를 시작합니다.");
-
+		initString->push_back("이다경 곤듀 : 여기까지 기어올라오다니, 하찮은 학생 주제에 제법이군.");
+		initString->push_back("하지만 착각하지 마라.");
+		initString->push_back("진짜 개발은 고독 속에서 이루어진다.");
+		initString->push_back("협력? 팀워크? 그건 결국 약자들의 핑계일 뿐이다.");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("희망? 그건 환상이다.");
+		initString->push_back("강창몬 따위에 의존하는 한, ");
+		initString->push_back("너희는 영원히 진짜 개발자가 될 수 없다.");
+		initString->push_back("");
+		initString->push_back(""); 
+		char buf[128];
+		std::snprintf(buf, sizeof(buf), "%s : 아니, 진짜 개발은 함께 하는 거야.", USERMANAGER->GetPlayer()->GetName()); //TODO HP출력하는거
+		initString->push_back(buf);
+		initString->push_back("버그를 함께 고치고, 과제를 함께 이겨내고");
+		initString->push_back("끝내는 웃으면서 완성하는 것!");
+		initString->push_back("너의 왜곡된 신념은 우리가 여기서 끝낸다!");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("입으로 떠드는 건 쉽지! 그렇다면 직접 증명해 보아라!");
+		initString->push_back("내가 만든 버그 지옥을 넘을 수 있는지!!!!!!!!!!!");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("전투를 시작합니다.");
 		POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::BossBattle>(
 			PopupType::RESULTPOPUP,
 			this,
