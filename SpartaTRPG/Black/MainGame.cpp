@@ -36,6 +36,7 @@ MainGame::~MainGame()
 void MainGame::Init()
 {
 	isGameRun = true;
+	isDouble = true;
 
 	TIMEMANAGER->Init();
 	SCENEMANAGER->Init(this);
@@ -73,6 +74,9 @@ void MainGame::Init()
 	SCENEMANAGER->AddChild("GameScene", "MinigameScene", new MinigameScene("MinigameScene"));
 	SCENEMANAGER->AddChild("GameScene", "ShopScene", new ShopScene("ShopScene"));
 
+	SCENEMANAGER->AddScene("GameOverScene", new GameOverScene("GameOverScene"));
+	SCENEMANAGER->AddScene("EndScene", new EndScene("EndScene"));
+
 #ifndef DEV_BLACK
 
 	SCENEMANAGER->ChangeScene("TitleScene");
@@ -102,7 +106,8 @@ void MainGame::Release()
 
 void MainGame::Render()
 {
-	doubleBuffer->ClearBuffer();
+	if (isDouble)
+		doubleBuffer->ClearBuffer();
 
 	//string sharp = "#";
 	//// test
@@ -121,7 +126,8 @@ void MainGame::Render()
 	POPUPMANAGER->Render();
 	EFFECTMANAGER->Render();
 
-	doubleBuffer->BufferFlipping();
+	if (isDouble)
+		doubleBuffer->BufferFlipping();
 }
 
 void MainGame::CopyToBackbuffer(const int& _posX, const int& _posY, const int& _width, const int& _height, char** _contents, Color _fontColor, Color _bgColor)

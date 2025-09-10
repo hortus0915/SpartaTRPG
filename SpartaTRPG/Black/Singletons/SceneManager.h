@@ -143,6 +143,7 @@ public:
 
 		return currentSceneNode->FindParent()->GetSceneName();
 	}
+	inline MainGame* GetMainGame() const { return mainGame; }
 
 	void RenderToBackbuffer(int _posX, int _posY, int _width, int _height, char**  _content, Color _charColor = ORIGINCOLOR, Color _bgColor = BLACK);
 	void RenderToBackbuffer(int _posX, int _posY, int _width, int _height, string* _content, Color _charColor = ORIGINCOLOR, Color _bgColor = BLACK);
