@@ -5,23 +5,29 @@
 
 #include "../../../Yellow/PoketmonNaming.h"
 
+#define __TOTAL_X__ 10
+#define __TOTAL_Y__ 10
+
 class BlinkCursor;
 
 class PoketmonNamingScene : public iScene {
 private:
 	string screen[MAX_SCREEN_HEIGTH];
 
+	const int ERASE_INDEX = PoketmonNaming::LETTER_COUNT;     // 지우기
+	const int DONE_INDEX = PoketmonNaming::LETTER_COUNT + 1; // 완료
+	const int TOTAL_COUNT = PoketmonNaming::LETTER_COUNT + 2;
+	float duration;
+	float elapsedTime;
+
 	PoketmonNaming naming;
 
-	vector<wchar_t> letters;
+	vector<wchar_t> buffer;
 	string composed_name;
-	int effectCount;
-
-	bool correct;
 
 	bool is_end;
 
-	BlinkCursor* cursor;
+	int cursor_index;
 	
 
 

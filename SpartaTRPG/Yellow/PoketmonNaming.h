@@ -3,10 +3,16 @@
 #include <vector>
 #include <map>
 
+
+
 class PoketmonNaming {
 public:
     // 입력: std::wstring (호환 자모들), 출력: UTF-8 std::string (완성형 한글)
     static std::string Compose(const std::vector<wchar_t>& input);
+
+    static const wchar_t LETTERS[];
+    static const char* LETTERS_UTF8[];
+    static const int LETTER_COUNT;
 
 private:
     // 유니코드 한글 상수
