@@ -59,7 +59,7 @@ void BattleScene::ShowBattleTutorialOnce()
 	lines->push_back(" - 라운드 종료 시 SP+15 회복합니다.");
 	
 	POPUPMANAGER->InitPopup<BattleScene, nullptr>(
-		PopupType::SELECTPOPUP, nullptr, lines, 8, 0, 4, 0);
+		PopupType::RESULTPOPUP, nullptr, lines, 8, 0, 4, 0);
 
 	sTutorialShown = true; 
 }
@@ -541,7 +541,7 @@ void BattleScene::Update(float _deltaTime)
 			temp->push_back("코딩 고수가되었습니다!");
 			lastActionStr = sequenceStr;
 			currentSequence = Draw;
-			POPUPMANAGER->InitPopup<BattleScene, nullptr>(PopupType::SELECTPOPUP, nullptr, temp, 8, 0, 4, 0);
+			POPUPMANAGER->InitPopup<BattleScene, &BattleScene::GameEnd>(PopupType::RESULTPOPUP, this, temp, 8, 0, 4, 0);
 		}
 		else
 		{
@@ -567,6 +567,12 @@ void BattleScene::Update(float _deltaTime)
 		
 	}break;
 	}
+}
+
+void BattleScene::GameEnd(int _selected)
+{
+	SCENEMANAGER->ChangeScene("EndScene");
+	SCENEMANAGER->CurrentSceneInit();
 }
 
 void BattleScene::Render()
