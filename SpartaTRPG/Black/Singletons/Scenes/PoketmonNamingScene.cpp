@@ -22,6 +22,10 @@ void PoketmonNamingScene::DeleteLetters()
 
 void PoketmonNamingScene::Update(float deltaTime)
 {
+
+    if (is_end && !POPUPMANAGER->CheckPopupActive()) {
+        //씬 넘기기
+    }
     if (elapsedTime < duration)
     {
         elapsedTime += deltaTime;
@@ -97,7 +101,9 @@ void PoketmonNamingScene::Update(float deltaTime)
 
                 //완료 되었을때 행동
                 vector<string>* initString = new vector<string>();
-                initString->push_back("오답!");
+                string s = "당신의 이름은: " + composed_name;
+                initString->push_back(s);
+                //이름 유저매니저로 넘기기
 
                 POPUPMANAGER->InitPopup<PoketmonNamingScene, nullptr>(
                     PopupType::RESULTPOPUP,
