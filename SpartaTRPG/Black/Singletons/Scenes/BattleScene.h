@@ -20,6 +20,7 @@ class BlinkCursor;
 enum BattleSequence
 {
 	None,
+	tutorial,
 	CardSelect,
 	CardUse,
 	Victory,   
@@ -111,7 +112,8 @@ private:
 	bool  waitingToStartAction = true;  
 	bool  isFirstActionThisRound = false; 
 
-
+	static bool sTutorialShown;
+	void ShowBattleTutorialOnce();
 public:
 	BattleScene(string _sceneName) : iScene(_sceneName), cardSelect(nullptr) {}
 

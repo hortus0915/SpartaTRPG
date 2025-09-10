@@ -42,8 +42,33 @@
 //   
 //   [ ] 찌르기     [ ] 십자 베기  [ ] 원형 베기
 
+
+bool BattleScene::sTutorialShown = false;
+
+void BattleScene::ShowBattleTutorialOnce()
+{
+	if (sTutorialShown) return;
+
+	auto* lines = new std::vector<std::string>;
+
+	lines->push_back("	■ 전투 튜토리얼");
+	lines->push_back(" - Enter 키 선택, BackSpace 키 선택 취소 입니다.");
+	lines->push_back(" - 카드 3장을 고르면 한 라운드가 시작됩니다.");
+	lines->push_back(" - 우선순위: 이동 → 방어 → 회복 → 공격 ");
+	lines->push_back(" - 같은 타입이면 플레이어가 먼저 실행됩니다. ");
+	lines->push_back(" - 공격 범위는 플레이어 중앙 기준으로 X 의 위치입니다");
+	lines->push_back(" - 카운터: 방어에 성공하면 반격 피해가 발생할 수 있습니다.");
+	lines->push_back(" - 라운드 종료 시 SP+15 회복합니다.");
+	
+	POPUPMANAGER->InitPopup<BattleScene, nullptr>(
+		PopupType::SELECTPOPUP, nullptr, lines, 8, 0, 4, 0);
+
+	sTutorialShown = true; 
+}
+
 int BattleScene::Init()
 {
+	ShowBattleTutorialOnce();
 	SOUNDMANAGER->ChangeBGM(Text("BattleSceneBGM.mp3"), 100);
 
 #ifndef DEV_BLACK
@@ -77,7 +102,7 @@ int BattleScene::Init()
 	board[11]= "*       *       *       *       *";
 	board[12]= "* * * * * * * * * * * * * * * * *";
 
-	currentSequence = (BattleSequence)(None + 1);
+	currentSequence = sTutorialShown ? tutorial : (BattleSequence)(None + 2);
 
 	cardSelectCount = 3;
 	playerSelectedCard.resize(cardSelectCount);
@@ -178,6 +203,13 @@ void BattleScene::Update(float _deltaTime)
 
 	switch (currentSequence)
 	{
+	case tutorial:
+	{
+		if (KEYMANAGER->IsOnceKeyDown(VK_RETURN))
+		{
+			currentSequence = CardSelect;
+		}
+	}break;
 	case CardSelect:
 	{
 		battleUi->SetPreviewPlayer(true);
