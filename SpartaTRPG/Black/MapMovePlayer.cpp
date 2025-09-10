@@ -675,15 +675,15 @@ void MapMovePlayer::StageInfoRender()
 	switch (mapData->GetMapType())
 	{
 	case MapType::Village:
-		SCENEMANAGER->RenderToBackbuffer(MAX_SCREEN_WIDTH/2 - 5, 0, MAX_SCREEN_WIDTH, 1, "Village");
+		SCENEMANAGER->RenderToBackbuffer(MAX_SCREEN_WIDTH/2 - 5, 0, MAX_SCREEN_WIDTH, 1, "마을");
 		break;
 	case MapType::Dungeon:
 		char buf[128];
-		std::snprintf(buf, sizeof(buf), "Stage %d", USERMANAGER->GetStage());
+		std::snprintf(buf, sizeof(buf), "스테이지 %d", USERMANAGER->GetStage());
 		SCENEMANAGER->RenderToBackbuffer(MAX_SCREEN_WIDTH / 2 - 5, 0, MAX_SCREEN_WIDTH, 1, buf);
 		break;
 	case MapType::BossRoom:
-		SCENEMANAGER->RenderToBackbuffer(MAX_SCREEN_WIDTH / 2 - 5, 0, MAX_SCREEN_WIDTH, 1, "BossRoom");
+		SCENEMANAGER->RenderToBackbuffer(MAX_SCREEN_WIDTH / 2 - 5, 0, MAX_SCREEN_WIDTH, 1, "보스방");
 		break;
 	}
 }
