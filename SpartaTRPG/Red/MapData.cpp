@@ -50,17 +50,14 @@ void MapData::CreateMap(MapType _mapType)
         break;
     case Dungeon:
         USERMANAGER->SetNextStage();
-        if (USERMANAGER->GetStage() < MAXSTAGE)
-        {
-            DungeonMapSet();
-            DungeonObjectCreate();
-            DungeonObjectLoad();
-        }
-        else
-        {
-            BossMapSet();
-            BossObejctCreate();
-        }
+        DungeonMapSet();
+        DungeonObjectCreate();
+        DungeonObjectLoad();
+        break;
+    case BossRoom:
+        BossMapSet();
+        BossObejctCreate();
+
         break;
     default:
         break;
@@ -287,16 +284,6 @@ void MapData::DungeonMapSet()
     }
 }
 
-void MapData::VillageMapSet()
-{
-    for (int oy = 0; oy < VILLAGE_HEIGHT; ++oy)
-    {
-        for (int ox = 0; ox < VILLAGE_WIDTH; ++ox)
-        {
-            mapInfo[ox][oy].SetTileType((ox == VILLAGE_WIDTH - 1 || oy == VILLAGE_HEIGHT - 1 || ox == 0 || oy == 0) ? TileType::Wall : TileType::Empty, ox, oy);
-        }
-    }
-}
 
 void MapData::DungeonObjectCreate()
 {
@@ -305,7 +292,7 @@ void MapData::DungeonObjectCreate()
         objects.second.clear();
     }
 
-    //ObjectRandomSet(TileType::Monster, GetObjectCount(TileType::Monster));
+    ObjectRandomSet(TileType::Monster, GetObjectCount(TileType::Monster));
     ObjectRandomSet(TileType::Box, GetObjectCount(TileType::Box));
     ObjectRandomSet(TileType::Key, GetObjectCount(TileType::Key));
     ObjectRandomSet(TileType::Exit, GetObjectCount(TileType::Exit));
@@ -329,11 +316,21 @@ void MapData::VillageObjectSet()
     ObjectSet(TileType::DungeonIn, VILLAGE_WIDTH - 3, VILLAGE_HEIGHT / 2);
 }
 
+void MapData::VillageMapSet()
+{
+    for (int oy = 0; oy < VILLAGE_HEIGHT; ++oy)
+    {
+        for (int ox = 0; ox < VILLAGE_WIDTH; ++ox)
+        {
+            mapInfo[ox][oy].SetTileType((ox == VILLAGE_WIDTH - 1 || oy == VILLAGE_HEIGHT - 1 || ox == 0 || oy == 0) ? TileType::Wall : TileType::Empty, ox, oy);
+        }
+    }
+}
 void MapData::BossMapSet()
 {
-    for (int oy = 0; oy < BOSS_WIDTH; ++oy)
+    for (int oy = 0; oy < BOSS_HEIGHT; ++oy)
     {
-        for (int ox = 0; ox < BOSS_HEIGHT; ++ox)
+        for (int ox = 0; ox < BOSS_WIDTH; ++ox)
         {
             mapInfo[ox][oy].SetTileType((ox == BOSS_WIDTH - 1 || oy == BOSS_HEIGHT - 1 || ox == 0 || oy == 0) ? TileType::Wall : TileType::Empty, ox, oy);
         }
@@ -422,14 +419,20 @@ void MapData::ObjectRandomSet(TileType _tileType, int _count)
             continue;
         }
 
+        objects.insert(&(mapInfo[posX][posY]));
         TileSet(_tileType, posX, posY, posX, posY);
-        objects.insert(& (mapInfo[posX][posY]));
     }
 }
 
 int MapData::TileSet(TileType _tileType, int _posX, int _posY, int _fromIndexX, int _fromIndexY)
 {
     auto tileType = GetMapInfo(_posX, _posY);
+
+    if (tileType == TileType::Key || _tileType == TileType::Key)
+    {
+        keyCount = objectInfo[TileType::Key].size();
+    }
+
     if (tileType == TileType::Wall || tileType == TileType::WallH)
         return -1;
     else if (tileType == TileType::WallV)
@@ -468,7 +471,7 @@ int MapData::GetObjectCount(TileType _tileType)
     case Key:
         return 3;
     case Monster:
-        return USERMANAGER->GetStage() + 15;
+        return USERMANAGER->GetStage() + 5;
     default:
         return 0;
     }
@@ -585,6 +588,16 @@ TileType MapData::GetMapInfo(int _posX, int _posY)
     return mapInfo[_posX][_posY].GetTileType();
 }
 
+bool MapData::CheckKey()
+{
+    if (mapType == MapType::Dungeon)
+    {
+        return keyCount > 0;
+    }
+
+    return true;
+}
+
 void MapData::ObjectReset(int _posX, int _posY)
 {
     if (_posX < 0 || _posX > GetMapWidth() - 1 || _posY < 0 || _posY > GetMapHeight() - 1)
@@ -625,6 +638,8 @@ const int MapData::GetMapWidth(MapType _mapType)
         return VILLAGE_WIDTH;
     case Dungeon:
         return MAP_WIDTH * (MAP_CHUNKWIDTH + 1) + 1;
+    case BossRoom:
+        return BOSS_WIDTH;
     default:
         return 0;
     }
@@ -641,6 +656,8 @@ const int  MapData::GetMapHeight(MapType _mapType)
         return VILLAGE_HEIGHT;
     case Dungeon:
         return MAP_HEIGHT * (MAP_CHUNKHEIGHT + 1) + 1;
+    case BossRoom:
+        return BOSS_HEIGHT;
     default:
         return 0;
     }

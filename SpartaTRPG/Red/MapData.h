@@ -14,7 +14,7 @@
 #define VILLAGE_HEIGHT 15
 
 #define BOSS_WIDTH 61
-#define BOSS_HEIGHT 71
+#define BOSS_HEIGHT 50
 
 class TileInfo;
 
@@ -35,6 +35,8 @@ private:
 	int GetIndex(int x, int y);
 	MapType mapType = MapType::Dungeon;
 	std::map<TileType,std::set<TileInfo*>> objectInfo;
+
+	int keyCount;
 
 	void DungeonMapSet();
 	void VillageMapSet();
@@ -62,7 +64,7 @@ public:
 	char GetMapData(int _posX, int _posY);
 	char GetMapData(TileType _tileType);
 	TileType GetMapInfo(int _posX, int _posY);
-
+	bool CheckKey();
 	void ObjectReset(int _posX, int _posY);
 	std::pair<int, int> GetTileFromPosition(int _posX, int _posY);
 
