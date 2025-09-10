@@ -129,6 +129,7 @@
     <ClCompile Include="Black\DoubleBuffering.cpp" />
     <ClCompile Include="Black\EnemyInfoBase.cpp" />
     <ClCompile Include="Black\iCharacter.cpp" />
+    <ClCompile Include="Black\Image.cpp" />
     <ClCompile Include="Black\iMapMovable.cpp" />
     <ClCompile Include="Black\MainGame.cpp" />
     <ClCompile Include="Black\MapMovePlayer.cpp" />
@@ -151,6 +152,7 @@
     <ClCompile Include="Black\Singletons\Scenes\DungeonScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\EndingScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\EndScene.cpp" />
+    <ClCompile Include="Black\Singletons\Scenes\GameOverScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\GameScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\MinigameScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\ShopScene.cpp" />
@@ -197,6 +199,7 @@
     <ClInclude Include="Black\DoubleBuffering.h" />
     <ClInclude Include="Black\EnemyInfoBase.h" />
     <ClInclude Include="Black\iCharacter.h" />
+    <ClInclude Include="Black\Image.h" />
     <ClInclude Include="Black\iMapMovable.h" />
     <ClInclude Include="Black\MainGame.h" />
     <ClInclude Include="Black\MapMovePlayer.h" />
@@ -222,6 +225,7 @@
     <ClInclude Include="Black\Singletons\Scenes\DungeonScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\EndingScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\EndScene.h" />
+    <ClInclude Include="Black\Singletons\Scenes\GameOverScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\GameScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\MinigameScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\ShopScene.h" />

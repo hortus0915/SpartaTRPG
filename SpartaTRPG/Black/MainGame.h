@@ -32,6 +32,8 @@ private:
 
 	static bool isGameRun;
 
+	bool isDouble;
+
 public:
 	MainGame(int _appX, int _appY, int _appWidth, int _appHeight, int _screenWidth, int _screenHeight);
 	~MainGame();
@@ -48,5 +50,7 @@ public:
 	inline bool IsGameRun() { return isGameRun; }
 	inline static void Quit() { isGameRun = false; }
 
+	inline void StartDoublebuffering() { isDouble = true; }
+	inline void StopDoublebuffering() { isDouble = false; }
 };
 
