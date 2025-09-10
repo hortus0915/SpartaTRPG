@@ -8,6 +8,7 @@ using namespace std;
 #include "../../TextColors.h"
 
 class Card;
+class PlayerInfo;
 
 #define TITLE	image[0]
 #define COST	image[1]
