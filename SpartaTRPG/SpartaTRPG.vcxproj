@@ -157,14 +157,11 @@
     <ClCompile Include="Black\Singletons\Scenes\GameOverScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\GameScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\MinigameScene.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="Black\Singletons\Scenes\QuizScene.cpp" />
-=======
     <ClCompile Include="Black\Singletons\Scenes\ShopScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\ShopSceneBaseHud.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\ShopSceneItemHud.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\ShopSceneNPC.cpp" />
->>>>>>> 45ac7e3f8d5d7afe0e21ccee3186c8ea6ba959a0
     <ClCompile Include="Black\Singletons\Scenes\TitleScene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -238,14 +235,11 @@
     <ClInclude Include="Black\Singletons\Scenes\GameOverScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\GameScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\MinigameScene.h" />
-<<<<<<< HEAD
     <ClInclude Include="Black\Singletons\Scenes\QuizScene.h" />
-=======
     <ClInclude Include="Black\Singletons\Scenes\ShopScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\ShopSceneBaseHud.h" />
     <ClInclude Include="Black\Singletons\Scenes\ShopSceneItemHud.h" />
     <ClInclude Include="Black\Singletons\Scenes\ShopSceneNPC.h" />
->>>>>>> 45ac7e3f8d5d7afe0e21ccee3186c8ea6ba959a0
     <ClInclude Include="Black\Singletons\Scenes\TitleScene.h" />
     <ClInclude Include="Black\Singletons\SingletonMacro.h" />
     <ClInclude Include="Black\Singletons\SoundManager.h" />
