@@ -137,8 +137,8 @@ int GameOverScene::Init()
 	animFrameCount = 0;
 	currentAnimIndex = 0;
 
-	pinkPosX = GetIntRange(100, 300);
-	pinkPosY = GetIntRange(100, 300);
+	pinkPosX = GetIntRange(100, 500);
+	pinkPosY = GetIntRange(300, 500);
 	pinkTeleportDelayCount = 100;
 	pinkTeleportCount = 0;
 	currentPinkIndex = 0;
@@ -223,8 +223,8 @@ void GameOverScene::Update(float _deltaTime)
 		{
 			SCENEMANAGER->GetMainGame()->ClearBuffer();
 
-			pinkPosX = GetIntRange(100, 300);
-			pinkPosY = GetIntRange(100, 300);
+			pinkPosX = GetIntRange(100, 500);
+			pinkPosY = GetIntRange(300, 500);
 
 			for (int i = 0; i < pink.size(); ++i)
 				pink[i]->SetPos(pinkPosX, pinkPosY);
