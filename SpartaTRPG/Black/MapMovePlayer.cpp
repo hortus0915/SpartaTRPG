@@ -38,9 +38,33 @@ void MapMovePlayer::Init(Color _characterColor, Color _bgColor)
 		mapMove = 0;
 		range_Of_Sight = 0;
 		vector<string>* initString = new vector<string>();
-		initString->push_back("안녕하세요, 여행자님!");
+		initString->push_back("스파르타 코딩클럽… 겉으로는 평범한 개발 학원이지만");
+		initString->push_back("그 이면에는 지옥이 숨어 있었다.");
 		initString->push_back("");
-		initString->push_back("이 여정에 함께하게 되어 기쁩니다.");
+		initString->push_back("궁극의 개발자가 되려는 야망에 사로잡힌 총괄, 이다경 곤듀.");
+		initString->push_back("그녀는 세 개의 성을 세우고, ");
+		initString->push_back("학생들을 고통 속으로 몰아넣었다.");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("버그와 과제, 충돌과 혼돈…");
+		initString->push_back("이 모든 것을 이겨내야만 진정한 개발자가 될 수 있다고 그녀는 믿었다.");
+		initString->push_back("하지만… 곤듀에 맞서 싸우는 용자들이 있었으니");
+		initString->push_back("");
+		initString->push_back("바로 파워스파 레인저다!!!!!!!!");
+		initString->push_back("");
+		initString->push_back("하지만 원래 다섯 명이었던 스파레인저의 핑크는 탈주해버렸다...");
+		initString->push_back("");
+		initString->push_back("이 때 팀은 새로운 힘을 맞이했으니!");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("바로… 당신이다!");
+		initString->push_back("");
+		initString->push_back("이제, 새로운 레인저와 함께 세 개의 성을 돌파하고");
+		initString->push_back("이다경 곤듀의 야망을 막아야 한다!");
+		initString->push_back("");
+		initString->push_back("기본 설명");
+		initString->push_back("");
 		initString->push_back("");
 		initString->push_back("메세지는 화살표를 통해 페이지를 넘길 수 있습니다");
 		initString->push_back("");
@@ -53,16 +77,6 @@ void MapMovePlayer::Init(Color _characterColor, Color _bgColor)
 		initString->push_back("HP가 0이 되면 이 마을로 다시 돌아옵니다.");
 		initString->push_back("");
 		initString->push_back("");
-		initString->push_back("");
-		initString->push_back("백스페이스나 ESC로 메세지창을 닫을 수 있습니다.");
-		initString->push_back("");
-		initString->push_back("엔터키를 통해서 선택을 완료할 수 있습니다.");
-		initString->push_back("");
-		initString->push_back("탭키를 눌러 인벤토리를 열 수 있습니다.");
-		initString->push_back("");
-		initString->push_back("");
-		initString->push_back("그럼, 행운을 빕니다. 키보드를 잡고, 모험을 시작하세요!");
-
 		POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::TutorialPopup>(
 			PopupType::RESULTPOPUP,
 			this,
@@ -163,7 +177,7 @@ void MapMovePlayer::Update(float deltaTime)
 				initString->push_back("");
 				initString->push_back("...");
 				initString->push_back("");
-				initString->push_back("횟불을 발견했다!");
+				initString->push_back("횃불을 발견했다!");
 
 				POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::DungeonTutorialPopup>(
 					PopupType::RESULTPOPUP,
