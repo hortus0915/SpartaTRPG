@@ -15,4 +15,6 @@ enum TileType
 	Shop = 8,//상점
 	ShopActiveRange = 800, // 상점 엑티브 범위
 	DungeonIn = 9,//던전 입장
+	BOSS = 10,//보스
+	BOSSActive = 1000,//보스 조우 범위
 };

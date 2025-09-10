@@ -58,10 +58,8 @@ void MapData::CreateMap(MapType _mapType)
         }
         else
         {
-            //보스맵 생성
-            DungeonMapSet();
-            DungeonObjectCreate();
-            DungeonObjectLoad();
+            BossMapSet();
+            BossObejctCreate();
         }
         break;
     default:
@@ -307,7 +305,7 @@ void MapData::DungeonObjectCreate()
         objects.second.clear();
     }
 
-    ObjectRandomSet(TileType::Monster, GetObjectCount(TileType::Monster));
+    //ObjectRandomSet(TileType::Monster, GetObjectCount(TileType::Monster));
     ObjectRandomSet(TileType::Box, GetObjectCount(TileType::Box));
     ObjectRandomSet(TileType::Key, GetObjectCount(TileType::Key));
     ObjectRandomSet(TileType::Exit, GetObjectCount(TileType::Exit));
@@ -329,7 +327,23 @@ void MapData::VillageObjectSet()
 {
     ObjectSet(TileType::Shop, VILLAGE_WIDTH / 2, 3);
     ObjectSet(TileType::DungeonIn, VILLAGE_WIDTH - 3, VILLAGE_HEIGHT / 2);
-} 
+}
+
+void MapData::BossMapSet()
+{
+    for (int oy = 0; oy < BOSS_WIDTH; ++oy)
+    {
+        for (int ox = 0; ox < BOSS_HEIGHT; ++ox)
+        {
+            mapInfo[ox][oy].SetTileType((ox == BOSS_WIDTH - 1 || oy == BOSS_HEIGHT - 1 || ox == 0 || oy == 0) ? TileType::Wall : TileType::Empty, ox, oy);
+        }
+    }
+}
+
+void MapData::BossObejctCreate()
+{
+    ObjectSet(TileType::BOSS, BOSS_WIDTH / 2, 4);
+}
 
 void MapData::ObjectSet(TileType _tileType, int _fromIndexX, int _fromIndexY, int range)
 {
@@ -436,6 +450,8 @@ int MapData::GetRange(TileType _tileType)
         return 1;
     case Monster:
         return 4;
+    case BOSS:
+        return 3;
     default:
         return 0;
     }
@@ -465,8 +481,8 @@ std::string MapData::GetTileDescription(char _tile)
     {
     case '#':
         return "# : 벽";
-    case 'B':
-        return "B : 랜덤한 아이템이 있는 박스";
+    case 'I':
+        return "I : 랜덤한 아이템이 있는 박스";
     case 'H':
         return "H : 다음 던전으로 가는 통로";
     case 'M':
@@ -477,6 +493,8 @@ std::string MapData::GetTileDescription(char _tile)
         return "S : 상점";
     case 'D':
         return "D : 던전 입장";
+    case 'B':
+        return "B : 무시무시한 보스";
     default:
         return "";
     }
@@ -493,13 +511,14 @@ char MapData::GetMapData(int _posX, int _posY)
     case TileType::BoxActive:
     case TileType::ShopActiveRange:
     case TileType::MonsterActiveRange:
+    case TileType::BOSSActive:
         return ' ';
     case TileType::Wall:
     case TileType::WallH:
     case TileType::WallV:
         return '#';
     case TileType::Box:
-        return 'B';
+        return 'I';
     case TileType::Exit:
         return 'H';
     case TileType::Monster:
@@ -510,6 +529,8 @@ char MapData::GetMapData(int _posX, int _posY)
         return 'D';
     case TileType::Shop:
         return 'S';
+    case TileType::BOSS:
+        return 'B';
     default:
         return '.';
     }
@@ -521,15 +542,16 @@ char MapData::GetMapData(TileType _tileType)
     {
     case TileType::Empty:
     case TileType::BoxActive:
-        return ' ';
+    case TileType::ShopActiveRange:
     case TileType::MonsterActiveRange:
-        return '1';
+    case TileType::BOSSActive:
+        return ' ';
     case TileType::Wall:
     case TileType::WallH:
     case TileType::WallV:
         return '#';
     case TileType::Box:
-        return 'B';
+        return 'I';
     case TileType::Exit:
         return 'H';
     case TileType::Monster:
@@ -540,6 +562,8 @@ char MapData::GetMapData(TileType _tileType)
         return 'D';
     case TileType::Shop:
         return 'S';
+    case TileType::BOSS:
+        return 'B';
     default:
         return ' ';
     }

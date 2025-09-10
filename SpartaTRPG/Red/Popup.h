@@ -5,6 +5,7 @@
 #include <vector>
 
 #define MAXRANGTH 5
+#define WAITTIME 1
 
 class Popup
 {
@@ -17,6 +18,9 @@ protected:
 	char** image;
 	bool isActive;
 	bool hasCustonStringMore;
+	bool mustActive;
+
+	float waitTime;
 
 	int selectValue;
 
@@ -41,6 +45,7 @@ public:
 
 	virtual void Init();
 	virtual void Release();
+	virtual void LateInit() {}
 
 	ActiveCallback active_cb_{ nullptr };
 	void* active_user_{ nullptr };
@@ -48,7 +53,7 @@ public:
 	inline bool CheckActive() { return isActive; }
 	void SetActive(bool active = true);
 
-	void RenderingCustomString();
+	virtual void RenderingCustomString();
 	void SetCustonStrings(vector<string>* _customString);
 	virtual void SetCustomStringPadding(int _leftPadding = 0, int _rightPadding = 0, int _upPadding = 0, int _downPadding = 0);
 	void VariableInit();

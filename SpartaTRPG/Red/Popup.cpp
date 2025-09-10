@@ -4,27 +4,43 @@
 
 void Popup::Update(float deltaTime)
 {
-	if (KEYMANAGER->IsStayKeyDown(VK_BACK) || KEYMANAGER->IsStayKeyDown(VK_ESCAPE))
+	if (waitTime < WAITTIME)
 	{
-		POPUPMANAGER->PopupActiveOff();
+		waitTime += deltaTime;
 	}
-	if (KEYMANAGER->IsStayKeyDown(VK_RETURN))
+	else
 	{
-		if (selectValue >= 0 && isActive)
+		if (KEYMANAGER->IsStayKeyDown(VK_BACK) || KEYMANAGER->IsStayKeyDown(VK_ESCAPE))
 		{
+<<<<<<< HEAD
 			//POPUPMANAGER->PopupActiveOff();
 			InvokeActive(selectValue);
+=======
+			POPUPMANAGER->PopupActiveOff();
+			if (mustActive)
+			{
+				InvokeActive(selectValue);
+			}
 		}
-	}
-	if (KEYMANAGER->IsStayKeyDown(VK_LEFT))
-	{
-		if (hasCustonStringMore && customStringPageIndex > 0)
-			customStringPageIndex--;
-	}
-	if (KEYMANAGER->IsStayKeyDown(VK_RIGHT))
-	{
-		if(hasCustonStringMore && (customStringPageIndex + 1) * printLine < customString->size())
-			customStringPageIndex++;
+		if (KEYMANAGER->IsStayKeyDown(VK_RETURN))
+		{
+			if (selectValue >= 0 && isActive)
+			{
+				POPUPMANAGER->PopupActiveOff();
+				InvokeActive(selectValue);
+			}
+		}
+		if (KEYMANAGER->IsStayKeyDown(VK_LEFT))
+		{
+			if (hasCustonStringMore && customStringPageIndex > 0)
+				customStringPageIndex--;
+		}
+		if (KEYMANAGER->IsStayKeyDown(VK_RIGHT))
+		{
+			if (hasCustonStringMore && (customStringPageIndex + 1) * printLine < customString->size())
+				customStringPageIndex++;
+>>>>>>> 848b1c083d5a1649459628e3566cfbc7aaa1d5b9
+		}
 	}
 }
 
@@ -107,6 +123,8 @@ void Popup::VariableInit()
 	rightPadding = 0;
 	upPadding = 0;
 	downPadding = 0;
+	waitTime = 0;
+	mustActive = false;
 }
 
 void Popup::RenderingCustomString()

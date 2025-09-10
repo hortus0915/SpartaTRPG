@@ -36,13 +36,14 @@ private:
 	BlinkCursor* downArrow;
 	BlinkCursor* cursor;
 
+	bool isDialogueOpen;
 
 	ShopSceneBaseHud* baseUi;
 	ShopSceneItemHud* selectedItemUI;
 
 
 public:
-	ShopScene(string _sceneName) : iScene(_sceneName), baseUi(nullptr), selectedItemUI(nullptr), contents(nullptr) {}
+	ShopScene(string _sceneName) : iScene(_sceneName), baseUi(nullptr), selectedItemUI(nullptr), contents(nullptr), isDialogueOpen(false) {}
 
 	void ItemSetting();
 

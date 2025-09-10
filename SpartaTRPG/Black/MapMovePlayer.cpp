@@ -18,11 +18,56 @@ MapMovePlayer::MapMovePlayer(string _sn, MapData* _mapData) : iMapMovable(_sn, _
 	randomType = RandomItemType::None;
 	moveToShop = false;
 	moveToMiniGame = false;
+	isFirstPlay = true;
+	isFirstShop = true;
+	isFirstDungeon = true;
+	isFirstDungeon2 = false;
 }
 
 void MapMovePlayer::Init(Color _characterColor, Color _bgColor)
 {
 	__super::Init(_characterColor, _bgColor);
+
+	if (isFirstPlay)
+	{
+		mapMove = 0;
+		range_Of_Sight = 0;
+		vector<string>* initString = new vector<string>();
+		initString->push_back("안녕하세요, 여행자님!");
+		initString->push_back("");
+		initString->push_back("이 여정에 함께하게 되어 기쁩니다.");
+		initString->push_back("");
+		initString->push_back("메세지는 화살표를 통해 페이지를 넘길 수 있습니다");
+		initString->push_back("");
+		initString->push_back("게임은 마을에서 부터 시작됩니다.");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("'S' 표식에 다가가면 상점으로 이동할 수 있습니다.");
+		initString->push_back("'D' 표식으로 가면 던전에 입장할 수 있습니다..");
+		initString->push_back("");
+		initString->push_back("HP가 0이 되면 이 마을로 다시 돌아옵니다.");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("백스페이스나 ESC로 메세지창을 닫을 수 있습니다.");
+		initString->push_back("");
+		initString->push_back("엔터키를 통해서 선택을 완료할 수 있습니다.");
+		initString->push_back("");
+		initString->push_back("탭키를 눌러 인벤토리를 열 수 있습니다.");
+		initString->push_back("");
+		initString->push_back("그럼, 행운을 빕니다. 키보드를 잡고, 모험을 시작하세요!");
+
+		POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::TutorialPopup>(
+			PopupType::RESULTPOPUP,
+			this,
+			initString,
+			15,
+			0,
+			2,
+			0
+		);
+	}
+
 	if (randomType != RandomItemType::None)
 	{
 		auto addedItem = USERMANAGER->GetRandomItem(randomType);
@@ -49,6 +94,36 @@ void MapMovePlayer::Update(float deltaTime)
 		{
 			range_Of_Sight = RANGE_OF_SIGHT;
 			mapMove = 0;
+
+			if (isFirstDungeon2)
+			{
+				isFirstDungeon2 = false;
+				vector<string>* initString = new vector<string>();
+				initString->push_back("던전에 입장하셨습니다.");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("'#' 벽은 이동할 수 없습니다.");
+				initString->push_back("'I' 아이템이 들어있는 박스입니다. 대박을 노리세요!");
+				initString->push_back("'K' 다음 층으로 갈 수 있게하는 열쇠입니다.");
+				initString->push_back("해당 아이템의 획득을 위해서는 가벼운 게임을 진행해야합니다.");
+				initString->push_back("'H' 다음 층으로 이동할 수 있는 통로입니다.");
+				initString->push_back("열쇠를 찾아서 다음층으로 이동하세요!");
+				initString->push_back("'M' 맵에 있는 몬스터 입니다.");
+				initString->push_back("가까이 다가가면 전투가 벌어집니다.");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("던전의 가장 위에 매우 위험한 보스가 숨어 있습니다. 준비 없이 맞서지 마세요.");
+
+				POPUPMANAGER->InitPopup<MapMovePlayer>(
+					PopupType::RESULTPOPUP,
+					nullptr,
+					initString,
+					5,
+					0,
+					2,
+					0
+				);
+			}
 		}
 		MapImageSet();
 	}
@@ -59,7 +134,34 @@ void MapMovePlayer::Update(float deltaTime)
 		if (range_Of_Sight < 0)
 		{
 			range_Of_Sight = 0;
-			mapMove = 1;
+			mapMove = 0;
+			if (isFirstDungeon)
+			{
+				isFirstDungeon = false;
+				vector<string>* initString = new vector<string>();
+				initString->push_back("너무 어두워서 아무것도 보이지 않는다");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("...");
+				initString->push_back("");
+				initString->push_back("횟불을 발견했다!");
+
+				POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::DungeonTutorialPopup>(
+					PopupType::RESULTPOPUP,
+					this,
+					initString,
+					5,
+					0,
+					2,
+					0
+				);
+			}
+
 			if (monsterEffect != nullptr)
 			{
 				monsterEffect = nullptr;
@@ -72,9 +174,36 @@ void MapMovePlayer::Update(float deltaTime)
 			else if(moveToShop)
 			{
 				moveToShop = false;
-				auto shop = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "ShopScene");
-				SCENEMANAGER->ChangeChild("ShopScene");
-				SCENEMANAGER->CurrentSceneInit();
+				if (!isFirstShop)
+				{
+					auto shop = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "ShopScene");
+					SCENEMANAGER->ChangeChild("ShopScene");
+					SCENEMANAGER->CurrentSceneInit();
+				}
+				else
+				{
+					mapMove = 0;
+
+					vector<string>* initString = new vector<string>();
+					initString->push_back("상점에 도착하셨군요");
+					initString->push_back("");
+					initString->push_back("가지고있는 골드를 사용하여 다양한 아이템을 구매하실 수 있습니다!");
+					initString->push_back("");
+					initString->push_back("장착가능한 장비부터 ~ 전투에 사용되는 카드");
+					initString->push_back("체력을 회복시켜주는 포션까지!");
+					initString->push_back("");
+					initString->push_back("아이템을 구매하여 던전을 준비하세요!");
+
+					POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::ShopTutorialPopup>(
+						PopupType::RESULTPOPUP,
+						this,
+						initString,
+						5,
+						0,
+						2,
+						0
+					);
+				}
 			}
 			else if (moveToMiniGame)
 			{
@@ -168,8 +297,25 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 	{
 	case Exit:
 	{
-		mapMove = -1;
-		mapData->CreateMap(MapType::Dungeon);
+		if (!isFirstDungeon)
+		{
+			if (USERMANAGER->GetStage() == MAXSTAGE - 1)
+			{
+				posX = BOSS_WIDTH / 2;
+				posY = BOSS_HEIGHT - 4;
+				mapMove = -1;
+				mapData->CreateMap(MapType::BossRoom);
+			}
+			else
+			{
+				mapMove = -1;
+				mapData->CreateMap(MapType::Dungeon);
+			}
+		}
+		else
+		{
+			mapMove = -1;
+		}
 		break;
 	}
 	case Box:
@@ -230,7 +376,8 @@ void MapMovePlayer::CheckActive()
 	case Wall:
 	case WallH:
 	case WallV:
-		POPUPMANAGER->PopupActiveOff();
+		if(!isFirstPlay && !isFirstDungeon)
+			POPUPMANAGER->PopupActiveOff();
 		break;
 	case Monster:
 	case MonsterActiveRange:
@@ -465,3 +612,39 @@ void MapMovePlayer::CheckTileDescription(char _data)
 		tileDescriptions.emplace(_data, mapData->GetTileDescription(_data));
 	}
 }
+
+void MapMovePlayer::SetVictory()
+{
+	auto addItem = USERMANAGER->GetRandomItem(RandomItemType::Monster);
+	USERMANAGER->AddItem(addItem->GetItemUID(), addItem->GetItemCount());
+}
+
+void MapMovePlayer::SetDefeat()
+{
+	posX = 1;
+	posY = 1;
+	mapData->CreateMap(MapType::Village);
+}
+
+void MapMovePlayer::TutorialPopup(int _select)
+{
+	mapMove = 1;
+	isFirstPlay = false;
+}
+
+void MapMovePlayer::ShopTutorialPopup(int _select)
+{
+	mapMove = 1;
+	isFirstShop = false;
+	auto shop = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "ShopScene");
+	SCENEMANAGER->ChangeChild("ShopScene");
+	SCENEMANAGER->CurrentSceneInit();
+}
+
+void MapMovePlayer::DungeonTutorialPopup(int _select)
+{
+	mapMove = 1;
+	mapData->CreateMap(MapType::Dungeon);
+	isFirstDungeon2 = true;
+}
+

@@ -112,7 +112,6 @@ private:
 	bool  isFirstActionThisRound = false; 
 
 
-
 public:
 	BattleScene(string _sceneName) : iScene(_sceneName), cardSelect(nullptr) {}
 

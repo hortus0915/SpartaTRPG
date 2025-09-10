@@ -44,6 +44,24 @@ void Item::SetItemValue(int _itemUID)
 	case Item::GetItemUID(ItemType::Eequipment, ItemValueType::StatAdd_ATTACK, 3):
 		value = 30;
 		break;
+	case Item::GetItemUID(ItemType::Eequipment, ItemValueType::StatAdd_ATTACK, 4):
+		value = 50;
+		break;
+	case Item::GetItemUID(ItemType::Eequipment, ItemValueType::StatAdd_ATTACK, 5):
+		value = 60;
+		break;
+	case Item::GetItemUID(ItemType::Eequipment, ItemValueType::StatAdd_ATTACK, 6):
+		value = 70;
+		break;
+	case Item::GetItemUID(ItemType::Eequipment, ItemValueType::StatAdd_ATTACK, 7):
+		value = 80;
+		break;
+	case Item::GetItemUID(ItemType::Eequipment, ItemValueType::StatAdd_ATTACK, 8):
+		value = 90;
+		break;
+	case Item::GetItemUID(ItemType::Eequipment, ItemValueType::StatAdd_ATTACK, 9):
+		value = 100;
+		break;
 
 
 
@@ -124,6 +142,18 @@ std::string Item::GetName()
 		return "지팡이";
 	case Item::GetItemUID(ItemType::Eequipment, ItemValueType::StatAdd_ATTACK, 3):
 		return "활";
+	case Item::GetItemUID(ItemType::Eequipment, ItemValueType::StatAdd_ATTACK, 4):
+		return "좋은 칼";
+	case Item::GetItemUID(ItemType::Eequipment, ItemValueType::StatAdd_ATTACK, 5):
+		return "마우스";
+	case Item::GetItemUID(ItemType::Eequipment, ItemValueType::StatAdd_ATTACK, 6):
+		return "키보드";
+	case Item::GetItemUID(ItemType::Eequipment, ItemValueType::StatAdd_ATTACK, 7):
+		return "모니터";
+	case Item::GetItemUID(ItemType::Eequipment, ItemValueType::StatAdd_ATTACK, 8):
+		return "GeForce RTX 5060";
+	case Item::GetItemUID(ItemType::Eequipment, ItemValueType::StatAdd_ATTACK, 9):
+		return "GeForce RTX 5090";
 
 
 

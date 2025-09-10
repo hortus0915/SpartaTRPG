@@ -26,6 +26,12 @@ private:
 
 	bool moveToShop;
 	bool moveToMiniGame;
+
+	bool isFirstPlay;
+	bool isFirstShop;
+	bool isFirstDungeon;
+	bool isFirstDungeon2;
+
 public:
 	MapMovePlayer(string _sn, MapData* _mapData);
 	virtual void Init(Color _characterColor = ORIGINCOLOR, Color _bgColor = BLACK) override;
@@ -46,5 +52,12 @@ public:
 
 	void TileDescrtiptionRender();
 	void CheckTileDescription(char _data);
+
+	void SetVictory();
+	void SetDefeat();
+
+	void TutorialPopup(int _select);
+	void ShopTutorialPopup(int _select);
+	void DungeonTutorialPopup(int _select);
 };
 

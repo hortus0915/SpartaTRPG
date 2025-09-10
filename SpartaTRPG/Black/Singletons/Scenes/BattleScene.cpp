@@ -19,6 +19,7 @@
 #include <vector>
 #include <functional>
 #include <cmath>
+#include "DungeonScene.h"
 
 //       4       11      19      27
 //   * * * * * * * * * * * * * * * * *
@@ -419,9 +420,12 @@ void BattleScene::Update(float _deltaTime)
 							player->GainExp(gain);
 
 							vector<string>* temp = new vector<string>();
+							temp->push_back(enemy->GetName() + " 처치!");
+							temp->push_back("");
 							temp->push_back("플레이어 승리! 경험치 +" + std::to_string(gain));
 							currentSequence = Victory;
 							lastActionStr = sequenceStr;
+							LOGMANAGER->AddLog(enemy->GetName() + " 처치!");
 							POPUPMANAGER->InitPopup<BattleScene, nullptr>(PopupType::SELECTPOPUP, nullptr, temp, 8, 0, 4, 0);
 						}
 						else if (playerDead && !enemyDead) {
@@ -481,12 +485,32 @@ void BattleScene::Update(float _deltaTime)
 	}
 	break;
 	case Victory:
-
+	{
+		if (enemy->GatIsBoss())
+		{
+			vector<string>* temp = new vector<string>();
+			temp->push_back("좋은 승부였다.");
+			temp->push_back("코딩 고수가되었습니다!");
+			lastActionStr = sequenceStr;
+			currentSequence = Draw;
+			POPUPMANAGER->InitPopup<BattleScene, nullptr>(PopupType::SELECTPOPUP, nullptr, temp, 8, 0, 4, 0);
+		}
+		else
+		{
+			auto dungeon = (DungeonScene*)SCENEMANAGER->FindChild("GameScene", "DungeonScene");
+			SCENEMANAGER->ChangeChild("DungeonScene");
+			dungeon->SetVictory();
+			SCENEMANAGER->CurrentSceneInit();
+		}
+	}
 	case Defeat:
 	case Draw:
 	{
 		sequenceStr = lastActionStr;
-		if (KEYMANAGER->IsOnceKeyDown(VK_RETURN)) currentSequence = BattleEnd;
+		auto dungeon = (DungeonScene*)SCENEMANAGER->FindChild("GameScene", "DungeonScene");
+		SCENEMANAGER->ChangeChild("DungeonScene");
+		dungeon->SetDefeat();
+		SCENEMANAGER->CurrentSceneInit();
 	}
 	break;
 	case BattleEnd:

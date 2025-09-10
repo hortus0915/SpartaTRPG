@@ -183,6 +183,7 @@
     <ClCompile Include="Red\Item.cpp" />
     <ClCompile Include="Red\MapCreateTileInfo.cpp" />
     <ClCompile Include="Red\MapData.cpp" />
+    <ClCompile Include="Red\NPCDialoguePopup.cpp" />
     <ClCompile Include="Red\Popup.cpp" />
     <ClCompile Include="Red\RandomItem.cpp" />
     <ClCompile Include="Red\ResultPopup.cpp" />
@@ -257,6 +258,7 @@
     <ClInclude Include="Red\Item.h" />
     <ClInclude Include="Red\MapCreateTileInfo.h" />
     <ClInclude Include="Red\MapData.h" />
+    <ClInclude Include="Red\NPCDialoguePopup.h" />
     <ClInclude Include="Red\Popup.h" />
     <ClInclude Include="Red\PopupType.h" />
     <ClInclude Include="Red\RandomItem.h" />
