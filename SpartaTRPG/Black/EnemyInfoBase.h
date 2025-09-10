@@ -11,5 +11,5 @@ public:
 	bool GatIsBoss() const { return isBoss; }
 };
 
-void SpawnEnemyByLevel(EnemyInfoBase& enemy, int playerLevel);
-void SpawnEnemyBoss(EnemyInfoBase& enemy,int playerLevel);
+void SpawnEnemyByLevel(EnemyInfoBase& _enemy, int _playerLevel);
+void SpawnEnemyBoss(EnemyInfoBase& _enemy,int _playerLevel);
