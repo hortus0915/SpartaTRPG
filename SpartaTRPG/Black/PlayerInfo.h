@@ -33,6 +33,8 @@ public:
 
 	inline float GetBaseDamage() const override { return baseDamage + equipDamage; }
 
+	inline void AddCard(const int& _c) { deck.insert(_c); }
+
 protected:
 	virtual void LevelUp();
 	virtual void CalcStatus();

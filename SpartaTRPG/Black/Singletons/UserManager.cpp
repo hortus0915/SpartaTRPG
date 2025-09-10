@@ -20,26 +20,25 @@ void UserManager::Init()
 	inventory->AddItem(20102);
 	inventory->AddItem(20103);
 	inventory->AddItem(20104);
-	inventory->AddItem(20111);
-	inventory->AddItem(20112);
+	//inventory->AddItem(20111);
+	//inventory->AddItem(20112);
 	inventory->AddItem(20201);
 	inventory->AddItem(20301);
+	inventory->AddItem(20302);
 	inventory->AddItem(20401);
-	inventory->AddItem(20402);
-	inventory->AddItem(20403);
-	inventory->AddItem(20404);
-	inventory->AddItem(20405);
-	inventory->AddItem(20406);
-	inventory->AddItem(20407);
-	inventory->AddItem(20408);
+	//inventory->AddItem(20402);
+	//inventory->AddItem(20403);
+	//inventory->AddItem(20404);
+	//inventory->AddItem(20405);
+	//inventory->AddItem(20406);
+	//inventory->AddItem(20407);
+	//inventory->AddItem(20408);
 	inventory->AddItem(20409);
-	inventory->AddItem(20409);
-	inventory->AddItem(20409);
-	inventory->AddItem(20410);
-	inventory->AddItem(20411);
+	//inventory->AddItem(20410);
+	//inventory->AddItem(20411);
 	inventory->AddItem(20412);
-	inventory->AddItem(20413);
-	inventory->AddItem(20414);
+	//inventory->AddItem(20413);
+	//inventory->AddItem(20414);
 
 	if (!player)
 	{

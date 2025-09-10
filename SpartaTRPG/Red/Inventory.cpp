@@ -1,13 +1,22 @@
 #include "Inventory.h"
 
+#include "../Black/Singletons/CommonManagers.h"
+#include "../Black/PlayerInfo.h"
+
 Item* Inventory::AddItem(int _itemUID, int _count)
 {
+	ItemType type = Item::GetItemType(_itemUID);
 	auto& itemPartition = allItems[Item::GetItemType(_itemUID)];
 	auto ret = itemPartition.try_emplace(_itemUID, _itemUID, _count);
 
 	if (!ret.second)
 	{
 		ret.first->second.AddItem(_count);
+	}
+
+	if (type == ItemType::Card)
+	{
+		USERMANAGER->GetPlayer()->AddCard(ret.first->second.GetCardIDX(_itemUID));
 	}
 
 	return &(ret.first->second);
