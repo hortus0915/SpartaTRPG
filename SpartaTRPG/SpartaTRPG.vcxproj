@@ -102,6 +102,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,6 +134,7 @@
     <ClCompile Include="Black\iMapMovable.cpp" />
     <ClCompile Include="Black\MainGame.cpp" />
     <ClCompile Include="Black\MapMovePlayer.cpp" />
+    <ClCompile Include="Black\MinigamePlayer.cpp" />
     <ClCompile Include="Black\ObjectsManager.cpp" />
     <ClCompile Include="Black\PlayerInfo.cpp" />
     <ClCompile Include="Black\Singletons\Effect.cpp" />
@@ -155,10 +157,14 @@
     <ClCompile Include="Black\Singletons\Scenes\GameOverScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\GameScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\MinigameScene.cpp" />
+<<<<<<< HEAD
+    <ClCompile Include="Black\Singletons\Scenes\QuizScene.cpp" />
+=======
     <ClCompile Include="Black\Singletons\Scenes\ShopScene.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\ShopSceneBaseHud.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\ShopSceneItemHud.cpp" />
     <ClCompile Include="Black\Singletons\Scenes\ShopSceneNPC.cpp" />
+>>>>>>> 45ac7e3f8d5d7afe0e21ccee3186c8ea6ba959a0
     <ClCompile Include="Black\Singletons\Scenes\TitleScene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -189,6 +195,9 @@
     <ClCompile Include="SpartaTRPG.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Yellow\MinigameMap.cpp" />
+    <ClCompile Include="Yellow\Quiz.cpp" />
+    <ClCompile Include="Yellow\QuizData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Black\BasicInterfaces.h" />
@@ -203,6 +212,7 @@
     <ClInclude Include="Black\iMapMovable.h" />
     <ClInclude Include="Black\MainGame.h" />
     <ClInclude Include="Black\MapMovePlayer.h" />
+    <ClInclude Include="Black\MinigamePlayer.h" />
     <ClInclude Include="Black\ObjectsManager.h" />
     <ClInclude Include="Black\PlayerInfo.h" />
     <ClInclude Include="Black\Singletons\CommonManagers.h" />
@@ -228,10 +238,14 @@
     <ClInclude Include="Black\Singletons\Scenes\GameOverScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\GameScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\MinigameScene.h" />
+<<<<<<< HEAD
+    <ClInclude Include="Black\Singletons\Scenes\QuizScene.h" />
+=======
     <ClInclude Include="Black\Singletons\Scenes\ShopScene.h" />
     <ClInclude Include="Black\Singletons\Scenes\ShopSceneBaseHud.h" />
     <ClInclude Include="Black\Singletons\Scenes\ShopSceneItemHud.h" />
     <ClInclude Include="Black\Singletons\Scenes\ShopSceneNPC.h" />
+>>>>>>> 45ac7e3f8d5d7afe0e21ccee3186c8ea6ba959a0
     <ClInclude Include="Black\Singletons\Scenes\TitleScene.h" />
     <ClInclude Include="Black\Singletons\SingletonMacro.h" />
     <ClInclude Include="Black\Singletons\SoundManager.h" />
@@ -257,6 +271,11 @@
     <ClInclude Include="Red\ShopPopup.h" />
     <ClInclude Include="Red\TileInfo.h" />
     <ClInclude Include="Red\TileType.h" />
+    <ClInclude Include="Yellow\MinigameMap.h" />
+    <ClInclude Include="Yellow\Quiz.h" />
+    <ClInclude Include="Yellow\QuizData.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Black\TextColors.h" />
