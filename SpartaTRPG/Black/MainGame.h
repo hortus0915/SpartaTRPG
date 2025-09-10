@@ -47,6 +47,9 @@ public:
 	void CopyToBackbuffer(const int& _posX, const int& _posY, const int& _width, const int& _height, string* _contents, Color _fontColor = ORIGINCOLOR, Color _bgColor = BLACK);
 	void CopyToBackbuffer(const int& _posX, const int& _posY, const int& _width, const int& _height, string  _contents, Color _fontColor = ORIGINCOLOR, Color _bgColor = BLACK);
 
+	void BufferFlip();
+	void ClearBuffer();
+
 	inline bool IsGameRun() { return isGameRun; }
 	inline static void Quit() { isGameRun = false; }
 
