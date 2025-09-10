@@ -136,6 +136,7 @@ public:
 	void ResultDefeatPopupActive(int selected);
 
 	void GameEnd(int _selected);
+	void BossFail(int _selected);
 
 	inline void SetBattlers(PlayerInfo* _player, EnemyInfoBase* _enemy) { player = _player; enemy = _enemy; }
 };
