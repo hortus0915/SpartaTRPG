@@ -6,6 +6,9 @@
 
 #include "../../Image.h"
 
+#include "../../MainGame.h"
+#include "../../DoubleBuffering.h"
+
 // -  0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41
 // 0     O  O  O  O  O  O  O                 O  O  O  O  O              O  O                 O  O        O  O  O  O  O  O  O  O  O
 // 1  O                       O           O                 O           O     O           O     O        O                        
@@ -127,9 +130,36 @@ int GameOverScene::Init()
 	anim[3] = new Image;
 	anim[3]->Init(TEXT("frame_3.bmp"), 50, 50);
 
+
+
+
 	animFrameDelayCount = 5;
 	animFrameCount = 0;
 	currentAnimIndex = 0;
+
+	pinkPosX = GetIntRange(100, 300);
+	pinkPosY = GetIntRange(100, 300);
+	pinkTeleportDelayCount = 100;
+	pinkTeleportCount = 0;
+	currentPinkIndex = 0;
+
+	pink.resize(8);
+	pink[0] = new Image;
+	pink[0]->Init(TEXT("pink_0.bmp"), pinkPosX, pinkPosY);
+	pink[1] = new Image;
+	pink[1]->Init(TEXT("pink_1.bmp"), pinkPosX, pinkPosY);
+	pink[2] = new Image;
+	pink[2]->Init(TEXT("pink_2.bmp"), pinkPosX, pinkPosY);
+	pink[3] = new Image;
+	pink[3]->Init(TEXT("pink_3.bmp"), pinkPosX, pinkPosY);
+	pink[4] = new Image;
+	pink[4]->Init(TEXT("pink_4.bmp"), pinkPosX, pinkPosY);
+	pink[5] = new Image;
+	pink[5]->Init(TEXT("pink_5.bmp"), pinkPosX, pinkPosY);
+	pink[6] = new Image;
+	pink[6]->Init(TEXT("pink_6.bmp"), pinkPosX, pinkPosY);
+	pink[7] = new Image;
+	pink[7]->Init(TEXT("pink_7.bmp"), pinkPosX, pinkPosY);
 
 	return 0;
 }
@@ -183,7 +213,23 @@ void GameOverScene::Update(float _deltaTime)
 		if (animFrameCount % animFrameDelayCount == 0)
 		{
 			animFrameCount = 0;
+
 			currentAnimIndex = (currentAnimIndex + 1) % anim.size();
+			currentPinkIndex = (currentPinkIndex + 1) % pink.size();
+		}
+
+		++pinkTeleportCount;
+		if (pinkTeleportCount % pinkTeleportDelayCount == 0)
+		{
+			SCENEMANAGER->GetMainGame()->ClearBuffer();
+
+			pinkPosX = GetIntRange(100, 300);
+			pinkPosY = GetIntRange(100, 300);
+
+			for (int i = 0; i < pink.size(); ++i)
+				pink[i]->SetPos(pinkPosX, pinkPosY);
+
+			SCENEMANAGER->GetMainGame()->BufferFlip();
 		}
 
 		if (KEYMANAGER->IsOnceKeyDown(VK_RETURN))
@@ -210,5 +256,6 @@ void GameOverScene::Render()
 		pic->Render();
 
 		anim[currentAnimIndex]->Render();
+		pink[currentPinkIndex]->Render();
 	}
 }
