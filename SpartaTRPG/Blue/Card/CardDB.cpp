@@ -72,21 +72,21 @@ namespace CardDB
 
 
 		// ===== 공격 (401~) =====
-		AddCard(Card(401, "찌르기", ATTACK, (DIR_L | DIR_C | DIR_R), 1.5f, 30));
-		AddCard(Card(402, "회전 베기", ATTACK, (DIR_UL | DIR_U | DIR_UR | DIR_L | DIR_R | DIR_DL | DIR_D | DIR_DR), 1.3f, 20));
-		AddCard(Card(403, "십자 베기", ATTACK, (DIR_U | DIR_L | DIR_R | DIR_D), 1.1f, 20));
-		AddCard(Card(404, "전방 일자 베기", ATTACK, LINE_V3, 1.0f, 20));
-		AddCard(Card(405, "가로 일자 베기", ATTACK, LINE_H3, 1.0f, 20));
-		AddCard(Card(406, "광역 십자 베기", ATTACK, CROSS, 1.05f, 30));
-		AddCard(Card(407, "대각선 베기", ATTACK, DIAGONAL4, 1.1f, 40));
-		AddCard(Card(408, "원형 일격", ATTACK, PERIMETER8, 1.0f, 50));
+		AddCard(Card(401, "찌르기", ATTACK, (DIR_L | DIR_C | DIR_R), 1.5f, 10));
+		AddCard(Card(402, "회전 베기", ATTACK, (DIR_UL | DIR_U | DIR_UR | DIR_L | DIR_R | DIR_DL | DIR_D | DIR_DR), 1.3f, 30));
+		AddCard(Card(403, "십자 베기", ATTACK, (DIR_U | DIR_L | DIR_R | DIR_D), 1.1f, 10));
+		AddCard(Card(404, "전방 일자 베기", ATTACK, LINE_V3, 1.0f, 10));
+		AddCard(Card(405, "가로 일자 베기", ATTACK, LINE_H3, 1.0f, 10));
+		AddCard(Card(406, "광역 십자 베기", ATTACK, CROSS, 1.5f, 20));
+		AddCard(Card(407, "대각선 베기", ATTACK, DIAGONAL4, 2.0f, 40));
+		AddCard(Card(408, "원형 일격", ATTACK, PERIMETER8, 3.0f, 50));
 
-		AddCard(Card(409, "부채꼴 찌르기(상)", ATTACK, T_U, 1.15f, 30));
-		AddCard(Card(410, "부채꼴 베기(하)", ATTACK, T_D, 1.15f, 30));
-		AddCard(Card(411, "부채꼴 베기(좌)", ATTACK, T_L, 1.15f, 30));
-		AddCard(Card(412, "부채꼴 베기(우)", ATTACK, T_R, 1.15f, 30));
+		AddCard(Card(409, "부채꼴 찌르기(상)", ATTACK, (CONE_U_3 | DIR_C), 1.5f, 30));
+		AddCard(Card(410, "부채꼴 베기(하)", ATTACK, (CONE_D_3 | DIR_C), 1.5f, 30));
+		AddCard(Card(411, "부채꼴 베기(좌)", ATTACK, (CONE_L_3 | DIR_C), 1.5f, 30));
+		AddCard(Card(412, "부채꼴 베기(우)", ATTACK, (CONE_R_3 | DIR_C), 1.5f, 30));
 
-		AddCard(Card(413, "충격파", ATTACK, ALL9, 0.65f, 50));
+		AddCard(Card(413, "충격파", ATTACK, ALL9, 1.0f, 20));
 
 		AddCard(Card(414, "제자리 강타", ATTACK, CENTER_ONLY, 3.0f, 50));
 	}

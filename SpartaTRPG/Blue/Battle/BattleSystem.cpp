@@ -48,8 +48,10 @@ void BattleSystem::MovoToCharacter(Side& _target)
 
 }
 
-int BattleSystem::AttackToCharacter(Side& _attacker, Side& _target , vector<Board::Pos>& outRange)
+int BattleSystem::AttackToCharacter(Side& _attacker, Side& _target , vector<Board::Pos>& outRange, bool* outCritical )
 {
+	if (outCritical) *outCritical = false;
+
 	const int dx = _target.pos->x - _attacker.pos->x;
 	const int dy = _target.pos->y - _attacker.pos->y;
 
@@ -85,7 +87,7 @@ int BattleSystem::AttackToCharacter(Side& _attacker, Side& _target , vector<Boar
 	float dmgF = baseAtk * _attacker.card->GetDamageRate();
 	if (_attacker.chr->IsCritical()) 
 	{
-		cout << " 크리티컬! \n";
+		if (outCritical) *outCritical = true;
 		dmgF = _attacker.chr->CalcCriDamage(dmgF);
 	}
 
