@@ -38,7 +38,10 @@ private:
 	int animFrameDelayCount;
 	int animFrameCount;
 	int currentAnimIndex;
-	vector<Image*> anim;
+	vector<Image*> black;
+	vector<Image*> red;
+	vector<Image*> blue;
+	vector<Image*> yellow;
 
 	int pinkTeleportDelayCount;
 	int pinkTeleportCount;
