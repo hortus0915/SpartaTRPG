@@ -12,7 +12,6 @@ int MapData::GetIndex(int x, int y)
 
 MapData::MapData()
 {
-    USERMANAGER->GetKey();
     mapInfo = new TileInfo * [GetMapWidth(MapType::Dungeon) + 1];
     for (int i = 0; i < GetMapWidth(MapType::Dungeon); i++)
     {
@@ -40,11 +39,11 @@ void MapData::Release()
 void MapData::CreateMap(MapType _mapType)
 {
     mapType = _mapType;
+    USERMANAGER->ResetKey();
 
     switch (mapType)
     {
     case Village:
-        USERMANAGER->ResetKey();
         VillageMapSet();
         VillageObjectSet();
         break;

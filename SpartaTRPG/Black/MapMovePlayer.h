@@ -60,5 +60,6 @@ public:
 	void TutorialPopup(int _select);
 	void ShopTutorialPopup(int _select);
 	void DungeonTutorialPopup(int _select);
+	void BossBattle(int _select);
 };
 
