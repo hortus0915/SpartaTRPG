@@ -391,9 +391,9 @@ void ShopScene::Update(float _deltaTime)
 
 void ShopScene::Release()
 {
-	SAFE_RELEASE_DELETE(baseUi)
-		SAFE_RELEASE_DELETE(selectedItemUI)
-		SAFE_DELETE_ARR(contents)
+	SAFE_RELEASE_DELETE(baseUi);
+	SAFE_RELEASE_DELETE(selectedItemUI);
+	SAFE_DELETE_ARR(contents);
 }
 
 void ShopScene::Render()
