@@ -76,10 +76,12 @@ void MainGame::Init()
 
 	SCENEMANAGER->AddScene("GameOverScene", new GameOverScene("GameOverScene"));
 	SCENEMANAGER->AddScene("EndScene", new EndScene("EndScene"));
+	SCENEMANAGER->AddScene("PoketmonNamingScene", new PoketmonNamingScene("PoketmonNamingScene"));
+
 
 #ifndef DEV_BLACK
 
-	SCENEMANAGER->ChangeScene("TitleScene");
+	SCENEMANAGER->ChangeScene("PoketmonNamingScene");
 
 #else
 
