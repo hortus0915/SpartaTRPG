@@ -67,6 +67,7 @@ public:
 	bool CheckKey();
 	void ObjectReset(int _posX, int _posY);
 	std::pair<int, int> GetTileFromPosition(int _posX, int _posY);
+	MapType GetMapType();
 
 	std::string GetTileDescription(char _tile);
 	const int GetMapWidth(MapType _mapType = MapType::NoneSelect);

@@ -204,9 +204,10 @@ void MapMovePlayer::Update(float deltaTime)
 				monsterEffect = nullptr;
 				mapData->ObjectReset(posX, posY);
 				auto battle = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "BattleScene");
+				SCENEMANAGER->ChangeChild("BattleScene");
 				EnemyInfoBase* enemy = new EnemyInfoBase;
 				SpawnEnemyByLevel(*enemy, USERMANAGER->GetPlayer()->GetLevel());
-				SCENEMANAGER->ChangeChild("BattleScene");
+				battle->SetBattlers(USERMANAGER->GetPlayer(), enemy);
 				SCENEMANAGER->CurrentSceneInit();
 				return;
 			}
@@ -301,6 +302,7 @@ void MapMovePlayer::Update(float deltaTime)
 void MapMovePlayer::Render()
 {
 	__super::Render();
+	StageInfoRender();
 	PlayerInfoRender();
 	TileDescrtiptionRender();
 }
@@ -668,6 +670,24 @@ void MapMovePlayer::PlayerInfoRender()
 	SCENEMANAGER->RenderToBackbuffer(1, MAX_SCREEN_HEIGTH, MAX_SCREEN_WIDTH, 1, buf);
 }
 
+void MapMovePlayer::StageInfoRender()
+{
+	switch (mapData->GetMapType())
+	{
+	case MapType::Village:
+		SCENEMANAGER->RenderToBackbuffer(MAX_SCREEN_WIDTH/2 - 5, 0, MAX_SCREEN_WIDTH, 1, "Village");
+		break;
+	case MapType::Dungeon:
+		char buf[128];
+		std::snprintf(buf, sizeof(buf), "Stage %d", USERMANAGER->GetStage());
+		SCENEMANAGER->RenderToBackbuffer(MAX_SCREEN_WIDTH / 2 - 5, 0, MAX_SCREEN_WIDTH, 1, buf);
+		break;
+	case MapType::BossRoom:
+		SCENEMANAGER->RenderToBackbuffer(MAX_SCREEN_WIDTH / 2 - 5, 0, MAX_SCREEN_WIDTH, 1, "BossRoom");
+		break;
+	}
+}
+
 void MapMovePlayer::CheckTileDescription(char _data)
 {
 	if (_data == ' ')
@@ -715,9 +735,10 @@ void MapMovePlayer::DungeonTutorialPopup(int _select)
 void MapMovePlayer::BossBattle(int _select)
 {
 	auto battle = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "BattleScene");
+	SCENEMANAGER->ChangeChild("BattleScene");
 	EnemyInfoBase* enemy = new EnemyInfoBase;
 	SpawnEnemyBoss(*enemy, USERMANAGER->GetPlayer()->GetLevel());
-	SCENEMANAGER->ChangeChild("BattleScene");
+	battle->SetBattlers(USERMANAGER->GetPlayer(), enemy);
 	SCENEMANAGER->CurrentSceneInit();
 }
 

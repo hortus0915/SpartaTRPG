@@ -52,6 +52,7 @@ public:
 
 	void TileDescrtiptionRender();
 	void PlayerInfoRender();
+	void StageInfoRender();
 	void CheckTileDescription(char _data);
 
 	void SetVictory();

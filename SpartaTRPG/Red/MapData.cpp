@@ -56,7 +56,6 @@ void MapData::CreateMap(MapType _mapType)
     case BossRoom:
         BossMapSet();
         BossObejctCreate();
-
         break;
     default:
         break;
@@ -325,6 +324,7 @@ void MapData::VillageMapSet()
         }
     }
 }
+
 void MapData::BossMapSet()
 {
     for (int oy = 0; oy < BOSS_HEIGHT; ++oy)
@@ -625,6 +625,11 @@ std::pair<int, int> MapData::GetTileFromPosition(int _posX, int _posY)
     ret.second = nowTile.GetFromIndexY();
 
     return ret;
+}
+
+MapType MapData::GetMapType()
+{
+    return mapType;
 }
 
 const int MapData::GetMapWidth(MapType _mapType)
