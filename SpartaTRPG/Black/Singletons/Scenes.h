@@ -9,6 +9,7 @@
 #include "Scenes/EndingScene.h"
 #include "Scenes/ShopScene.h"
 #include "Scenes/GameOverScene.h"
+#include "Scenes/EndScene.h"
 
 
 #include "../TestScene.h"

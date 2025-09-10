@@ -75,6 +75,7 @@ void MainGame::Init()
 	SCENEMANAGER->AddChild("GameScene", "ShopScene", new ShopScene("ShopScene"));
 
 	SCENEMANAGER->AddScene("GameOverScene", new GameOverScene("GameOverScene"));
+	SCENEMANAGER->AddScene("EndScene", new EndScene("EndScene"));
 
 #ifndef DEV_BLACK
 
