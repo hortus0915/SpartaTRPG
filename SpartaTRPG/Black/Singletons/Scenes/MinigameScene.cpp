@@ -124,6 +124,8 @@ int MinigameScene::Init()
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> dist(0, 100);
 
+    is_end = false;
+
     gameLevel = USERMANAGER->GetStage();
     deathNum = -1;
 
@@ -165,6 +167,7 @@ int MinigameScene::Init()
 
 void MinigameScene::Release()
 {
+    SAFE_DELETE(map);
     SAFE_DELETE(player);
 }
 

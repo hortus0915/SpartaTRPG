@@ -1,7 +1,6 @@
 #include "QuizData.h"
 #include <vector>
 
-#include <vector>
 #include <string>
 
 
