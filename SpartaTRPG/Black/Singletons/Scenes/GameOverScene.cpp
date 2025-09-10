@@ -185,6 +185,12 @@ void GameOverScene::Update(float _deltaTime)
 			animFrameCount = 0;
 			currentAnimIndex = (currentAnimIndex + 1) % anim.size();
 		}
+
+		if (KEYMANAGER->IsOnceKeyDown(VK_RETURN))
+		{
+			SCENEMANAGER->ChangeScene("TitleScene");
+			SCENEMANAGER->CurrentSceneInit();
+		}
 	}
 }
 
