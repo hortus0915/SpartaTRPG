@@ -52,7 +52,7 @@ void MinigameScene::Update(float deltaTime)
             if (player && !POPUPMANAGER->CheckPopupActive())
             {
                 SOUNDMANAGER->PlaySfx(Text("CursorMove.wav"));
-                if (playerCols < __MAP_SIZE__ - 1) {
+                if (playerCols < __MAP_SIZE__ + gameLevel - 1) {
                     player->SetPos(player->GetPosX(), player->GetPosY() + __INTERVAL_Y_);
                     playerCols++;
                 }
@@ -66,7 +66,7 @@ void MinigameScene::Update(float deltaTime)
             if (player && !POPUPMANAGER->CheckPopupActive())
             {
                 SOUNDMANAGER->PlaySfx(Text("CursorMove.wav"));
-                if (playerRows < __MAP_SIZE__ * 3) {
+                if (playerRows < (__MAP_SIZE__ + gameLevel) * 3) {
                     player->SetPos(player->GetPosX() + __INTERVAL_X_, player->GetPosY());
                     playerRows++;
                 }
@@ -124,16 +124,17 @@ int MinigameScene::Init()
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> dist(0, 100);
 
+    gameLevel = USERMANAGER->GetStage();
     deathNum = -1;
 
     playerDefPosX = __DEFAULT_PLAYER_X__;
-    playerDefPosY = __DEFAULT_PLAYER_Y__ + __INTERVAL_Y_ * __MAP_SIZE__ / 2;
+    playerDefPosY = __DEFAULT_PLAYER_Y__;
     if (!map) {
-        map = new MinigameMap(__MAP_SIZE__, dist(gen), 500);
+        map = new MinigameMap(__MAP_SIZE__ + gameLevel, dist(gen), 500);
     }
     else {
         SAFE_DELETE(map);
-        map = new MinigameMap(__MAP_SIZE__, dist(gen), 500);
+        map = new MinigameMap(__MAP_SIZE__ + gameLevel, dist(gen), 500);
     }
     map->generate();
 
@@ -173,8 +174,8 @@ void MinigameScene::Render()
 
 
     for (int c = 0; c < map->m_map.rows; ++c) {
-        SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_ + __DEFAULT_PLAYER_X__ + c * (__INTERVAL_X_), +__DEFAULT_PLAYER_Y__-__INTERVAL_Y_ +2, 1, 1, "====", 2,2);
-        SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_ + __DEFAULT_PLAYER_X__ + c * (__INTERVAL_X_), +__DEFAULT_PLAYER_Y__ + __MAP_SIZE__*__INTERVAL_Y_, 1, 1, "====", 2,2);
+        SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_ + __DEFAULT_PLAYER_X__ + c * (__INTERVAL_X_), +__DEFAULT_PLAYER_Y__-__INTERVAL_Y_, 1, 1, "====", 2,2);
+        SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_ + __DEFAULT_PLAYER_X__ + c * (__INTERVAL_X_), +__DEFAULT_PLAYER_Y__ + (__MAP_SIZE__ + gameLevel)*__INTERVAL_Y_, 1, 1, "====", 2,2);
 
     }
     
@@ -184,18 +185,18 @@ void MinigameScene::Render()
     for (int r = 0; r < map->m_map.rows; ++r) {
         for (int c = 0; c < map->m_map.cols; ++c) {
             std::string charToString(1, map->m_map.at(r, c));
-            SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_ + __DEFAULT_PLAYER_X__ + r * (__INTERVAL_X_), +__DEFAULT_PLAYER_Y__ + c * (__INTERVAL_Y_)+1, 1, 1," ", 1, 7);
+            SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_ + __DEFAULT_PLAYER_X__ + r * (__INTERVAL_X_), +__DEFAULT_PLAYER_Y__ + c * (__INTERVAL_Y_), 1, 1," ", 1, 7);
             if (deathNum > 15 && r < map->m_map.rows && charToString == "X") {
                 SCENEMANAGER->RenderToBackbuffer(__DEFAULT_PLAYER_X__, +__DEFAULT_PLAYER_Y__ - 3 * __INTERVAL_Y_, 1, 1, "천재적인 멍청이...", 1, 4);
-                SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_ + __DEFAULT_PLAYER_X__ + r * (__INTERVAL_X_), +__DEFAULT_PLAYER_Y__ + c * (__INTERVAL_Y_)+1, 1, 1, charToString, 1,0);
+                SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_ + __DEFAULT_PLAYER_X__ + r * (__INTERVAL_X_), +__DEFAULT_PLAYER_Y__ + c * (__INTERVAL_Y_), 1, 1, charToString, 1,0);
 
             }else if (deathNum > 10 && r < map->m_map.rows*2/3 && charToString == "X") {
                 SCENEMANAGER->RenderToBackbuffer(__DEFAULT_PLAYER_X__, +__DEFAULT_PLAYER_Y__ - 3 * __INTERVAL_Y_, 1, 1, "조금 모자란 친구.", 1, 4);
-                SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_ + __DEFAULT_PLAYER_X__ + r * (__INTERVAL_X_), +__DEFAULT_PLAYER_Y__ + c * (__INTERVAL_Y_)+1, 1, 1, charToString, 1, 0);
+                SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_ + __DEFAULT_PLAYER_X__ + r * (__INTERVAL_X_), +__DEFAULT_PLAYER_Y__ + c * (__INTERVAL_Y_), 1, 1, charToString, 1, 0);
 
             }else if (deathNum > 5 && r < map->m_map.rows/3 && charToString == "X") {
                 SCENEMANAGER->RenderToBackbuffer(__DEFAULT_PLAYER_X__, +__DEFAULT_PLAYER_Y__ - 3 * __INTERVAL_Y_, 1, 1, "평범한 모험가", 1, 4);
-                SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_ + __DEFAULT_PLAYER_X__ + r * (__INTERVAL_X_), +__DEFAULT_PLAYER_Y__ + c * (__INTERVAL_Y_)+1, 1, 1, charToString, 1, 0);
+                SCENEMANAGER->RenderToBackbuffer(__INTERVAL_X_ + __DEFAULT_PLAYER_X__ + r * (__INTERVAL_X_), +__DEFAULT_PLAYER_Y__ + c * (__INTERVAL_Y_), 1, 1, charToString, 1, 0);
 
             }
             else if (deathNum < 5) {
@@ -212,7 +213,7 @@ void MinigameScene::ResetPlayerPos()
 {
     deathNum++;
     playerRows = -1;
-    playerCols = __MAP_SIZE__ / 2;
+    playerCols = 0;
     player->SetPos(playerDefPosX, playerDefPosY);
 }
 

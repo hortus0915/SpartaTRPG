@@ -6,7 +6,7 @@
 
 #define __DEFAULT_PLAYER_X__ 10
 #define __DEFAULT_PLAYER_Y__ 10
-#define __MAP_SIZE__ 3
+#define __MAP_SIZE__ 2
 #define __INTERVAL_X_ 4
 #define __INTERVAL_Y_ 2
 
@@ -27,6 +27,8 @@ private:
 
 	MinigamePlayer* player;
 	MinigameMap* map;
+
+	int gameLevel;
 
 	int playerDefPosX;
 	int playerDefPosY;
