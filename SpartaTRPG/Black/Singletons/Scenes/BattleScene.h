@@ -25,7 +25,8 @@ enum BattleSequence
 	CardUse,
 	Victory,   
 	Defeat,    
-	Draw,     
+	Draw,
+	PopupSequence,
 	BattleEnd
 	
 };
@@ -129,6 +130,12 @@ public:
 	void CreateEffect(const int& cardId, const vector<Board::Pos>& pos, const Board::Pos& originPos);
 
 	void DoAction(BattleSystem::Side& _actor, BattleSystem::Side& _target, std::string& _outStr);
+
+	void ResultVictoryPopupActive(int selected);
+	void ResultDrawPopupActive(int selected);
+	void ResultDefeatPopupActive(int selected);
+
+	void GameEnd(int _selected);
 
 	inline void SetBattlers(PlayerInfo* _player, EnemyInfoBase* _enemy) { player = _player; enemy = _enemy; }
 };

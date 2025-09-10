@@ -59,7 +59,7 @@ void BattleScene::ShowBattleTutorialOnce()
 	lines->push_back(" - 라운드 종료 시 SP+15 회복합니다.");
 	
 	POPUPMANAGER->InitPopup<BattleScene, nullptr>(
-		PopupType::SELECTPOPUP, nullptr, lines, 8, 0, 4, 0);
+		PopupType::RESULTPOPUP, nullptr, lines, 8, 0, 4, 0);
 
 	sTutorialShown = true; 
 }
@@ -76,6 +76,19 @@ int BattleScene::Init()
 		SCENEMANAGER->RenderToBackbuffer(0, MAX_SCREEN_HEIGTH, message.size(), 1, message);
 		MainGame::Quit();
 	}
+
+	currentSelectCount = 0;
+	currentActionCount = 0;
+	pActionDone = mActionDone = false;
+	pShieldUp = mShieldUp = false;
+
+	for (int i = 0; i < cardSelectCount; ++i) {
+		playerSelectedIdx[i] = -1;
+		playerSelectedCard[i] = nullptr;   
+		enemySelectedCard[i] = nullptr;   
+		if (cardUi[i]) cardUi[i]->SetCard(nullptr);
+	}
+
 #else
 
 	player = new PlayerInfo;
@@ -83,6 +96,7 @@ int BattleScene::Init()
 
 	player->Init(100, 100, 10, 10, 1.5f, 50, 50, 0);
 	enemy->Init(10, 100, 10, 10, 1.3f, 10, 50, 0);
+
 
 #endif
 
@@ -377,8 +391,10 @@ void BattleScene::Update(float _deltaTime)
 			static int lastIdx = -1;
 			if (lastIdx != currentActionCount) {
 
-				chosen = playerSelectedCard[currentActionCount]; P.card = chosen;
-				mChosen = enemySelectedCard[currentActionCount]; M.card = mChosen;
+				chosen = playerSelectedCard[currentActionCount]; 
+				P.card = chosen;
+				mChosen = enemySelectedCard[currentActionCount];
+				M.card = mChosen;
 
 				playerFirstThisSubturn = (P.card->GetType() <= M.card->GetType());
 				subPhase = SubPhase::First;
@@ -451,32 +467,31 @@ void BattleScene::Update(float _deltaTime)
 
 							gain = player->GetLevel() * 100;
 							player->GainExp(gain);
-
+							currentSequence = PopupSequence;
 							vector<string>* temp = new vector<string>();
 							temp->push_back(enemy->GetName() + " 처치!");
 							temp->push_back("");
 							temp->push_back("플레이어 승리! 경험치 +" + std::to_string(gain));
-							currentSequence = Victory;
 							lastActionStr = sequenceStr;
 							LOGMANAGER->AddLog(enemy->GetName() + " 처치!");
-							POPUPMANAGER->InitPopup<BattleScene, nullptr>(PopupType::SELECTPOPUP, nullptr, temp, 8, 0, 4, 0);
+							POPUPMANAGER->InitPopup<BattleScene, &BattleScene::ResultVictoryPopupActive>(PopupType::RESULTPOPUP, this, temp, 8, 0, 4, 0);
 						}
 						else if (playerDead && !enemyDead) {
+							currentSequence = PopupSequence;
 							vector<string>* temp = new vector<string>();
 							temp->push_back("패배... 마을로 돌아갑니다");
 							lastActionStr = sequenceStr;
-							currentSequence = Defeat;
-							POPUPMANAGER->InitPopup<BattleScene, nullptr>(PopupType::SELECTPOPUP, nullptr, temp, 8, 0, 4, 0);
+							POPUPMANAGER->InitPopup<BattleScene, &BattleScene::ResultDefeatPopupActive>(PopupType::RESULTPOPUP, this, temp, 8, 0, 4, 0);
 						}
 						else {
+							currentSequence = PopupSequence;
 							vector<string>* temp = new vector<string>();
 							temp->push_back("무승부");
 							temp->push_back("");
 							temp->push_back("좋은 승부였지만 더 이상 움직일 힘은 없는 듯 하다.");
 							temp->push_back("마을로 돌아갑니다");
 							lastActionStr = sequenceStr;
-							currentSequence = Draw;
-							POPUPMANAGER->InitPopup<BattleScene, nullptr>(PopupType::SELECTPOPUP, nullptr, temp, 8, 0, 4, 0);
+							POPUPMANAGER->InitPopup<BattleScene, &BattleScene::ResultDrawPopupActive>(PopupType::RESULTPOPUP, this, temp, 8, 0, 4, 0);
 						}
 
 						waitingToStartAction = false;
@@ -526,7 +541,7 @@ void BattleScene::Update(float _deltaTime)
 			temp->push_back("코딩 고수가되었습니다!");
 			lastActionStr = sequenceStr;
 			currentSequence = Draw;
-			POPUPMANAGER->InitPopup<BattleScene, nullptr>(PopupType::SELECTPOPUP, nullptr, temp, 8, 0, 4, 0);
+			POPUPMANAGER->InitPopup<BattleScene, &BattleScene::GameEnd>(PopupType::RESULTPOPUP, this, temp, 8, 0, 4, 0);
 		}
 		else
 		{
@@ -552,6 +567,12 @@ void BattleScene::Update(float _deltaTime)
 		
 	}break;
 	}
+}
+
+void BattleScene::GameEnd(int _selected)
+{
+	SCENEMANAGER->ChangeScene("EndScene");
+	SCENEMANAGER->CurrentSceneInit();
 }
 
 void BattleScene::Render()
@@ -899,6 +920,21 @@ void BattleScene::DoAction(BattleSystem::Side& _actor, BattleSystem::Side& _targ
 	
 	} break;
 	}
+}
+
+void BattleScene::ResultVictoryPopupActive(int selected)
+{
+	currentSequence = Victory;
+}
+
+void BattleScene::ResultDrawPopupActive(int selected)
+{
+	currentSequence = Draw;
+}
+
+void BattleScene::ResultDefeatPopupActive(int selected)
+{
+	currentSequence = Defeat;
 }
 
 
