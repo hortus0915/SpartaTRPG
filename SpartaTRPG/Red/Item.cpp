@@ -25,6 +25,7 @@ void Item::SetItemValue(int _itemUID)
 	switch (_itemUID)
 	{
 	case Item::GetItemUID(ItemType::Cost, ItemValueType::Cost, 1):
+
 		value = 100;
 		break;
 	case Item::GetItemUID(ItemType::Cost, ItemValueType::Cost, 2):

@@ -6,6 +6,10 @@
 #include "Singletons/Scenes/BattleScene.h"
 #include "Singletons/EffectType.h"
 #include "Singletons/Scenes/MinigameScene.h"
+#include "CommonFuncs.h"
+#include "Singletons/Scenes/ShopScene.h"
+#include "../Black/EnemyInfoBase.h"
+#include "../Black/PlayerInfo.h"
 
 
 MapMovePlayer::MapMovePlayer(string _sn, MapData* _mapData) : iMapMovable(_sn, _mapData)
@@ -201,6 +205,9 @@ void MapMovePlayer::Update(float deltaTime)
 				mapData->ObjectReset(posX, posY);
 				auto battle = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "BattleScene");
 				SCENEMANAGER->ChangeChild("BattleScene");
+				EnemyInfoBase* enemy = new EnemyInfoBase;
+				SpawnEnemyByLevel(*enemy, USERMANAGER->GetPlayer()->GetLevel());
+				battle->SetBattlers(USERMANAGER->GetPlayer(), enemy);
 				SCENEMANAGER->CurrentSceneInit();
 				return;
 			}
@@ -209,7 +216,7 @@ void MapMovePlayer::Update(float deltaTime)
 				moveToShop = false;
 				if (!isFirstShop)
 				{
-					auto shop = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "ShopScene");
+					auto shop = (ShopScene*)SCENEMANAGER->FindChild("GameScene", "ShopScene");
 					SCENEMANAGER->ChangeChild("ShopScene");
 					SCENEMANAGER->CurrentSceneInit();
 				}
@@ -240,9 +247,20 @@ void MapMovePlayer::Update(float deltaTime)
 			else if (moveToMiniGame)
 			{
 				moveToMiniGame = false;
-				auto shop = (MinigameScene*)SCENEMANAGER->FindChild("GameScene", "MinigameScene");
-				SCENEMANAGER->ChangeChild("MinigameScene");
-				SCENEMANAGER->CurrentSceneInit();
+
+				auto temp = GetIntRange(0, 9);
+				if (temp < 8)
+				{
+					auto minigameScene = (MinigameScene*)SCENEMANAGER->FindChild("GameScene", "MinigameScene");
+					SCENEMANAGER->ChangeChild("MinigameScene");
+					SCENEMANAGER->CurrentSceneInit();
+				}
+				else
+				{
+					auto minigameScene = (MinigameScene*)SCENEMANAGER->FindChild("GameScene", "QuizScene");
+					SCENEMANAGER->ChangeChild("QuizScene");
+					SCENEMANAGER->CurrentSceneInit();
+				}
 			}
 		}
 		MapImageSet();
@@ -284,6 +302,7 @@ void MapMovePlayer::Update(float deltaTime)
 void MapMovePlayer::Render()
 {
 	__super::Render();
+	StageInfoRender();
 	PlayerInfoRender();
 	TileDescrtiptionRender();
 }
@@ -410,6 +429,23 @@ void MapMovePlayer::CheckActive()
 		auto monsterPosition = mapData->GetTileFromPosition(posX, posY);
 		monsterEffect = EFFECTMANAGER->StartEffect(Shining, monsterPosition.first - posX + (MAX_SCREEN_WIDTH / 2) - 2, monsterPosition.second - posY + (MAX_SCREEN_HEIGTH / 2) - 2);
 		break;
+	}
+	case BOSS:
+	case BOSSActive:
+	{
+		mapMove = -1;
+		vector<string>* initString = new vector<string>();
+		initString->push_back("보스와의 전투를 시작합니다.");
+
+		POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::BossBattle>(
+			PopupType::RESULTPOPUP,
+			this,
+			initString,
+			15,
+			0,
+			5,
+			1
+		);
 	}
 	case Box:
 	case BoxActive:
@@ -634,6 +670,24 @@ void MapMovePlayer::PlayerInfoRender()
 	SCENEMANAGER->RenderToBackbuffer(1, MAX_SCREEN_HEIGTH, MAX_SCREEN_WIDTH, 1, buf);
 }
 
+void MapMovePlayer::StageInfoRender()
+{
+	switch (mapData->GetMapType())
+	{
+	case MapType::Village:
+		SCENEMANAGER->RenderToBackbuffer(MAX_SCREEN_WIDTH/2 - 5, 0, MAX_SCREEN_WIDTH, 1, "마을");
+		break;
+	case MapType::Dungeon:
+		char buf[128];
+		std::snprintf(buf, sizeof(buf), "스테이지 %d", USERMANAGER->GetStage());
+		SCENEMANAGER->RenderToBackbuffer(MAX_SCREEN_WIDTH / 2 - 5, 0, MAX_SCREEN_WIDTH, 1, buf);
+		break;
+	case MapType::BossRoom:
+		SCENEMANAGER->RenderToBackbuffer(MAX_SCREEN_WIDTH / 2 - 5, 0, MAX_SCREEN_WIDTH, 1, "보스방");
+		break;
+	}
+}
+
 void MapMovePlayer::CheckTileDescription(char _data)
 {
 	if (_data == ' ')
@@ -675,7 +729,16 @@ void MapMovePlayer::ShopTutorialPopup(int _select)
 void MapMovePlayer::DungeonTutorialPopup(int _select)
 {
 	mapMove = 1;
-	mapData->CreateMap(MapType::Dungeon);
 	isFirstDungeon2 = true;
+}
+
+void MapMovePlayer::BossBattle(int _select)
+{
+	auto battle = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "BattleScene");
+	SCENEMANAGER->ChangeChild("BattleScene");
+	EnemyInfoBase* enemy = new EnemyInfoBase;
+	SpawnEnemyBoss(*enemy, USERMANAGER->GetPlayer()->GetLevel());
+	battle->SetBattlers(USERMANAGER->GetPlayer(), enemy);
+	SCENEMANAGER->CurrentSceneInit();
 }
 

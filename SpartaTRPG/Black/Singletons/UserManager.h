@@ -15,7 +15,7 @@ using namespace std;
 #define POPUPSTRING_MAXWIDTH 77
 #define POPUPSTRING_MAXHEIGHT 15
 
-#define MAXSTAGE 3
+#define MAXSTAGE 2
 
 using namespace std;
 

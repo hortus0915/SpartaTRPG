@@ -52,6 +52,7 @@ public:
 
 	void TileDescrtiptionRender();
 	void PlayerInfoRender();
+	void StageInfoRender();
 	void CheckTileDescription(char _data);
 
 	void SetVictory();
@@ -60,5 +61,6 @@ public:
 	void TutorialPopup(int _select);
 	void ShopTutorialPopup(int _select);
 	void DungeonTutorialPopup(int _select);
+	void BossBattle(int _select);
 };
 
