@@ -1,6 +1,7 @@
 ﻿#include "PoketmonNaming.h"
 #include <codecvt>
 #include <locale>
+#include <Windows.h>
 
 // 테이블 정의
 const std::wstring PoketmonNaming::CHOSEONG = L"ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
@@ -37,8 +38,14 @@ wchar_t PoketmonNaming::makeHangul(wchar_t cho, wchar_t jung, wchar_t jong) {
 
 // UTF-16 → UTF-8 변환
 std::string PoketmonNaming::toUTF8(const std::wstring& wstr) {
-    std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
-    return conv.to_bytes(wstr);
+    const size_t len = wcslen(wstr.c_str()) + 1;
+    const size_t new_len = len * 2;
+    char* c = new char[new_len];
+    WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), len, c, new_len, nullptr, nullptr);
+    std::string temp = c;
+    delete[] c;
+
+    return temp;
 }
 std::wstring PoketmonNaming::composeW(const std::vector<wchar_t>& input) {
     std::wstring result;
