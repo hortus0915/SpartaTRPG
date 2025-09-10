@@ -35,6 +35,11 @@ private:
 	float delayCurrentTime;
 	bool isShowImage;
 
+	int animFrameDelayCount;
+	int animFrameCount;
+	int currentAnimIndex;
+	vector<Image*> anim;
+
 public:
 	GameOverScene(string _sceneName) : iScene(_sceneName), pic(nullptr), frameDelayCount(2), frameCount(0) { };
 
