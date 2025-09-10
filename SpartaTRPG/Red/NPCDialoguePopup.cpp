@@ -63,6 +63,7 @@ void NPCDialoguePopup::Render()
 void NPCDialoguePopup::Init()
 {
 	VariableInit();
+	selectValue = 1;
 
 	for (int i = 0; i < height; ++i)
 	{
