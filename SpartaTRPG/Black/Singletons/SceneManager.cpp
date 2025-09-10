@@ -361,16 +361,22 @@ int SceneManager::ChangeScene(string _sceneName)
 
 	prevSceneStack.push(_sceneName);
 
+	mainGame->StartDoublebuffering();
+
 	return SCENE_SUCCESS;
 }
 
 int SceneManager::ChangeChild(string _childName)
 {
+	mainGame->StartDoublebuffering();
+
 	return currentSceneNode->ChangeChild(_childName);
 }
 
 int SceneManager::ChangeParent()
 {
+	mainGame->StartDoublebuffering();
+
 	return currentSceneNode->ChangeParent();
 }
 
