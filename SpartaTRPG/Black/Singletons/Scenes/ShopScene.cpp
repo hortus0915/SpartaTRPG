@@ -57,7 +57,7 @@ void ShopScene::ItemSetting()
 
 
 
-	uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_MOVE, 1);
+	/*uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_MOVE, 1);
 	ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
 	if (!ret.second) ret.first->second.AddItem();
 
@@ -71,7 +71,7 @@ void ShopScene::ItemSetting()
 
 	uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_MOVE, 4);
 	ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
-	if (!ret.second) ret.first->second.AddItem();
+	if (!ret.second) ret.first->second.AddItem();*/
 
 	uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_MOVE, 5);
 	ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
@@ -106,9 +106,9 @@ void ShopScene::ItemSetting()
 	if (!ret.second) ret.first->second.AddItem();
 
 
-	uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_SHIELD, 1);
-	ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
-	if (!ret.second) ret.first->second.AddItem();
+	//uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_SHIELD, 1);
+	//ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
+	//if (!ret.second) ret.first->second.AddItem();
 
 	uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_SHIELD, 2);
 	ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
@@ -119,13 +119,13 @@ void ShopScene::ItemSetting()
 	if (!ret.second) ret.first->second.AddItem();
 
 
-	uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_HEAL, 1);
-	ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
-	if (!ret.second) ret.first->second.AddItem();
+	//uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_HEAL, 1);
+	//ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
+	//if (!ret.second) ret.first->second.AddItem();
 
-	uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_HEAL, 2);
-	ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
-	if (!ret.second) ret.first->second.AddItem();
+	//uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_HEAL, 2);
+	//ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
+	//if (!ret.second) ret.first->second.AddItem();
 
 	uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_HEAL, 3);
 	ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
@@ -136,9 +136,9 @@ void ShopScene::ItemSetting()
 	if (!ret.second) ret.first->second.AddItem();
 
 
-	uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_ATTACK, 1);
-	ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
-	if (!ret.second) ret.first->second.AddItem();
+	//uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_ATTACK, 1);
+	//ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
+	//if (!ret.second) ret.first->second.AddItem();
 
 	uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_ATTACK, 2);
 	ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
@@ -168,9 +168,9 @@ void ShopScene::ItemSetting()
 	ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
 	if (!ret.second) ret.first->second.AddItem();
 
-	uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_ATTACK, 9);
-	ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
-	if (!ret.second) ret.first->second.AddItem();
+	//uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_ATTACK, 9);
+	//ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
+	//if (!ret.second) ret.first->second.AddItem();
 
 	uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_ATTACK, 10);
 	ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
@@ -180,9 +180,9 @@ void ShopScene::ItemSetting()
 	ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
 	if (!ret.second) ret.first->second.AddItem();
 
-	uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_ATTACK, 12);
-	ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
-	if (!ret.second) ret.first->second.AddItem();
+	//uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_ATTACK, 12);
+	//ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
+	//if (!ret.second) ret.first->second.AddItem();
 
 	uid = Item::GetItemUID(ItemType::Card, ItemValueType::CardUID_ATTACK, 13);
 	ret = shopItemList[ItemType::Card].try_emplace(uid, uid);
