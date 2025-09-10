@@ -235,7 +235,7 @@ void GameOverScene::Update(float _deltaTime)
 		isDelayStart = true;
 	}
 
-	if (isDelayStart)
+	if (isDelayStart && !isShowImage)
 	{
 		delayCurrentTime += _deltaTime;
 		if (delayCurrentTime >= delayTime)
