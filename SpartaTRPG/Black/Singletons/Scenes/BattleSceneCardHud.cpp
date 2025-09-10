@@ -9,6 +9,7 @@
 
 #include "../CommonManagers.h"
 #include "../../../Blue/Card/CardDB.h"
+#include "../../PlayerInfo.h"
 
 string BattleSceneCardHud::upper = "--------------";
 string BattleSceneCardHud::lower = "--------------";
@@ -86,8 +87,15 @@ void BattleSceneCardHud::Render()
 			SCENEMANAGER->RenderToBackbuffer(posX, posY + offsetY, TYPE.size(), 1, TYPE);
 			++offsetY;
 
+			float playerAtk = 0.0f;
+			if (auto* pl = USERMANAGER->GetPlayer()) {
+	
+				playerAtk = pl->GetBaseDamage();
+			}
+			int shownDamage = (int)std::round(playerAtk * currentCard->GetDamageRate());
+
 			sStream.str("");
-			sStream << "공격배율 : " << currentCard->GetDamageRate();
+			sStream << "공격력 : " << playerAtk << " 배율 : x" <<currentCard->GetDamageRate() << " 총 : " << shownDamage;
 			DESC = sStream.str();
 			SCENEMANAGER->RenderToBackbuffer(posX, posY + offsetY, DESC.size(), 1, DESC);
 			++offsetY;
