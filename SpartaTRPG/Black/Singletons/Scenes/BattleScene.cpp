@@ -8,8 +8,6 @@
 #include "../../MainGame.h"
 #include "../../CommonFuncs.h"
 
-#include "../../DevBlack.h"
-
 #include "BattleSceneHud.h"
 #include "BattleSceneCardHud.h"
 #include "../../BlinkCursor.h"
