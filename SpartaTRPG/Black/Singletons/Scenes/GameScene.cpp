@@ -4,7 +4,7 @@
 
 int GameScene::Init()
 {
-    SCENEMANAGER->ChangeChild("BattleScene");
+    SCENEMANAGER->ChangeChild("DungeonScene");
     SCENEMANAGER->CurrentSceneInit();
 
     return 0;
