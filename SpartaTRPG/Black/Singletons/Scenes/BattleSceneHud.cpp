@@ -54,12 +54,12 @@ void BattleSceneHud::Update(float _deltaTime)
 	enemySP = "";
 	enemySP.append(((int)(ratio / 10)) * count, ' ');
 
-	if (KEYMANAGER->IsOnceKeyDown('A'))
-	{
-		player->HitDamager(5);
-		int curHP = player->GetCurHP();
-		int a;
-	}
+	//if (KEYMANAGER->IsOnceKeyDown('A'))
+	//{
+	//	player->HitDamager(5);
+	//	int curHP = player->GetCurHP();
+	//	int a;
+	//}
 }
 
 void BattleSceneHud::BgColorSetting(const float& ratio, Color& targetBg)
