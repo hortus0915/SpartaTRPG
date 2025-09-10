@@ -9,6 +9,7 @@
 
 class SelectPopup;
 class Effect;
+class EnemyInfoBase;
 
 class MapMovePlayer : public iMapMovable
 {
@@ -31,6 +32,8 @@ private:
 	bool isFirstShop;
 	bool isFirstDungeon;
 	bool isFirstDungeon2;
+
+	EnemyInfoBase* boss;
 
 public:
 	MapMovePlayer(string _sn, MapData* _mapData);

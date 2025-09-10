@@ -345,6 +345,40 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 			mapMove = -1;
 			mapData->CreateMap(MapType::BossRoom);
 			SetPos(BOSS_WIDTH / 2, BOSS_HEIGHT - 4);
+			if (USERMANAGER->GetPlayer()->GetLevel() < 10)
+			{
+				boss = new EnemyInfoBase;
+				SpawnEnemyBoss(*boss, USERMANAGER->GetPlayer()->GetLevel());
+				USERMANAGER->GetPlayer()->GainExp(10000);
+				vector<string>* initString = new vector<string>();
+				initString->push_back("보스방 입장");
+
+				POPUPMANAGER->InitPopup<MapMovePlayer>(
+					PopupType::RESULTPOPUP,
+					nullptr,
+					initString,
+					5,
+					0,
+					2,
+					0
+				);
+			}
+			else
+			{
+				boss = new EnemyInfoBase;
+				SpawnEnemyBoss(*boss, USERMANAGER->GetPlayer()->GetLevel());
+				vector<string>* initString = new vector<string>();
+				initString->push_back("보스방 입장");
+				POPUPMANAGER->InitPopup<MapMovePlayer>(
+					PopupType::RESULTPOPUP,     
+					nullptr,
+					initString,
+					5,
+					0,
+					2,
+					0
+				);
+			}
 		}
 		else
 		{
@@ -415,6 +449,7 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 			0
 		);
 		mapData->ObjectReset(posX, posY);
+		break;
 	}
 	default:
 		break;
@@ -431,7 +466,7 @@ void MapMovePlayer::CheckActive()
 	case Wall:
 	case WallH:
 	case WallV:
-		if(!isFirstPlay && !isFirstDungeon)
+		if (!isFirstPlay && !isFirstDungeon)
 			POPUPMANAGER->PopupActiveOff();
 		break;
 	case Monster:
@@ -457,6 +492,7 @@ void MapMovePlayer::CheckActive()
 			5,
 			1
 		);
+		break;
 	}
 	case Box:
 	case BoxActive:
@@ -473,8 +509,8 @@ void MapMovePlayer::CheckActive()
 			5,
 			1
 		);
+		break;
 	}
-	break;
 	case Key:
 	{
 		vector<string>* initString = new vector<string>();
@@ -491,8 +527,8 @@ void MapMovePlayer::CheckActive()
 			5,
 			1
 		);
+		break;
 	}
-	break;
 	case DungeonIn:
 	{
 		vector<string>* initString = new vector<string>();
@@ -508,12 +544,12 @@ void MapMovePlayer::CheckActive()
 			5,
 			1
 		);
+		break;
 	}
-	break;
 	case Shop:
 	case ShopActiveRange:
 	{
-		SOUNDMANAGER->StopAmbient(Text("RunSound.wav")); 
+		SOUNDMANAGER->StopAmbient(Text("RunSound.wav"));
 		moveToShop = true;
 		mapMove = -1;
 		break;
@@ -552,6 +588,7 @@ void MapMovePlayer::CheckActive()
 				0
 			);
 		}
+		break;
 	}
 	case PINK:
 	{
@@ -572,8 +609,8 @@ void MapMovePlayer::CheckActive()
 			2,
 			1
 		);
+		break;
 	}
-	break;
 	}
 }
 
@@ -767,9 +804,6 @@ void MapMovePlayer::BossBattle(int _select)
 {
 	auto battle = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "BattleScene");
 	SCENEMANAGER->ChangeChild("BattleScene");
-	EnemyInfoBase* enemy = new EnemyInfoBase;
-	SpawnEnemyBoss(*enemy, USERMANAGER->GetPlayer()->GetLevel());
-	battle->SetBattlers(USERMANAGER->GetPlayer(), enemy);
+	battle->SetBattlers(USERMANAGER->GetPlayer(), boss);
 	SCENEMANAGER->CurrentSceneInit();
 }
-
