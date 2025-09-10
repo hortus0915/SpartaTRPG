@@ -5,6 +5,7 @@
 #include "../Red/MapData.h"
 #include "Singletons/Scenes/BattleScene.h"
 #include "Singletons/EffectType.h"
+#include "Singletons/Scenes/MinigameScene.h"
 
 
 MapMovePlayer::MapMovePlayer(string _sn, MapData* _mapData) : iMapMovable(_sn, _mapData)
@@ -239,7 +240,7 @@ void MapMovePlayer::Update(float deltaTime)
 			else if (moveToMiniGame)
 			{
 				moveToMiniGame = false;
-				auto shop = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "MinigameScene");
+				auto shop = (MinigameScene*)SCENEMANAGER->FindChild("GameScene", "MinigameScene");
 				SCENEMANAGER->ChangeChild("MinigameScene");
 				SCENEMANAGER->CurrentSceneInit();
 			}
