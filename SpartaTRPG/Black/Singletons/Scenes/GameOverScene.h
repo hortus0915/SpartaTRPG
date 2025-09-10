@@ -38,7 +38,17 @@ private:
 	int animFrameDelayCount;
 	int animFrameCount;
 	int currentAnimIndex;
-	vector<Image*> anim;
+	vector<Image*> black;
+	vector<Image*> red;
+	vector<Image*> blue;
+	vector<Image*> yellow;
+
+	int pinkTeleportDelayCount;
+	int pinkTeleportCount;
+	int currentPinkIndex;
+	vector<Image*> pink;
+	int pinkPosX;
+	int pinkPosY;
 
 public:
 	GameOverScene(string _sceneName) : iScene(_sceneName), pic(nullptr), frameDelayCount(2), frameCount(0) { };

@@ -1,4 +1,5 @@
 #include "DoubleBuffering.h"
+#include "MainGame.h"
 
 DoubleBuffering::DoubleBuffering(int mapX, int mapY) {
     CONSOLE_CURSOR_INFO cursor;

@@ -19,9 +19,9 @@ struct BattleSystem {
 	bool TryPickWithVSP(Side& _target, const Card* _card);
 
 	void MovoToCharacter(Side& _target);
-	void ShieldToCharacter(Side& _self,Side& _attacker,float _attackDamage , float& _outAttackDamage, float& _outCounterDamage);
+	void ShieldToCharacter(Side& _self, Side& _attacker, float _attackDamage, float& _outAttackDamage, float& _outCounterDamage);
 
-	int AttackToCharacter(Side& _attacker, Side& _defender, std::vector<Board::Pos>& outRange);
+	int AttackToCharacter(Side& _attacker, Side& _defender, std::vector<Board::Pos>& outRange, bool* outCritical = nullptr);
 	int HealToCharacter(Side& _self);
 	int HealToCharacter(Side& _self, stringstream& sStream);
 

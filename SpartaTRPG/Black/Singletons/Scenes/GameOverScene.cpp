@@ -6,6 +6,9 @@
 
 #include "../../Image.h"
 
+#include "../../MainGame.h"
+#include "../../DoubleBuffering.h"
+
 // -  0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41
 // 0     O  O  O  O  O  O  O                 O  O  O  O  O              O  O                 O  O        O  O  O  O  O  O  O  O  O
 // 1  O                       O           O                 O           O     O           O     O        O                        
@@ -116,20 +119,79 @@ int GameOverScene::Init()
 	delayCurrentTime = 0.0f;
 	isShowImage = false;
 
+	int screenWidth = rc.right - rc.left;
+	int screenHeight = rc.bottom - rc.top;
 
-	anim.resize(4);
-	anim[0] = new Image;
-	anim[0]->Init(TEXT("frame_0.bmp"), 50, 50);
-	anim[1] = new Image;
-	anim[1]->Init(TEXT("frame_1.bmp"), 50, 50);
-	anim[2] = new Image;
-	anim[2]->Init(TEXT("frame_2.bmp"), 50, 50);
-	anim[3] = new Image;
-	anim[3]->Init(TEXT("frame_3.bmp"), 50, 50);
+	black.resize(4);
+	black[0] = new Image;
+	black[0]->Init(TEXT("black_0.bmp"), screenWidth - 50 - 52, 250);
+	black[1] = new Image;
+	black[1]->Init(TEXT("black_1.bmp"), screenWidth - 50 - 52, 250);
+	black[2] = new Image;
+	black[2]->Init(TEXT("black_2.bmp"), screenWidth - 50 - 52, 250);
+	black[3] = new Image;
+	black[3]->Init(TEXT("black_3.bmp"), screenWidth - 50 - 52, 250);
+
+	red.resize(4);
+	red[0] = new Image;
+	red[0]->Init(TEXT("red_0.bmp"), screenWidth - 50 - 52, 50);
+	red[1] = new Image;
+	red[1]->Init(TEXT("red_1.bmp"), screenWidth - 50 - 52, 50);
+	red[2] = new Image;
+	red[2]->Init(TEXT("red_2.bmp"), screenWidth - 50 - 52, 50);
+	red[3] = new Image;
+	red[3]->Init(TEXT("red_3.bmp"), screenWidth - 50 - 52, 50);
+
+	blue.resize(4);
+	blue[0] = new Image;
+	blue[0]->Init(TEXT("blue_0.bmp"), 50, 50);
+	blue[1] = new Image;
+	blue[1]->Init(TEXT("blue_1.bmp"), 50, 50);
+	blue[2] = new Image;
+	blue[2]->Init(TEXT("blue_2.bmp"), 50, 50);
+	blue[3] = new Image;
+	blue[3]->Init(TEXT("blue_3.bmp"), 50, 50);
+
+	yellow.resize(4);
+	yellow[0] = new Image;
+	yellow[0]->Init(TEXT("yellow_0.bmp"), 50, 250);
+	yellow[1] = new Image;
+	yellow[1]->Init(TEXT("yellow_1.bmp"), 50, 250);
+	yellow[2] = new Image;
+	yellow[2]->Init(TEXT("yellow_2.bmp"), 50, 250);
+	yellow[3] = new Image;
+	yellow[3]->Init(TEXT("yellow_3.bmp"), 50, 250);
+
+
+
 
 	animFrameDelayCount = 5;
 	animFrameCount = 0;
 	currentAnimIndex = 0;
+
+	pinkPosX = GetIntRange(100, 500);
+	pinkPosY = GetIntRange(300, 500);
+	pinkTeleportDelayCount = 100;
+	pinkTeleportCount = 0;
+	currentPinkIndex = 0;
+
+	pink.resize(8);
+	pink[0] = new Image;
+	pink[0]->Init(TEXT("pink_0.bmp"), pinkPosX, pinkPosY);
+	pink[1] = new Image;
+	pink[1]->Init(TEXT("pink_1.bmp"), pinkPosX, pinkPosY);
+	pink[2] = new Image;
+	pink[2]->Init(TEXT("pink_2.bmp"), pinkPosX, pinkPosY);
+	pink[3] = new Image;
+	pink[3]->Init(TEXT("pink_3.bmp"), pinkPosX, pinkPosY);
+	pink[4] = new Image;
+	pink[4]->Init(TEXT("pink_4.bmp"), pinkPosX, pinkPosY);
+	pink[5] = new Image;
+	pink[5]->Init(TEXT("pink_5.bmp"), pinkPosX, pinkPosY);
+	pink[6] = new Image;
+	pink[6]->Init(TEXT("pink_6.bmp"), pinkPosX, pinkPosY);
+	pink[7] = new Image;
+	pink[7]->Init(TEXT("pink_7.bmp"), pinkPosX, pinkPosY);
 
 	return 0;
 }
@@ -138,8 +200,13 @@ void GameOverScene::Release()
 {
 	SAFE_RELEASE_DELETE(pic);
 
-	for (int i = 0; i < anim.size(); ++i)
-		SAFE_DELETE(anim[i]);
+	for (int i = 0; i < black.size(); ++i)
+	{
+		SAFE_DELETE(black[i]);
+		SAFE_DELETE(red[i]);
+		SAFE_DELETE(blue[i]);
+		SAFE_DELETE(yellow[i]);
+	}
 }
 
 void GameOverScene::Update(float _deltaTime)
@@ -183,7 +250,23 @@ void GameOverScene::Update(float _deltaTime)
 		if (animFrameCount % animFrameDelayCount == 0)
 		{
 			animFrameCount = 0;
-			currentAnimIndex = (currentAnimIndex + 1) % anim.size();
+
+			currentAnimIndex = (currentAnimIndex + 1) % black.size();
+			currentPinkIndex = (currentPinkIndex + 1) % pink.size();
+		}
+
+		++pinkTeleportCount;
+		if (pinkTeleportCount % pinkTeleportDelayCount == 0)
+		{
+			SCENEMANAGER->GetMainGame()->ClearBuffer();
+
+			pinkPosX = GetIntRange(100, 500);
+			pinkPosY = GetIntRange(300, 500);
+
+			for (int i = 0; i < pink.size(); ++i)
+				pink[i]->SetPos(pinkPosX, pinkPosY);
+
+			SCENEMANAGER->GetMainGame()->BufferFlip();
 		}
 
 		if (KEYMANAGER->IsOnceKeyDown(VK_RETURN))
@@ -209,6 +292,10 @@ void GameOverScene::Render()
 	{
 		pic->Render();
 
-		anim[currentAnimIndex]->Render();
+		black[currentAnimIndex]->Render();
+		red[currentAnimIndex]->Render();
+		blue[currentAnimIndex]->Render();
+		yellow[currentAnimIndex]->Render();
+		pink[currentPinkIndex]->Render();
 	}
 }

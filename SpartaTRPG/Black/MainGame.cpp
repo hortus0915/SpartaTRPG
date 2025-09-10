@@ -187,3 +187,13 @@ void MainGame::CopyToBackbuffer(const int& _posX, const int& _posY, const int& _
 	else
 		doubleBuffer->BufferWrite(_posX, _posY, (char*)&_contents[0], _fontColor, _bgColor);
 }
+
+void MainGame::BufferFlip()
+{
+	doubleBuffer->BufferFlipping();
+}
+
+void MainGame::ClearBuffer()
+{
+	doubleBuffer->ClearBuffer();
+}

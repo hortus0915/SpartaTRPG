@@ -76,6 +76,19 @@ int BattleScene::Init()
 		SCENEMANAGER->RenderToBackbuffer(0, MAX_SCREEN_HEIGTH, message.size(), 1, message);
 		MainGame::Quit();
 	}
+
+	currentSelectCount = 0;
+	currentActionCount = 0;
+	pActionDone = mActionDone = false;
+	pShieldUp = mShieldUp = false;
+
+	for (int i = 0; i < cardSelectCount; ++i) {
+		playerSelectedIdx[i] = -1;
+		playerSelectedCard[i] = nullptr;   
+		enemySelectedCard[i] = nullptr;   
+		if (cardUi[i]) cardUi[i]->SetCard(nullptr);
+	}
+
 #else
 
 	player = new PlayerInfo;
@@ -83,6 +96,7 @@ int BattleScene::Init()
 
 	player->Init(100, 100, 10, 10, 1.5f, 50, 50, 0);
 	enemy->Init(10, 100, 10, 10, 1.3f, 10, 50, 0);
+
 
 #endif
 
@@ -128,6 +142,7 @@ int BattleScene::Init()
 	int uiOffsetX = 3;
 	battleUi->Init(player, enemy, board[0].size() + uiOffsetX, 0);
 
+	player->SetCurSP(player->GetMaxSP());
 	CardDB::InitDefaults();
 
 	pPos = { 0, 1 };
@@ -376,8 +391,10 @@ void BattleScene::Update(float _deltaTime)
 			static int lastIdx = -1;
 			if (lastIdx != currentActionCount) {
 
-				chosen = playerSelectedCard[currentActionCount]; P.card = chosen;
-				mChosen = enemySelectedCard[currentActionCount]; M.card = mChosen;
+				chosen = playerSelectedCard[currentActionCount]; 
+				P.card = chosen;
+				mChosen = enemySelectedCard[currentActionCount];
+				M.card = mChosen;
 
 				playerFirstThisSubturn = (P.card->GetType() <= M.card->GetType());
 				subPhase = SubPhase::First;
@@ -810,17 +827,20 @@ void BattleScene::DoAction(BattleSystem::Side& _actor, BattleSystem::Side& _targ
 		CalcRealPos((*_actor.pos), (_actor.chr == player ? pRealPos : mRealPos));
 
 		float raw = 0.0f, real = 0.0f;
+		float counter = 0.0f;
 
 		bool usedShield = (_target.chr == player ? pShieldUp : mShieldUp);
 		bool isMiss = false;
 		bool isDodge = false;
 		bool fullBlocked = false;
 		bool shieldReduce = false;
+		bool isCrit = false;
 
 		if ((_actor.chr == player && !pActionDone) || (_actor.chr != player && !mActionDone))
 		{
 			std::vector<Board::Pos> effectPos;
-			raw = (float)sys.AttackToCharacter(_actor, _target, effectPos);
+			raw = (float)sys.AttackToCharacter(_actor, _target, effectPos, &isCrit);
+
 
 			if (raw <= 0.0f) {
 
@@ -828,10 +848,11 @@ void BattleScene::DoAction(BattleSystem::Side& _actor, BattleSystem::Side& _targ
 			}
 			else {
 
-				float finalAtk = raw, counter = 0.0f;
+				float finalAtk = raw;
 				if (usedShield) {
 					sys.ShieldToCharacter(_target, _actor, raw, finalAtk, counter);
 				}
+
 				real = _target.chr->HitDamager(finalAtk);
 				if (counter > 0.0f)
 				{
@@ -853,21 +874,31 @@ void BattleScene::DoAction(BattleSystem::Side& _actor, BattleSystem::Side& _targ
 			string actorName = _actor.chr->GetName();
 			if (actorName.empty()) actorName = (_actor.chr == player ? "플레이어" : "적");
 
-			_outStr += actorName + _actor.card->GetName() + " 공격!(";
+			std::string defenderName = _target.chr->GetName();
+			if (defenderName.empty()) defenderName = (_target.chr == player ? "플레이어" : "적");
+
+			_outStr += actorName + " : " + _actor.card->GetName() + " 공격!(";
+
 
 			if (isMiss) {
 				_outStr += "빗나감)";
-			}
-			else if (fullBlocked) {
-				_outStr += "방어로 막힘!)";
 			}
 			else if (isDodge) {
 				_outStr += "적 회피!)";
 			}
 			else {
+				if (real <= 0.0f && usedShield) {
+					_outStr += "방어로 막힘!";
+				}
+				else {
+					_outStr += "데미지 : " + std::to_string((int)std::floor(real));
+				}
 
-				_outStr += "데미지 : " + std::to_string((int)floor(real));
-				if (shieldReduce) _outStr += " / 방어로 감소";
+				if (isCrit)        _outStr += " / 치명!";
+				if (shieldReduce && real > 0.0f) _outStr += " / 방어로 감소";
+				if (counter > 0.0f)
+					_outStr += " / " + defenderName + "의 반격! " + actorName + " -" + std::to_string((int)std::floor(counter));
+
 				_outStr += ")";
 			}
 
