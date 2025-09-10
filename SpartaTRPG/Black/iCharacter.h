@@ -72,6 +72,7 @@ public:
 	inline void SetCounter(const float& _counter) { counter = _counter; }
 	inline void SetExp(const int& _exp) { exp = _exp; }
 	inline void SetName(const string& _name) { name = _name; }
+	inline void SetDeck(const set<int>& _deck) { deck = _deck; }
 
 	 bool TryApplyVSPCost(const int& _vSPCost);
 
