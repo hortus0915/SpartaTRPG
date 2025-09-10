@@ -73,15 +73,14 @@ void SpawnEnemyBoss(EnemyInfoBase& _enemy, int _playerlevel)
 {
 	if (_playerlevel >=10 ) {
 
-		
 		_enemy.Init(300, 300, 50, 50, 50, 50, 15, 0);
-		_enemy.SetName("∆©≈Õ");
+		_enemy.SetName("¿Ã¥Ÿ∞Ê ∞Ôµ‡");
 	}
 	else
 	{
 		
 		_enemy.Init(300, 300, 50, 50, 50, 50, 15, 0);
-		_enemy.SetName("∏≈¥œ¿˙");
+		_enemy.SetName("¿Ã¥Ÿ∞Ê ∞Ôµ‡");
 	}
 
 	_enemy.SetIsBoss(true);

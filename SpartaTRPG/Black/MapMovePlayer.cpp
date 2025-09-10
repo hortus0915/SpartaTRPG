@@ -347,10 +347,31 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 			SetPos(BOSS_WIDTH / 2, BOSS_HEIGHT - 4);
 			if (USERMANAGER->GetPlayer()->GetLevel() < 10)
 			{
+				USERMANAGER->GetPlayer()->GainExp(10000);
 				boss = new EnemyInfoBase;
 				SpawnEnemyBoss(*boss, USERMANAGER->GetPlayer()->GetLevel());
-				USERMANAGER->GetPlayer()->GainExp(10000);
 				vector<string>* initString = new vector<string>();
+				initString->push_back("보스방에 진입하려 합니다...");
+				initString->push_back("하지만 아직 지식과 실력이 부족합니다");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("탈주닌자 핑크: 풉ㅋㅋ 보스 만나기엔 레벨이 좀 딸리지 않냐?");
+				initString->push_back("내가 겪어봐서 아는데, 지금 들어가면 곤듀한테 순삭 당한다.");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("받아 내가 모아둔 경험치야");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("내가 널 걱정해서 이러는 건 아니고,");
+				initString->push_back("신입 네가 쪽박 차는 꼴은 보고 싶지 않아서야.");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("경험치를 10000 획득했습니다!");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
 				initString->push_back("보스방 입장");
 
 				POPUPMANAGER->InitPopup<MapMovePlayer>(
@@ -733,8 +754,9 @@ void MapMovePlayer::TileDescrtiptionRender()
 
 void MapMovePlayer::PlayerInfoRender()
 {
+	auto playerInfo = USERMANAGER->GetPlayer();
 	char buf[128];
-	std::snprintf(buf, sizeof(buf), "플레이어  HP : "); //TODO HP출력하는거
+	std::snprintf(buf, sizeof(buf), "%s  HP %d / %d    LV : %d", playerInfo->GetName(), playerInfo->GetCurHP(), playerInfo->GetMaxHP(), playerInfo->GetLevel()); //TODO HP출력하는거
 	SCENEMANAGER->RenderToBackbuffer(1, MAX_SCREEN_HEIGTH, MAX_SCREEN_WIDTH, 1, buf);
 }
 
