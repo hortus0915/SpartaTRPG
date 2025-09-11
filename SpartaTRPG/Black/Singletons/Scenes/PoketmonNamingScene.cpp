@@ -1,6 +1,8 @@
 #include "PoketmonNamingScene.h"
 #include "../CommonManagers.h"
 
+#include "../../PlayerInfo.h"
+
 #include <string>
 #include <iostream>
 
@@ -25,6 +27,10 @@ void PoketmonNamingScene::Update(float deltaTime)
 
     if (is_end && !POPUPMANAGER->CheckPopupActive()) {
         //씬 넘기기
+        SCENEMANAGER->ChangeScene("GameScene");
+        SCENEMANAGER->CurrentSceneInit();
+
+        return;
     }
     if (elapsedTime < duration)
     {
@@ -88,7 +94,7 @@ void PoketmonNamingScene::Update(float deltaTime)
             }
         }
 
-        if (KEYMANAGER->IsOnceKeyDown(VK_RETURN)) {
+        if (KEYMANAGER->IsOnceKeyDown(VK_RETURN) && !is_end) {
             if (cursor_index < PoketmonNaming::LETTER_COUNT) {
                 InputLetters(PoketmonNaming::LETTERS[cursor_index]);
                 composed_name = PoketmonNaming::Compose(buffer);
@@ -104,6 +110,7 @@ void PoketmonNamingScene::Update(float deltaTime)
                 string s = "당신의 이름은: " + composed_name;
                 initString->push_back(s);
                 //이름 유저매니저로 넘기기
+                USERMANAGER->GetPlayer()->SetName(composed_name);
 
                 POPUPMANAGER->InitPopup<PoketmonNamingScene, nullptr>(
                     PopupType::RESULTPOPUP,
@@ -115,8 +122,6 @@ void PoketmonNamingScene::Update(float deltaTime)
                     0
                 );
                 is_end = true;
-
-
             }
         }
 

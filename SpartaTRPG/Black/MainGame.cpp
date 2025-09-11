@@ -70,8 +70,6 @@ void MainGame::Init()
 	SCENEMANAGER->AddChild("GameScene", "BattleScene",  new BattleScene ("BattleScene"));
 	SCENEMANAGER->AddChild("GameScene", "MinigameScene",new MinigameScene("MinigameScene"));
 	SCENEMANAGER->AddChild("GameScene", "QuizScene", new QuizScene("QuizScene"));
-
-	SCENEMANAGER->AddChild("GameScene", "MinigameScene", new MinigameScene("MinigameScene"));
 	SCENEMANAGER->AddChild("GameScene", "ShopScene", new ShopScene("ShopScene"));
 
 	SCENEMANAGER->AddScene("GameOverScene", new GameOverScene("GameOverScene"));
@@ -81,7 +79,7 @@ void MainGame::Init()
 
 #ifndef DEV_BLACK
 
-	SCENEMANAGER->ChangeScene("PoketmonNamingScene");
+	SCENEMANAGER->ChangeScene("TitleScene");
 
 #else
 

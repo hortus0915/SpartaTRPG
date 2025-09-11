@@ -233,6 +233,7 @@ void MapMovePlayer::Update(float deltaTime)
 			{
 				moveToMiniGame = false;
 				mapData->ObjectReset(posX, posY);
+
 				auto temp = GetIntRange(0, 9);
 				if (USERMANAGER->GetStage() % 2 == 0)
 				{
@@ -824,7 +825,7 @@ void MapMovePlayer::PlayerInfoRender()
 {
 	auto playerInfo = USERMANAGER->GetPlayer();
 	char buf[128];
-	std::snprintf(buf, sizeof(buf), "%s  HP %d / %d    LV : %d", playerInfo->GetName(), (int)playerInfo->GetCurHP(), (int)playerInfo->GetMaxHP(), playerInfo->GetLevel()); //TODO HP출력하는거
+	std::snprintf(buf, sizeof(buf), "%s  HP %d / %d    LV : %d", playerInfo->GetName().c_str(), (int)playerInfo->GetCurHP(), (int)playerInfo->GetMaxHP(), playerInfo->GetLevel()); //TODO HP출력하는거
 	SCENEMANAGER->RenderToBackbuffer(1, MAX_SCREEN_HEIGTH, MAX_SCREEN_WIDTH, 1, buf);
 }
 
