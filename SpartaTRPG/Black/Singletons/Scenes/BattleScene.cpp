@@ -68,7 +68,7 @@ void BattleScene::ShowBattleTutorialOnce()
 
 int BattleScene::Init()
 {
-	
+	isBossStroryPopup = false;
 	SOUNDMANAGER->ChangeBGM(Text("BattleSceneBGM.mp3"), 100);
 	
 #ifndef DEV_BLACK
@@ -488,6 +488,13 @@ void BattleScene::Update(float _deltaTime)
 							gain = player->GetLevel() * 100;
 							player->GainExp(gain);
 							currentSequence = PopupSequence;
+							if (enemy->GatIsBoss())
+							{
+								SCENEMANAGER->ChangeScene("EndScene");
+								SCENEMANAGER->CurrentSceneInit();
+								return;
+							}
+
 							vector<string>* temp = new vector<string>();
 							temp->push_back(enemy->GetName() + " 처치!");
 							temp->push_back("");
@@ -601,6 +608,7 @@ void BattleScene::Update(float _deltaTime)
 
 		if (enemy->GatIsBoss() && isBossStroryPopup == false)
 		{
+			USERMANAGER->ResetStage();
 			isBossStroryPopup = true;
 			LOGMANAGER->AddLog("플레이어 사망");
 			vector<string>* temp = new vector<string>();
@@ -632,6 +640,7 @@ void BattleScene::Update(float _deltaTime)
 
 			sequenceStr = lastActionStr;
 			auto dungeon = (DungeonScene*)SCENEMANAGER->FindChild("GameScene", "DungeonScene");
+			USERMANAGER->ResetStage();
 			SCENEMANAGER->ChangeChild("DungeonScene");
 			dungeon->SetDefeat();
 			SCENEMANAGER->CurrentSceneInit();
@@ -654,6 +663,7 @@ void BattleScene::GameEnd(int _selected)
 
 void BattleScene::BossFail(int _selected)
 {
+	USERMANAGER->ResetStage();
 	isBossStroryPopup = false;
 	LOGMANAGER->AddLog("플레이어 사망");
 	sequenceStr = lastActionStr;

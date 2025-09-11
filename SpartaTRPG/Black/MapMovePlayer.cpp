@@ -245,7 +245,7 @@ void MapMovePlayer::Update(float deltaTime)
 				mapData->ObjectReset(posX, posY);
 
 				auto temp = GetIntRange(0, 9);
-				if (USERMANAGER->GetStage() % 2 == 0)
+				if (temp < 8)
 				{
 					//auto minigameScene = (MinigameScene*)SCENEMANAGER->FindChild("GameScene", "QuizScene");
 					SCENEMANAGER->ChangeChild("QuizScene");
