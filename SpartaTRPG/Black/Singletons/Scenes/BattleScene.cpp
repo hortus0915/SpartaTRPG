@@ -68,7 +68,7 @@ int BattleScene::Init()
 {
 	
 	SOUNDMANAGER->ChangeBGM(Text("BattleSceneBGM.mp3"), 100);
-
+	
 #ifndef DEV_BLACK
 	if (!player || !enemy)
 	{
@@ -77,6 +77,7 @@ int BattleScene::Init()
 		MainGame::Quit();
 	}
 
+	lastIdx = -1;
 	currentSelectCount = 0;
 	currentActionCount = 0;
 	pActionDone = mActionDone = false;
@@ -347,7 +348,7 @@ void BattleScene::Update(float _deltaTime)
 					currentSequence = CardUse;
 
 					isFirstActionThisRound = false;
-
+					lastIdx = -1;
 					sys.BeginVSP(M);
 					int enemySelect = 0;
 					for (int i = 0; i < cardSelectCount; ++i)
@@ -406,7 +407,6 @@ void BattleScene::Update(float _deltaTime)
 		if (currentActionCount < cardSelectCount)
 		{
 
-			static int lastIdx = -1;
 			if (lastIdx != currentActionCount) {
 
 				chosen = playerSelectedCard[currentActionCount]; 
@@ -544,6 +544,7 @@ void BattleScene::Update(float _deltaTime)
 						sys.BeginVSP(P);
 						sys.BeginVSP(M);
 						currentSequence = CardSelect;
+						lastIdx = -1;
 					}
 					else {
 						lastIdx = -1;

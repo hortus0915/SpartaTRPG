@@ -117,6 +117,7 @@ private:
 	void ShowBattleTutorialOnce();
 
 	bool isBossStroryPopup = false;
+	int lastIdx = -1;
 public:
 	BattleScene(string _sceneName) : iScene(_sceneName), cardSelect(nullptr) {}
 
