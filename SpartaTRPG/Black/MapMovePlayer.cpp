@@ -823,6 +823,7 @@ void MapMovePlayer::TileDescrtiptionRender()
 
 void MapMovePlayer::PlayerInfoRender()
 {
+
 	auto playerInfo = USERMANAGER->GetPlayer();
 	char buf[128];
 	std::snprintf(buf, sizeof(buf), "%s  HP %d / %d    LV : %d", playerInfo->GetName().c_str(), (int)playerInfo->GetCurHP(), (int)playerInfo->GetMaxHP(), playerInfo->GetLevel()); //TODO HP출력하는거
