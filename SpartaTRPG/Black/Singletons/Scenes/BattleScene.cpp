@@ -494,9 +494,6 @@ void BattleScene::Update(float _deltaTime)
 							temp->push_back("플레이어 승리! 경험치 +" + std::to_string(gain));
 							lastActionStr = sequenceStr;
 							LOGMANAGER->AddLog(enemy->GetName() + " 처치!");
-							int itemKey = CardDB::RandomNotOwnedIndex(player->GetDeck());
-							itemKey += 20000;
-							USERMANAGER->AddItem(itemKey , 1, false);
 							POPUPMANAGER->InitPopup<BattleScene, &BattleScene::ResultVictoryPopupActive>(PopupType::RESULTPOPUP, this, temp, 8, 0, 4, 0);
 						}
 						else if (playerDead && !enemyDead) {
