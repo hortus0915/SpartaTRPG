@@ -143,10 +143,6 @@ int MinigameScene::Init()
     if (!player) {
         player = new MinigamePlayer("MinigameScene");
     }
-    else {
-        SAFE_DELETE(player);
-        player = new MinigamePlayer("MinigameScene");
-    }
     ResetPlayerPos();
 
     vector<string>* initString = new vector<string>();

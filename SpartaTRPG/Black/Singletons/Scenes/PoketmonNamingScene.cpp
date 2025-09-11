@@ -1,22 +1,37 @@
-#include "QuizScene.h"
-#include "../../../Yellow/QuizData.h"
-#include <random>
-
-
+#include "PoketmonNamingScene.h"
 #include "../CommonManagers.h"
-#include "../../CommonFuncs.h"
-#include "../../MainGame.h"
-#include "../../BlinkCursor.h"
 
-#include "../EffectType.h"
+#include "../../PlayerInfo.h"
 
+#include <string>
+#include <iostream>
 
-void QuizScene::Update(float deltaTime)
+string PoketmonNamingScene::GetLetters()
 {
-	__super::Update(deltaTime);
+	return composed_name;
+}
 
-    if (POPUPMANAGER->CheckPopupActive()) return;
 
+void PoketmonNamingScene::InputLetters(char32_t c)
+{
+	buffer.push_back(c);
+}
+
+void PoketmonNamingScene::DeleteLetters()
+{
+	buffer.pop_back();
+}
+
+void PoketmonNamingScene::Update(float deltaTime)
+{
+
+    if (is_end && !POPUPMANAGER->CheckPopupActive()) {
+        //씬 넘기기
+        SCENEMANAGER->ChangeScene("GameScene");
+        SCENEMANAGER->CurrentSceneInit();
+
+        return;
+    }
     if (elapsedTime < duration)
     {
         elapsedTime += deltaTime;
@@ -29,64 +44,75 @@ void QuizScene::Update(float deltaTime)
     }
     else
     {
-        if (KEYMANAGER->IsOnceKeyDown(VK_UP)) {
-            if (cursorIndex > 0) {
-                cursorIndex--;
-            }
-            else {
-                cursorIndex = 3;
-            }
-            if (cursor)
+        if (KEYMANAGER->IsOnceKeyDown(VK_LEFT)) {
+
+            if (!POPUPMANAGER->CheckPopupActive())
             {
+
                 SOUNDMANAGER->PlaySfx(Text("CursorMove.wav"));
-                cursor->SetPos(__CURSOR_X__+__TOTAL_X__, cursorIndex * 2 + __CURSOR_Y__+__TOTAL_Y__);
+                if (cursor_index % 10 > 0) {
+                    cursor_index--;
+
+                }
             }
         }
+        if (KEYMANAGER->IsOnceKeyDown(VK_RIGHT)) {
+
+            if (!POPUPMANAGER->CheckPopupActive())
+            {
+                SOUNDMANAGER->PlaySfx(Text("CursorMove.wav"));
+                if (cursor_index % 10 < 9 && cursor_index < TOTAL_COUNT - 1) {
+                    cursor_index++;
+                }
+
+
+            }
+        }
+
+        if (KEYMANAGER->IsOnceKeyDown(VK_UP)) {
+
+            if (!POPUPMANAGER->CheckPopupActive())
+            {
+                SOUNDMANAGER->PlaySfx(Text("CursorMove.wav"));
+                if (cursor_index - 9 > 0) {
+                    cursor_index -= 10;
+                }
+
+            }
+        }
+
 
         if (KEYMANAGER->IsOnceKeyDown(VK_DOWN)) {
-            if (cursorIndex < 3) {
-                cursorIndex++;
-            }
-            else {
-                cursorIndex = 0;
-            }
-            if (cursor)
+
+            if (!POPUPMANAGER->CheckPopupActive())
             {
                 SOUNDMANAGER->PlaySfx(Text("CursorMove.wav"));
-                cursor->SetPos(__CURSOR_X__ + __TOTAL_X__, cursorIndex * 2 + __CURSOR_Y__ + __TOTAL_Y__);
+                if (cursor_index + 10 < TOTAL_COUNT) {
+                    cursor_index +=10;
+                }
+
             }
         }
 
-
-        if (KEYMANAGER->IsOnceKeyDown(VK_RETURN))
-        {
-            
-            if (cursorIndex == question.getAnswer())
-            {
-                // 정답일경우
-                vector<string>* initString = new vector<string>();
-                initString->push_back("정답!");
-
-                POPUPMANAGER->InitPopup<QuizScene, nullptr>(
-                    PopupType::RESULTPOPUP,
-                    nullptr,
-                    initString,
-                    15,
-                    0,
-                    5,
-                    0
-                );
-                USERMANAGER->GetKey();
-                USERMANAGER->GetRandomItem(RandomItemType::MiniGame);
-                is_end = true;
+        if (KEYMANAGER->IsOnceKeyDown(VK_RETURN) && !is_end) {
+            if (cursor_index < PoketmonNaming::LETTER_COUNT) {
+                InputLetters(PoketmonNaming::LETTERS[cursor_index]);
+                composed_name = PoketmonNaming::Compose(buffer);
             }
-            else
-            {
-                // 오답일경우
-                vector<string>* initString = new vector<string>();
-                initString->push_back("오답!");
+            else if (cursor_index == ERASE_INDEX) {
+                DeleteLetters();
+                composed_name = PoketmonNaming::Compose(buffer);
+            }
+            else if (cursor_index == DONE_INDEX) {
 
-                POPUPMANAGER->InitPopup<QuizScene, nullptr>(
+                //완료 되었을때 행동
+                vector<string>* initString = new vector<string>();
+                string s = "당신의 이름은: " + composed_name;
+                initString->push_back(s);
+                //이름 유저매니저로 넘기기
+                USERMANAGER->GetPlayer()->SetName(composed_name);
+
+                POPUPMANAGER->InitPopup<PoketmonNamingScene, nullptr>(
                     PopupType::RESULTPOPUP,
                     nullptr,
                     initString,
@@ -96,19 +122,15 @@ void QuizScene::Update(float deltaTime)
                     0
                 );
                 is_end = true;
-            
             }
-            
         }
-        if (!POPUPMANAGER->CheckPopupActive() && is_end) {
-            SCENEMANAGER->ChangeChild("DungeonScene");
-        }
+
     }
 }
 
-int QuizScene::Init()
-{
 
+int PoketmonNamingScene::Init()
+{
     screen[0] = "****************************************************************************************************";
     screen[1] = "*                                                                                                  *";
     screen[2] = "*                                                                                                  *";
@@ -135,42 +157,48 @@ int QuizScene::Init()
     screen[23] = "*                                                                                                  *";
     screen[24] = "****************************************************************************************************";
 
-    auto _quizData = LoadQuizData();
     is_end = false;
-    std::random_device rd;   
-    std::mt19937 gen(rd());  
-    std::uniform_int_distribution<int> dist(0, _quizData.size() - 1); 
-
-    int r = dist(gen);
-    question.setQuestion(_quizData[r]);
-    if (!cursor) {
-        cursor = new BlinkCursor("QuizScene");
-    }
-    else {
-        SAFE_DELETE(cursor);
-        cursor = new BlinkCursor("QuizScene");
-    }
-    cursor->SetPos(__CURSOR_X__ + __TOTAL_X__, cursorIndex * 2 + __CURSOR_Y__ + __TOTAL_Y__);
+	cursor_index = 0;
+	buffer.clear();
 	return 0;
 }
 
-void QuizScene::Release()
+void PoketmonNamingScene::Release()
 {
-	SAFE_DELETE(cursor);
 }
 
-void QuizScene::Render()
+void PoketmonNamingScene::Render()
 {
-	__super::Render();
+
     for (int i = 0; i < MAX_SCREEN_HEIGTH; ++i)
         SCENEMANAGER->RenderToBackbuffer(0, i, screen[i].size(), 1, screen[i]);
-	
-    SCENEMANAGER->RenderToBackbuffer(__CURSOR_X__ + __TOTAL_X__, __CURSOR_Y__ -__QUESTION_Y__+__TOTAL_Y__, __TEXT_WIDTH__, __TEXT__HEIGHT__, question.getQuestion(), 7);
-    for (int i = 0; i < 4; ++i) {
-        std::string optLine = std::to_string(i + 1) + ". " + question.getOpt(i);
-        SCENEMANAGER->RenderToBackbuffer(__CURSOR_X__+__OPT_X__+__TOTAL_X__, __CURSOR_Y__ + i*__CURSOR_DIFF__+__TOTAL_Y__, __TEXT_WIDTH__, __TEXT__HEIGHT__, optLine, 1);
-    }
-    cursor->Render();
 
-    
+
+	
+	string content;
+	for (int i = 0; i < TOTAL_COUNT; i++) {
+		int x = (i % 10) * 5 + __TOTAL_X__;
+		int y = (i / 10) * 4 + __TOTAL_Y__;
+		if (i < PoketmonNaming::LETTER_COUNT) {
+			content = PoketmonNaming::LETTERS_UTF8[i];
+		}
+		else if (i == ERASE_INDEX) {
+			content = "[지우기]";
+		}
+		else {
+			content = "[완료]";
+			x = x + 5;
+		}
+		if (i == cursor_index) {
+			SCENEMANAGER->RenderToBackbuffer(x, y, 2, 1, content, 7, 1);
+		}
+		else {
+			SCENEMANAGER->RenderToBackbuffer(x, y, 2, 1, content, 1, 7);
+		}
+		
+	}
+	SCENEMANAGER->RenderToBackbuffer(__TOTAL_X__, __TOTAL_Y__ - 5, 1, 1, "이름: ", 7, 0);
+	SCENEMANAGER->RenderToBackbuffer(__TOTAL_X__ + 5, __TOTAL_Y__ - 5, 1, 1, composed_name, 7, 0);
+
+
 }

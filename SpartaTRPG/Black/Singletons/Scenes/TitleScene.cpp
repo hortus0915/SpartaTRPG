@@ -629,7 +629,7 @@ void TitleScene::Update(float deltaTime)
             {
                 SOUNDMANAGER->PlaySfx(Text("GameStartSfx.wav"));
 
-                SCENEMANAGER->ChangeScene("GameScene");
+                SCENEMANAGER->ChangeScene("PoketmonNamingScene");
                 SCENEMANAGER->CurrentSceneInit();
             }
             else if (cursorIndex == 1)
