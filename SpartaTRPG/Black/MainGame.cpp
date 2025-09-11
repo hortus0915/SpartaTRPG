@@ -77,6 +77,8 @@ void MainGame::Init()
 	SCENEMANAGER->AddScene("PoketmonNamingScene", new PoketmonNamingScene("PoketmonNamingScene"));
 
 
+
+
 #ifndef DEV_BLACK
 
 	SCENEMANAGER->ChangeScene("TitleScene");
