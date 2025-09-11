@@ -10,6 +10,7 @@
 #include "Scenes/ShopScene.h"
 #include "Scenes/GameOverScene.h"
 #include "Scenes/EndScene.h"
+#include "Scenes/PoketmonNamingScene.h"
 
 
 #include "../TestScene.h"

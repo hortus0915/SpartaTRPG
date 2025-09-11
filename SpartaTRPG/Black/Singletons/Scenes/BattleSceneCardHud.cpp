@@ -140,7 +140,7 @@ void BattleSceneCardHud::Render()
 			++offsetY;
 
 			sStream.str("");
-			sStream << "방어 : " << (int)(currentCard->GetDamageRate() * 100);
+			sStream << "방어 : " << (int)(currentCard->GetDamageRate() * 100) << "%";
 			DESC = sStream.str();
 			SCENEMANAGER->RenderToBackbuffer(posX, posY + offsetY, DESC.size(), 1, DESC);
 			++offsetY;

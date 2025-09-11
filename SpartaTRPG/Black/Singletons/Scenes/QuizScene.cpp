@@ -15,6 +15,7 @@ void QuizScene::Update(float deltaTime)
 {
 	__super::Update(deltaTime);
 
+    if (POPUPMANAGER->CheckPopupActive()) return;
 
     if (elapsedTime < duration)
     {
