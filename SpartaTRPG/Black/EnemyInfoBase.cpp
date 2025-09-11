@@ -50,7 +50,7 @@ void SpawnEnemyByLevel(EnemyInfoBase& _enemy, int _playerLevel)
 	int steps = lv - 1;
 
 	float hp = 70.0f + steps * 20.0f;
-	float sp = 600.0f + steps * 10.0f;
+	float sp = 60.0f + steps * 10.0f;
 	float atk = 8.0f + steps * 3.0f;
 
 
@@ -71,21 +71,11 @@ void SpawnEnemyByLevel(EnemyInfoBase& _enemy, int _playerLevel)
 
 void SpawnEnemyBoss(EnemyInfoBase& _enemy, int _playerlevel)
 {
-	if (_playerlevel >=10 ) {
-
 		_enemy.Init(300, 300, 50, 50, 50, 50, 15, 0);
 		_enemy.SetName("¿Ã¥Ÿ∞Ê ∞Ôµ‡");
-	}
-	else
-	{
-		
-		_enemy.Init(300, 300, 50, 50, 50, 50, 15, 0);
-		_enemy.SetName("¿Ã¥Ÿ∞Ê ∞Ôµ‡");
-	}
 
 	_enemy.SetIsBoss(true);
 	_enemy.SetDeck(BuildEnemyDeckByLevel(_playerlevel));
-
 	
 }
 
