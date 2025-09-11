@@ -60,7 +60,7 @@ namespace CardDB
 
 
 		// ===== 가드 (201~) =====
-		AddCard(Card(201, "막기", SHIELD, 0, 0.5f, 20));
+		AddCard(Card(201, "막기", SHIELD, 0, 0.5f, 0));
 		AddCard(Card(202, "가드 업", SHIELD, 0, 0.7f, 30));
 		AddCard(Card(203, "전면 방어", SHIELD, 0, 1.0f, 50));
 
