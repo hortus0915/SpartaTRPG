@@ -576,6 +576,8 @@ void BattleScene::Update(float _deltaTime)
 	case Defeat:
 	case Draw:
 	{
+		player->AddHP(player->GetMaxHP());
+
 		if (enemy->GatIsBoss() && isBossStroryPopup == false)
 		{
 			isBossStroryPopup = true;
