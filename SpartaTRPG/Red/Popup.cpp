@@ -69,11 +69,12 @@ Popup::Popup()
 		}
 		image[i][MAPPOPUP_WIDTH] = '\0';
 	}
+	vectorReset = true;
 }
 
 void Popup::Release()
 {
-	if (customString)
+	if (customString && vectorReset)
 		SAFE_DELETE(customString);
 
 	for (int i = 0; i < MAPPOPUP_HEIGHT; ++i)
@@ -88,7 +89,7 @@ void Popup::SetCustonStrings(vector<string>* _customString)
 {
 	if (_customString)
 	{
-		if (customString)
+		if (customString && vectorReset)
 			SAFE_DELETE(customString);
 
 		customString = _customString;
@@ -111,7 +112,7 @@ void Popup::SetCustomStringPadding(int _leftPadding, int _rightPadding, int _upP
 
 void Popup::VariableInit()
 {
-	if (customString)
+	if (customString && vectorReset)
 		customString->clear();
 	hasCustonStringMore = false;
 	isActive = false;
@@ -123,6 +124,11 @@ void Popup::VariableInit()
 	downPadding = 0;
 	waitTime = 0;
 	mustActive = false;
+}
+
+void Popup::SetVectorReset(bool _vectorReset)
+{
+	vectorReset = _vectorReset;
 }
 
 void Popup::RenderingCustomString()

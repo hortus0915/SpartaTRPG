@@ -115,6 +115,8 @@ private:
 
 	static bool sTutorialShown;
 	void ShowBattleTutorialOnce();
+
+	bool isBossStroryPopup = false;
 public:
 	BattleScene(string _sceneName) : iScene(_sceneName), cardSelect(nullptr) {}
 
@@ -136,6 +138,7 @@ public:
 	void ResultDefeatPopupActive(int selected);
 
 	void GameEnd(int _selected);
+	void BossFail(int _selected);
 
 	inline void SetBattlers(PlayerInfo* _player, EnemyInfoBase* _enemy) { player = _player; enemy = _enemy; }
 };

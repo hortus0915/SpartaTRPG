@@ -97,12 +97,6 @@ void MapMovePlayer::Init(Color _characterColor, Color _bgColor)
 
 void MapMovePlayer::Update(float deltaTime)
 {
-	if (mapData->CheckKey() == false)
-	{
-		//TODO -> GameOverScene으로 이동
-		SCENEMANAGER->ChangeScene("GameOverScene");
-		SCENEMANAGER->CurrentSceneInit();
-	}
 
 	if (monsterEffect != nullptr)
 	{
@@ -207,7 +201,7 @@ void MapMovePlayer::Update(float deltaTime)
 				moveToShop = false;
 				if (!isFirstShop)
 				{
-					auto shop = (ShopScene*)SCENEMANAGER->FindChild("GameScene", "ShopScene");
+					//auto shop = (ShopScene*)SCENEMANAGER->FindChild("GameScene", "ShopScene");
 					SCENEMANAGER->ChangeChild("ShopScene");
 					SCENEMANAGER->CurrentSceneInit();
 				}
@@ -238,20 +232,21 @@ void MapMovePlayer::Update(float deltaTime)
 			else if (moveToMiniGame)
 			{
 				moveToMiniGame = false;
-
+				mapData->ObjectReset(posX, posY);
 				auto temp = GetIntRange(0, 9);
-				if (temp < 8)
+				if (USERMANAGER->GetStage() % 2 == 0)
 				{
-					auto minigameScene = (MinigameScene*)SCENEMANAGER->FindChild("GameScene", "MinigameScene");
-					SCENEMANAGER->ChangeChild("MinigameScene");
+					//auto minigameScene = (MinigameScene*)SCENEMANAGER->FindChild("GameScene", "QuizScene");
+					SCENEMANAGER->ChangeChild("QuizScene");
 					SCENEMANAGER->CurrentSceneInit();
 				}
 				else
 				{
-					auto minigameScene = (MinigameScene*)SCENEMANAGER->FindChild("GameScene", "QuizScene");
-					SCENEMANAGER->ChangeChild("QuizScene");
+					//auto minigameScene = (MinigameScene*)SCENEMANAGER->FindChild("GameScene", "MinigameScene");
+					SCENEMANAGER->ChangeChild("MinigameScene");
 					SCENEMANAGER->CurrentSceneInit();
 				}
+				return;
 			}
 		}
 		MapImageSet();
@@ -287,6 +282,14 @@ void MapMovePlayer::Update(float deltaTime)
 		{
 			SOUNDMANAGER->StopAmbient(Text("RunSound.wav"));
 		}
+	}
+
+	if (mapData->CheckKey() == false && USERMANAGER->CheckHasKey() == false)
+	{
+		//TODO -> GameOverScene으로 이동
+		SCENEMANAGER->ChangeScene("GameOverScene");
+		SCENEMANAGER->CurrentSceneInit();
+		return;
 	}
 }
 
@@ -345,6 +348,98 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 			mapMove = -1;
 			mapData->CreateMap(MapType::BossRoom);
 			SetPos(BOSS_WIDTH / 2, BOSS_HEIGHT - 4);
+			if (USERMANAGER->GetPlayer()->GetLevel() < 10)
+			{
+				USERMANAGER->GetPlayer()->GainExp(10000);
+				boss = new EnemyInfoBase;
+				SpawnEnemyBoss(*boss, USERMANAGER->GetPlayer()->GetLevel());
+				vector<string>* initString = new vector<string>();
+				initString->push_back("보스방에 진입하려 합니다...");
+				initString->push_back("하지만 아직 지식과 실력이 부족합니다");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("탈주닌자 핑크: 풉ㅋㅋ 보스 만나기엔 레벨이 좀 딸리지 않냐?");
+				initString->push_back("내가 겪어봐서 아는데, 지금 들어가면 곤듀한테 순삭 당한다.");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("받아 내가 모아둔 경험치야");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("내가 널 걱정해서 이러는 건 아니고,");
+				initString->push_back("신입 네가 쪽박 차는 꼴은 보고 싶지 않아서야.");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("경험치를 10000 획득했습니다!");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("됐어. 이제 곤듀랑 맞설 수는 있겠지.");
+				initString->push_back("하지만 잊지 마라. 이건 내가 준 힘이 아니라,");
+				initString->push_back("네가 여기까지 버텨왔기에 받아들일 수 있었던 거다.");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("가라. 마지막은 네가 증명해라.");
+				initString->push_back("네가 진짜 레인저인지, 아니면 나처럼 탈주자가 될지");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("보스방 입장");
+
+				POPUPMANAGER->InitPopup<MapMovePlayer>(
+					PopupType::RESULTPOPUP,
+					nullptr,
+					initString,
+					5,
+					0,
+					2,
+					0
+				);
+			}
+			else
+			{
+				boss = new EnemyInfoBase;
+				SpawnEnemyBoss(*boss, USERMANAGER->GetPlayer()->GetLevel());
+				vector<string>* initString = new vector<string>();
+				initString->push_back("보스방에 진입하려 합니다...");
+				initString->push_back("문 너머에서 묘한 기운이 흘러나옵니다.");
+				initString->push_back("서늘한 공기 속에서 손끝이 저절로 떨려온다.");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("블루: 이런 기분, 꼭 시험장 들어가기 직전 같다...");
+				initString->push_back("괜히 배도 고픈데, 지금은 라면 먹을 상황도 아니고.");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("이정우 튜터님 : 여기까지 오다니 대단해!");
+				initString->push_back(" 너희라면 해낼 수 있을거야!");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("자, 이제 나아가라.");
+				initString->push_back("겁을 이겨내는 순간, 너의 코드가 진짜 힘을 보여줄 것이다.");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("");
+				initString->push_back("보스방 입장");
+				POPUPMANAGER->InitPopup<MapMovePlayer>(
+					PopupType::RESULTPOPUP,     
+					nullptr,
+					initString,
+					5,
+					0,
+					2,
+					0
+				);
+			}
 		}
 		else
 		{
@@ -377,7 +472,6 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 	}
 	case Key:
 	{
-		mapData->ObjectReset(posX, posY);
 		SOUNDMANAGER->StopAmbient(Text("RunSound.wav"));
 		moveToMiniGame = true;
 		mapMove = -1;
@@ -415,6 +509,7 @@ void MapMovePlayer::ObjectActive(TileType _tileType)
 			0
 		);
 		mapData->ObjectReset(posX, posY);
+		break;
 	}
 	default:
 		break;
@@ -431,7 +526,7 @@ void MapMovePlayer::CheckActive()
 	case Wall:
 	case WallH:
 	case WallV:
-		if(!isFirstPlay && !isFirstDungeon)
+		if (!isFirstPlay && !isFirstDungeon)
 			POPUPMANAGER->PopupActiveOff();
 		break;
 	case Monster:
@@ -446,8 +541,37 @@ void MapMovePlayer::CheckActive()
 	{
 		mapMove = -1;
 		vector<string>* initString = new vector<string>();
-		initString->push_back("보스와의 전투를 시작합니다.");
-
+		initString->push_back("이다경 곤듀 : 여기까지 기어올라오다니, 하찮은 학생 주제에 제법이군.");
+		initString->push_back("하지만 착각하지 마라.");
+		initString->push_back("진짜 개발은 고독 속에서 이루어진다.");
+		initString->push_back("협력? 팀워크? 그건 결국 약자들의 핑계일 뿐이다.");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("희망? 그건 환상이다.");
+		initString->push_back("강창몬 따위에 의존하는 한, ");
+		initString->push_back("너희는 영원히 진짜 개발자가 될 수 없다.");
+		initString->push_back("");
+		initString->push_back(""); 
+		char buf[128];
+		std::snprintf(buf, sizeof(buf), "%s : 아니, 진짜 개발은 함께 하는 거야.", USERMANAGER->GetPlayer()->GetName()); //TODO HP출력하는거
+		initString->push_back(buf);
+		initString->push_back("버그를 함께 고치고, 과제를 함께 이겨내고");
+		initString->push_back("끝내는 웃으면서 완성하는 것!");
+		initString->push_back("너의 왜곡된 신념은 우리가 여기서 끝낸다!");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("입으로 떠드는 건 쉽지! 그렇다면 직접 증명해 보아라!");
+		initString->push_back("내가 만든 버그 지옥을 넘을 수 있는지!!!!!!!!!!!");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("");
+		initString->push_back("전투를 시작합니다.");
 		POPUPMANAGER->InitPopup<MapMovePlayer, &MapMovePlayer::BossBattle>(
 			PopupType::RESULTPOPUP,
 			this,
@@ -457,6 +581,7 @@ void MapMovePlayer::CheckActive()
 			5,
 			1
 		);
+		break;
 	}
 	case Box:
 	case BoxActive:
@@ -473,8 +598,8 @@ void MapMovePlayer::CheckActive()
 			5,
 			1
 		);
+		break;
 	}
-	break;
 	case Key:
 	{
 		vector<string>* initString = new vector<string>();
@@ -491,8 +616,8 @@ void MapMovePlayer::CheckActive()
 			5,
 			1
 		);
+		break;
 	}
-	break;
 	case DungeonIn:
 	{
 		vector<string>* initString = new vector<string>();
@@ -508,12 +633,12 @@ void MapMovePlayer::CheckActive()
 			5,
 			1
 		);
+		break;
 	}
-	break;
 	case Shop:
 	case ShopActiveRange:
 	{
-		SOUNDMANAGER->StopAmbient(Text("RunSound.wav")); 
+		SOUNDMANAGER->StopAmbient(Text("RunSound.wav"));
 		moveToShop = true;
 		mapMove = -1;
 		break;
@@ -552,6 +677,7 @@ void MapMovePlayer::CheckActive()
 				0
 			);
 		}
+		break;
 	}
 	case PINK:
 	{
@@ -572,8 +698,8 @@ void MapMovePlayer::CheckActive()
 			2,
 			1
 		);
+		break;
 	}
-	break;
 	}
 }
 
@@ -696,8 +822,9 @@ void MapMovePlayer::TileDescrtiptionRender()
 
 void MapMovePlayer::PlayerInfoRender()
 {
+	auto playerInfo = USERMANAGER->GetPlayer();
 	char buf[128];
-	std::snprintf(buf, sizeof(buf), "플레이어  HP : "); //TODO HP출력하는거
+	std::snprintf(buf, sizeof(buf), "%s  HP %d / %d    LV : %d", playerInfo->GetName(), (int)playerInfo->GetCurHP(), (int)playerInfo->GetMaxHP(), playerInfo->GetLevel()); //TODO HP출력하는거
 	SCENEMANAGER->RenderToBackbuffer(1, MAX_SCREEN_HEIGTH, MAX_SCREEN_WIDTH, 1, buf);
 }
 
@@ -752,7 +879,7 @@ void MapMovePlayer::ShopTutorialPopup(int _select)
 {
 	mapMove = 1;
 	isFirstShop = false;
-	auto shop = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "ShopScene");
+	//auto shop = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "ShopScene");
 	SCENEMANAGER->ChangeChild("ShopScene");
 	SCENEMANAGER->CurrentSceneInit();
 }
@@ -767,9 +894,6 @@ void MapMovePlayer::BossBattle(int _select)
 {
 	auto battle = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "BattleScene");
 	SCENEMANAGER->ChangeChild("BattleScene");
-	EnemyInfoBase* enemy = new EnemyInfoBase;
-	SpawnEnemyBoss(*enemy, USERMANAGER->GetPlayer()->GetLevel());
-	battle->SetBattlers(USERMANAGER->GetPlayer(), enemy);
+	battle->SetBattlers(USERMANAGER->GetPlayer(), boss);
 	SCENEMANAGER->CurrentSceneInit();
 }
-

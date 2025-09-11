@@ -76,7 +76,7 @@ void UserManager::AddItem(int _itemUID, int _count, bool _showAddPopup)
 		if (addedItem)
 		{
 			char buf[128];
-			std::snprintf(buf, sizeof(buf), "%sÀ»(¸¦) %d°³ È¹µæÇß´Ù!", addedItem->GetName().c_str(), addedItem->GetItemCount());
+			std::snprintf(buf, sizeof(buf), "%sÀ»(¸¦) %d°³ È¹µæÇß´Ù!", addedItem->GetName().c_str(), _count);
 			LOGMANAGER->AddLog(buf);
 			if (_showAddPopup)
 			{

@@ -16,7 +16,8 @@ void LogManager::Update(float deltaTime)
 				15,
 				0,
 				5,
-				0
+				0,
+				0,0,0,0,false
 			);
 		}
 	}
