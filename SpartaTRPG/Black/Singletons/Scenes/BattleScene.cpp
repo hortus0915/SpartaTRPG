@@ -41,6 +41,8 @@
 //   [ ] 찌르기     [ ] 십자 베기  [ ] 원형 베기
 
 
+static int lastIdx = -1;
+
 bool BattleScene::sTutorialShown = false;
 
 void BattleScene::ShowBattleTutorialOnce()
@@ -378,7 +380,7 @@ void BattleScene::Update(float _deltaTime)
 
 					pActionDone = false;
 					mActionDone = false;
-
+					lastIdx = -1;
 					/* SortCards(playerSelectedCard);
 					 SortCards(enemySelectedCard);*/
 				}
@@ -406,7 +408,6 @@ void BattleScene::Update(float _deltaTime)
 		if (currentActionCount < cardSelectCount)
 		{
 
-			static int lastIdx = -1;
 			if (lastIdx != currentActionCount) {
 
 				chosen = playerSelectedCard[currentActionCount]; 

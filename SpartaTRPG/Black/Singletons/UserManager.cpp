@@ -68,6 +68,12 @@ void UserManager::SetNextStage()
 	stageKey = 0;
 }
 
+void UserManager::ResetStage()
+{
+	stage = 0;
+	stageKey = 0;
+}
+
 void UserManager::AddItem(int _itemUID, int _count, bool _showAddPopup)
 {
 	if (inventory)

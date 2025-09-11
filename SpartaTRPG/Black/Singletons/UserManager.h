@@ -45,6 +45,8 @@ public:
 
 	void SetNextStage();
 
+	void ResetStage();
+
 	void AddItem(int itemUID, int _count, bool _showAddPopup);
 	Item* GetItemInfo(int itemUID);
 	Item* GetItemInfo_fromIndex(ItemType _itemType ,int _index); 
