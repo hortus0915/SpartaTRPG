@@ -276,6 +276,7 @@ void InventoryPopup::ShowItemDetail()
 				5,
 				0
 			);
+			break;
 		}
 		default:
 			break;
@@ -313,9 +314,11 @@ void InventoryPopup::UsingPotion(int _selectValue)
 {
 	if (_selectValue == 0 && selectItem != nullptr && Item::GetItemType(selectItem->GetItemUID()) == ItemType::Potion)
 	{
+		int value = selectItem->GetValue();
+
 		if (USERMANAGER->UsingItem(selectItem->GetItemUID(), 1) >= 0)
 		{
-			USERMANAGER->GetPlayer()->AddHP(selectItem->GetValue());
+			USERMANAGER->GetPlayer()->AddHP(value);
 			vector<string>* initString = new vector<string>();
 			initString->push_back("포션을 사용했습니다.");
 
