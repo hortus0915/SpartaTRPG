@@ -8,6 +8,20 @@ const std::wstring PoketmonNaming::CHOSEONG = L"ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅ�
 const std::wstring PoketmonNaming::JUNGSEONG = L"ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
 const std::wstring PoketmonNaming::JONGSEONG = L" ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ";
 
+const wchar_t PoketmonNaming::LETTERS[] = {
+    L'ㄱ',L'ㄲ',L'ㄴ',L'ㄷ',L'ㄸ',L'ㄹ',L'ㅁ',L'ㅂ',L'ㅃ',L'ㅅ',L'ㅆ',L'ㅇ',
+    L'ㅈ',L'ㅉ',L'ㅊ',L'ㅋ',L'ㅌ',L'ㅍ',L'ㅎ',
+    L'ㅏ',L'ㅐ',L'ㅑ',L'ㅒ',L'ㅓ',L'ㅔ',L'ㅕ',L'ㅖ',L'ㅗ',L'ㅛ',L'ㅜ',L'ㅠ',
+    L'ㅡ',L'ㅣ'
+};
+const char* PoketmonNaming::LETTERS_UTF8[] = {
+    "ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ",
+    "ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ",
+    "ㅏ","ㅐ","ㅑ","ㅒ","ㅓ","ㅔ","ㅕ","ㅖ","ㅗ","ㅛ","ㅜ","ㅠ",
+    "ㅡ","ㅣ"
+};
+const int PoketmonNaming::LETTER_COUNT = sizeof(PoketmonNaming::LETTERS) / sizeof(PoketmonNaming::LETTERS[0]);
+
 const std::map<std::wstring, wchar_t> PoketmonNaming::jungseongCompose = {
     {L"ㅗㅏ", L'ㅘ'}, {L"ㅗㅐ", L'ㅙ'}, {L"ㅗㅣ", L'ㅚ'},
     {L"ㅜㅓ", L'ㅝ'}, {L"ㅜㅔ", L'ㅞ'}, {L"ㅜㅣ", L'ㅟ'},
