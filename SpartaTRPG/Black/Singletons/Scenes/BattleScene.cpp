@@ -372,8 +372,11 @@ void BattleScene::Update(float _deltaTime)
 		// Remove Selected Card
 		if (KEYMANAGER->IsOnceKeyDown(VK_BACK))
 		{
-			const Card* last = playerSelectedCard[currentSelectCount - 1];
-			if (last) player->TryApplyVSPCost(-last->GetStaminaCost());
+			if (currentSelectCount > 0)
+			{
+				const Card* last = playerSelectedCard[currentSelectCount - 1];
+				if (last) player->TryApplyVSPCost(-last->GetStaminaCost());
+			}
 			--currentSelectCount;
 			if (currentSelectCount < 0) currentSelectCount = 0;
 			playerSelectedIdx[currentSelectCount] = -1;
