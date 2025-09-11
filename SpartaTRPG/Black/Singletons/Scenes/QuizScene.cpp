@@ -146,10 +146,6 @@ int QuizScene::Init()
     if (!cursor) {
         cursor = new BlinkCursor("QuizScene");
     }
-    else {
-        SAFE_DELETE(cursor);
-        cursor = new BlinkCursor("QuizScene");
-    }
     cursor->SetPos(__CURSOR_X__ + __TOTAL_X__, cursorIndex * 2 + __CURSOR_Y__ + __TOTAL_Y__);
 	return 0;
 }

@@ -38,7 +38,7 @@ private:
 
 
 public:
-	QuizScene(string _sceneName) : iScene(_sceneName){}
+	QuizScene(string _sceneName) : iScene(_sceneName), cursor(nullptr) {}
 
 	// iScene을(를) 통해 상속됨
 	void Update(float deltaTime) override;
