@@ -33,6 +33,8 @@ private:
 	bool isFirstDungeon;
 	bool isFirstDungeon2;
 
+	bool startBattle;
+
 	EnemyInfoBase* boss;
 
 public:
