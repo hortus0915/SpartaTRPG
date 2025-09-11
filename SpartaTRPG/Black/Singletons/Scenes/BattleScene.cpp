@@ -283,6 +283,16 @@ void BattleScene::Update(float _deltaTime)
 			}
 		}
 
+
+		if (KEYMANAGER->IsOnceKeyDown(VK_F7))
+		{
+			enemy->HitDamager(enemy->GetMaxHP());
+		}
+		if (KEYMANAGER->IsOnceKeyDown(VK_F8))
+		{
+			player->HitDamager(player->GetMaxHP());
+		}
+
 		int defaultCardLength = 25;
 		int idxOffset = 0;
 		for (int i = 0; i < cardsNum; ++i)
