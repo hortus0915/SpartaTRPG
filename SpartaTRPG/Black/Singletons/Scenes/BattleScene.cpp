@@ -191,6 +191,11 @@ int BattleScene::Init()
 	cardsNum = pdeck.size() / cardsCountInRow + 1;
 	if (!cardSelect)
 		cardSelect = new string[cardsNum];
+	else
+	{
+		SAFE_DELETE_ARR(cardSelect);
+		cardSelect = new string[cardsNum];
+	}
 
 	return 0;
 }
