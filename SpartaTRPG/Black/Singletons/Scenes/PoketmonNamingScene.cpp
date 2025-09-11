@@ -105,23 +105,42 @@ void PoketmonNamingScene::Update(float deltaTime)
             }
             else if (cursor_index == DONE_INDEX) {
 
-                //완료 되었을때 행동
-                vector<string>* initString = new vector<string>();
-                string s = "당신의 이름은: " + composed_name;
-                initString->push_back(s);
-                //이름 유저매니저로 넘기기
-                USERMANAGER->GetPlayer()->SetName(composed_name);
+                if (composed_name.size() > 0)
+                {
+                    //완료 되었을때 행동
+                    vector<string>* initString = new vector<string>();
+                    string s = "당신의 이름은: " + composed_name;
+                    initString->push_back(s);
+                    //이름 유저매니저로 넘기기
+                    USERMANAGER->GetPlayer()->SetName(composed_name);
 
-                POPUPMANAGER->InitPopup<PoketmonNamingScene, nullptr>(
-                    PopupType::RESULTPOPUP,
-                    nullptr,
-                    initString,
-                    15,
-                    0,
-                    5,
-                    0
-                );
-                is_end = true;
+                    POPUPMANAGER->InitPopup<PoketmonNamingScene, nullptr>(
+                        PopupType::RESULTPOPUP,
+                        nullptr,
+                        initString,
+                        15,
+                        0,
+                        5,
+                        0
+                    );
+                    is_end = true;
+                }
+                else if (!POPUPMANAGER->CheckPopupActive())
+                {
+                    vector<string>* initString = new vector<string>();
+                    string s = "이름이 너무 짧습니다!";
+                    initString->push_back(s);
+
+                    POPUPMANAGER->InitPopup<PoketmonNamingScene, nullptr>(
+                        PopupType::RESULTPOPUP,
+                        nullptr,
+                        initString,
+                        15,
+                        0,
+                        5,
+                        0
+                    );
+                }
             }
         }
 
