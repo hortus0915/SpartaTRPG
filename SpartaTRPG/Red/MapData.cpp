@@ -467,11 +467,11 @@ int MapData::GetObjectCount(TileType _tileType)
     case Exit:
         return 1;
     case Box:
-        return 50;//USERMANAGER->GetStage() + 3;
+        return USERMANAGER->GetStage() + 3;
     case Key:
         return 3;
     case Monster:
-        return 0;//USERMANAGER->GetStage() + 5;
+        return USERMANAGER->GetStage() + 5;
     case PINK:
         return 1;
     default:
