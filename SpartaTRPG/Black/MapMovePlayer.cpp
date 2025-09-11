@@ -27,6 +27,7 @@ MapMovePlayer::MapMovePlayer(string _sn, MapData* _mapData) : iMapMovable(_sn, _
 	isFirstShop = true;
 	isFirstDungeon = true;
 	isFirstDungeon2 = false;
+	startBattle = false;
 }
 
 void MapMovePlayer::Init(Color _characterColor, Color _bgColor)
@@ -107,6 +108,14 @@ void MapMovePlayer::Update(float deltaTime)
 		}
 	}
 
+	if (startBattle)
+	{
+		int itemKey = CardDB::RandomNotOwnedIndex(USERMANAGER->GetPlayer()->GetDeck());
+		itemKey += 20000;
+		USERMANAGER->AddItem(itemKey, 1, false);
+		startBattle = false;
+	}
+
 	if (mapMove > 0)
 	{
 		range_Of_Sight += deltaTime * 50;
@@ -156,7 +165,7 @@ void MapMovePlayer::Update(float deltaTime)
 		{
 			range_Of_Sight = 0;
 			mapMove = 1;
-			if (isFirstDungeon)
+			if (isFirstDungeon && mapData->GetMapType() == MapType::Dungeon)
 			{
 				mapMove = 0;
 				isFirstDungeon = false;
@@ -187,6 +196,7 @@ void MapMovePlayer::Update(float deltaTime)
 			if (monsterEffect != nullptr)
 			{
 				monsterEffect = nullptr;
+				startBattle = true;
 				mapData->ObjectReset(posX, posY);
 				auto battle = (BattleScene*)SCENEMANAGER->FindChild("GameScene", "BattleScene");
 				SCENEMANAGER->ChangeChild("BattleScene");
@@ -335,6 +345,10 @@ void MapMovePlayer::MapInput(float deltaTime)
 			PopupType::INVENTORYPOPUP,
 			nullptr
 		);
+	}
+	if (KEYMANAGER->IsStayKeyDown(VK_F2))
+	{
+		USERMANAGER->GetPlayer()->HitDamager(10);
 	}
 }
 
